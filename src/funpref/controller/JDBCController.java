@@ -706,7 +706,22 @@ public class JDBCController {
                 beneficiary.setIndexPhysicalDocument( rs.getInt(column++));
                 beneficiary.setBankAgency(rs.getString(column++));
                 beneficiary.setAccount(rs.getString(column++));
-                //column++; // created_at datetime
+                column++; // earnings
+                column++; // old_promotion
+                column++; // chalk powder percentual
+                column++; // chalk powder value
+                column++; // more one year percentual
+                column++; // more one year value
+                column++; // more five year percentual
+                column++; // more five year value                
+                column++; // income tax rate
+                column++; // income tax value                  
+                column++; // payroll loans value                                
+                column++; // payroll loans gross value
+                column++; // payroll loans net value
+                column++; // active
+                column++; // created_at datetime                
+                beneficiary.setUpdateDate(rs.getDate(column++));
                 //column++; // updated_at datetime
                 
                 beneficiary.setDependents( loadDependents( beneficiary.getId() ) );

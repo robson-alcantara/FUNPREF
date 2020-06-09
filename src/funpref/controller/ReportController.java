@@ -73,7 +73,7 @@ public class ReportController {
         reportBeneficiaryDeceasedController = new ReportBeneficiaryDeceasedController();
     }
     
-    public void printBeneficiaryCensusVoucher(Beneficiary beneficiary) {
+    public void printBeneficiaryCensusVoucher(Beneficiary beneficiary, boolean printUpdateDate ) {
         try {        
             Document document;
             PdfDocument pdfDocument;
@@ -156,6 +156,12 @@ public class ReportController {
             aCell.add( new Paragraph( beneficiary.getCpf() ).setFont(font).setFontSize(smallFontSize).setHorizontalAlignment(HorizontalAlignment.CENTER) );
             aCell.add( new Paragraph( "CONCESSÃO DO BENEFÍCIO" ).setFont(font).setFontSize(smallFontSize).setHorizontalAlignment(HorizontalAlignment.CENTER) );
             aCell.add( new Paragraph( formatDate.format(beneficiary.getInactivationDate()) ).setFont(font).setFontSize(smallFontSize).setHorizontalAlignment(HorizontalAlignment.CENTER) );            
+            
+            if ( printUpdateDate && ( beneficiary.getUpdateDate() != null ) ) {
+                aCell.add( new Paragraph( "DATA DO RECENSEAMENTO" ).setFont(font).setFontSize(smallFontSize).setHorizontalAlignment(HorizontalAlignment.CENTER) );
+                aCell.add( new Paragraph( formatDate.format(beneficiary.getUpdateDate()) ).setFont(font).setFontSize(smallFontSize).setHorizontalAlignment(HorizontalAlignment.CENTER) );                                            
+            }
+            
             aCell.setTextAlignment(TextAlignment.CENTER);
             aCell.setBorder(Border.NO_BORDER);
             table2.setBorderTop( new SolidBorder(0.3f) );

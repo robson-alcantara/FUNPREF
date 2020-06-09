@@ -835,8 +835,8 @@ public class FUNPREFController {
         return funprefModel.getLastInsertId();
     }
 
-    public void printBeneficiaryCensusVoucher(Beneficiary beneficiary) {
-        reportController.printBeneficiaryCensusVoucher(beneficiary);
+    public void printBeneficiaryCensusVoucher(Beneficiary beneficiary, boolean printUpdateDate) {
+        reportController.printBeneficiaryCensusVoucher(beneficiary, printUpdateDate);
     }
 
     public UserDAO getUser() {
@@ -866,33 +866,5 @@ public class FUNPREFController {
     public int restartCadastralStatus() {
         return jdbcController.restartCadastralStatus();
     }
-
-
-
-
-
-
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 

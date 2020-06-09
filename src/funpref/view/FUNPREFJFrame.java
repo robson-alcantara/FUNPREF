@@ -2319,7 +2319,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_beneficiaryCRUDJInternalFrameClosing
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        String[] choices = { "ficha", "documento digitalizado" };
+        String[] choices = { "ficha do censo", "ficha do censo com data de atualização", "documento digitalizado" };
         String input = (String) JOptionPane.showInputDialog(null, "Documento a imprimir:",
             "FUNPREF", JOptionPane.QUESTION_MESSAGE, null, // Use
                                                                             // default
@@ -2327,8 +2327,12 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
             choices, // Array of choices
             choices[0]); // Initial choice
 
-        if( input.compareTo("ficha") == 0 ) {
-            printBeneficiaryCensusVoucher();
+        if( input.equals("ficha do censo") ) {
+            printBeneficiaryCensusVoucher( false );
+        }
+        
+        else if( input.equals("ficha do censo com data de atualização") ) {
+            printBeneficiaryCensusVoucher( true );
         }
 
         else {
@@ -2760,54 +2764,8 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         searchJInternalFrame.setVisible(true);
     }    
     
-    private void printBeneficiaryCensusVoucher() {
-        
-        funprefController.printBeneficiaryCensusVoucher( currentBeneficiary );
-        
-//        try {
-//            PdfWriter writer = new PdfWriter("print.pdf");
-//            PdfDocument pdf = new PdfDocument(writer);
-//            Document document = new Document(pdf);
-//            try {
-//                
-//                Image blazon = new Image( ImageDataFactory.create("./src/resources/about_icon.png"));
-//                blazon.scale(0.5f, 0.5f);
-//                
-//                document.add(new Paragraph("").add(blazon) );
-//                
-//                PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
-//                
-//                document.add(new Paragraph("Hello World!").setFont(font));
-//                
-//                // Create a List
-//                List list = new List()
-//                    .setSymbolIndent(12)
-//                    .setListSymbol("\u2022")
-//                    .setFont(font);
-//                // Add ListItem objects
-//                list.add(new ListItem("Never gonna give you up"))
-//                    .add(new ListItem("Never gonna let you down"))
-//                    .add(new ListItem("Never gonna run around and desert you"))
-//                    .add(new ListItem("Never gonna make you cry"))
-//                    .add(new ListItem("Never gonna say goodbye"))
-//                    .add(new ListItem("Never gonna tell a lie and hurt you"));
-//                // Add the list
-//                document.add(list);                
-//                
-//                
-//                
-//                
-//                
-//                
-//                document.close();                
-//                Desktop.getDesktop().open(new File("print.pdf"));
-//            } catch (IOException ex) {
-//                Logger.getLogger(FUNPREFJFrame.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(FUNPREFJFrame.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        
+    private void printBeneficiaryCensusVoucher(boolean printUpdateDate ) {        
+        funprefController.printBeneficiaryCensusVoucher( currentBeneficiary, printUpdateDate );        
     }
     
 //    private void generatePDFOutput() {
