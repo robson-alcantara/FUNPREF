@@ -25,6 +25,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,7 +40,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author secretaria
+ * @author robson.santana
  */
 public class JDBCController {
     
@@ -720,9 +721,9 @@ public class JDBCController {
                 column++; // payroll loans gross value
                 column++; // payroll loans net value
                 column++; // active
-                column++; // created_at datetime                
-                beneficiary.setUpdateDate(rs.getDate(column++));
-                //column++; // updated_at datetime
+                beneficiary.setRegisterDate(rs.getTimestamp(column++));
+                beneficiary.setCreateDate(rs.getTimestamp(column++));
+                beneficiary.setUpdateDate(rs.getTimestamp(column++));                
                 
                 beneficiary.setDependents( loadDependents( beneficiary.getId() ) );
                 
@@ -865,7 +866,7 @@ public class JDBCController {
                 + "earnings=?, old_promotion=?, chalk_powder_percentual=?, chalk_powder_value=?, "
                 + "more_one_year_percentual=?, more_one_year_value=?, more_five_year_percentual=?, "
                 + "more_five_year_value=?, income_tax_rate=?, income_tax_value=?, payroll_loans_value=?, "
-                + "payroll_loans_gross_value=?, payroll_loans_net_value=?, active=?, created_at=?, updated_at=?\n" +
+                + "payroll_loans_gross_value=?, payroll_loans_net_value=?, active=?, registered_at=?, updated_at=?\n" +
             "WHERE id_beneficiary=?";
         
         int row = -1;
@@ -984,8 +985,16 @@ public class JDBCController {
             preparedStatement.setNull(column++, Types.DOUBLE); // payroll_loans_gross_value
             preparedStatement.setNull(column++, Types.DOUBLE); // payroll_loans_net_value
             preparedStatement.setBoolean(column++, true);
-            preparedStatement.setNull(column++, Types.DATE); // created_at datetime
-            preparedStatement.setNull(column++, Types.DATE); // updated_at datetime
+            
+            if( beneficiary.getRegisterDate() != null ) {
+                preparedStatement.setTimestamp(column++, new Timestamp( beneficiary.getRegisterDate().getTime() ) );
+            }
+            
+            else {
+                preparedStatement.setNull(column++, Types.TIMESTAMP);
+            }
+            
+            preparedStatement.setTimestamp(column++, new Timestamp( beneficiary.getUpdateDate().getTime() ));            
             preparedStatement.setInt(column++, beneficiary.getId());            
 
             
@@ -1013,10 +1022,10 @@ public class JDBCController {
                 + "index_physical_document, bank_agency, account, earnings, old_promotion, chalk_powder_percentual, "
                 + "chalk_powder_value, more_one_year_percentual, more_one_year_value, "
                 + "more_five_year_percentual, more_five_year_value, income_tax_rate, income_tax_value, "
-                + "payroll_loans_value, payroll_loans_gross_value, payroll_loans_net_value, active, created_at, updated_at )\n" +
+                + "payroll_loans_value, payroll_loans_gross_value, payroll_loans_net_value, active, registered_at, created_at, updated_at )\n" +
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
                 + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
-                + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         String sqlLastInsertId = "SELECT LAST_INSERT_ID()";
         
@@ -1143,8 +1152,17 @@ public class JDBCController {
             preparedStatement.setNull(column++, Types.DOUBLE); // payroll_loans_gross_value
             preparedStatement.setNull(column++, Types.DOUBLE); // payroll_loans_net_value
             preparedStatement.setBoolean(column++, true);                      
-            preparedStatement.setNull(column++, Types.DATE); // created_at datetime
-            preparedStatement.setNull(column++, Types.DATE); // updated_at datetime
+            
+            if( beneficiary.getRegisterDate() != null ) {
+                preparedStatement.setTimestamp(column++, new Timestamp( beneficiary.getRegisterDate().getTime() ) );
+            }
+            
+            else {
+                preparedStatement.setNull(column++, Types.TIMESTAMP);
+            }
+            
+            preparedStatement.setTimestamp(column++, new Timestamp(beneficiary.getCreateDate().getTime() ));
+            preparedStatement.setTimestamp(column++, new Timestamp( beneficiary.getUpdateDate().getTime() ));            
 
             
             //beneficiary.setDependents( loadDependents( beneficiary.getId() ) );            

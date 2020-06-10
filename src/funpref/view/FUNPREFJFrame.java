@@ -2764,8 +2764,8 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         searchJInternalFrame.setVisible(true);
     }    
     
-    private void printBeneficiaryCensusVoucher(boolean printUpdateDate ) {        
-        funprefController.printBeneficiaryCensusVoucher( currentBeneficiary, printUpdateDate );        
+    private void printBeneficiaryCensusVoucher(boolean printRegisterDate ) {        
+        funprefController.printBeneficiaryCensusVoucher( currentBeneficiary, printRegisterDate );        
     }
     
 //    private void generatePDFOutput() {
@@ -3823,11 +3823,12 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         
         Beneficiary beneficiary = null;
         
-        if( currentBeneficiary != null ) {
+        if( currentBeneficiary != null ) { // atualização de um beneficiário
             beneficiary = currentBeneficiary;            
         }
-        else {
+        else { // criação de um beneficiário
             beneficiary = new Beneficiary();
+            beneficiary.setCreateDate(new Date() );
         }        
         
         beneficiary.setRegistration( Integer.parseInt(jTextField12.getText()));
@@ -3848,6 +3849,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
 
             if( optionResult == 0 ) {
                 beneficiary.setIdCadastralStatus( 2 );  // recadastramento
+                beneficiary.setRegisterDate(new Date()); // informa a data do recadastramento
             }
 
             else {
@@ -4053,6 +4055,8 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         if( ((BenefitTypeDAO)jComboBox1.getSelectedItem()).getId() == 2 ) { // se for pensionista
             beneficiary.setInstituteEnrollment( Integer.parseInt( jTextField48.getText() ) );
         }        
+        
+        beneficiary.setUpdateDate(new Date());
         
         funprefController.saveBeneficiary(beneficiary);
         

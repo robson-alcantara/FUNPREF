@@ -835,8 +835,8 @@ public class FUNPREFController {
         return funprefModel.getLastInsertId();
     }
 
-    public void printBeneficiaryCensusVoucher(Beneficiary beneficiary, boolean printUpdateDate) {
-        reportController.printBeneficiaryCensusVoucher(beneficiary, printUpdateDate);
+    public void printBeneficiaryCensusVoucher(Beneficiary beneficiary, boolean printRegisterDate ) {
+        reportController.printBeneficiaryCensusVoucher(beneficiary, printRegisterDate );
     }
 
     public UserDAO getUser() {

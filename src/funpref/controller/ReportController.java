@@ -73,7 +73,7 @@ public class ReportController {
         reportBeneficiaryDeceasedController = new ReportBeneficiaryDeceasedController();
     }
     
-    public void printBeneficiaryCensusVoucher(Beneficiary beneficiary, boolean printUpdateDate ) {
+    public void printBeneficiaryCensusVoucher(Beneficiary beneficiary, boolean printRegisterDate ) {
         try {        
             Document document;
             PdfDocument pdfDocument;
@@ -157,9 +157,9 @@ public class ReportController {
             aCell.add( new Paragraph( "CONCESSÃO DO BENEFÍCIO" ).setFont(font).setFontSize(smallFontSize).setHorizontalAlignment(HorizontalAlignment.CENTER) );
             aCell.add( new Paragraph( formatDate.format(beneficiary.getInactivationDate()) ).setFont(font).setFontSize(smallFontSize).setHorizontalAlignment(HorizontalAlignment.CENTER) );            
             
-            if ( printUpdateDate && ( beneficiary.getUpdateDate() != null ) ) {
+            if ( printRegisterDate && ( beneficiary.getRegisterDate() != null ) ) {
                 aCell.add( new Paragraph( "DATA DO RECENSEAMENTO" ).setFont(font).setFontSize(smallFontSize).setHorizontalAlignment(HorizontalAlignment.CENTER) );
-                aCell.add( new Paragraph( formatDate.format(beneficiary.getUpdateDate()) ).setFont(font).setFontSize(smallFontSize).setHorizontalAlignment(HorizontalAlignment.CENTER) );                                            
+                aCell.add( new Paragraph( formatDate.format(beneficiary.getRegisterDate()) ).setFont(font).setFontSize(smallFontSize).setHorizontalAlignment(HorizontalAlignment.CENTER) );                                            
             }
             
             aCell.setTextAlignment(TextAlignment.CENTER);

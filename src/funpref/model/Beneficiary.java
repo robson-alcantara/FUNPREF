@@ -92,7 +92,10 @@ public class Beneficiary {
     private int electoralSection;
     private int idProvinceElectoralZone;
     private int idUserRegistration;
+    private Date registerDate;
     private Date updateDate;
+    private Date createDate;
+    
     
     public Beneficiary() {
         id = -1;
@@ -704,6 +707,14 @@ public class Beneficiary {
         this.idUserRegistration = idUserRegistration;
     }
 
+    public Date getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(Date registerDate) {
+        this.registerDate = registerDate;
+    }
+
     public Date getUpdateDate() {
         return updateDate;
     }
@@ -712,6 +723,11 @@ public class Beneficiary {
         this.updateDate = updateDate;
     }
     
-    
-    
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }    
 }
