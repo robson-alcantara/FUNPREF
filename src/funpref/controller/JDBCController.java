@@ -654,8 +654,9 @@ public class JDBCController {
                 beneficiary.setBirthDate(rs.getDate(column++));
                 beneficiary.setIdCadastralStatus(rs.getInt(column++));                
                 column++; // update number                
-                beneficiary.setIdUserRegistration(rs.getInt(column++));// user registration
-                column++; // user update
+                beneficiary.setIdUserRegistration(rs.getInt(column++)); // user registration
+                beneficiary.setIdUserCreate(rs.getInt(column++)); // user create
+                beneficiary.setIdUserUpdate(rs.getInt(column++)); // user update
                 beneficiary.setNationality(rs.getString(column++));
                 beneficiary.setIdCityPlaceOfBirth( rs.getInt(column++) );
                 beneficiary.setIdProvincePlaceOfBirth( getProvinceId( beneficiary.getIdCityPlaceOfBirth() ) );
@@ -853,7 +854,7 @@ public class JDBCController {
     private int updateBeneficiary(Beneficiary beneficiary, UserDAO user) {
         String sqlUpdateBeneficiary = "UPDATE funpref.beneficiary\n" +
             "SET enrollment=?, ordinance=?, cpf=?, name=?, sex=?, birth_date=?, ref_id_cadastral_status=?, "
-                + "update_number=?, ref_id_user_registration=?, ref_id_user_update=?, "
+                + "update_number=?, ref_id_user_registration=?, ref_id_user_create=?, ref_id_user_update=?, "
                 + "nationality=?, ref_id_city_place_of_birth=?, death_date=?, address=?, ref_id_city_address=?, "
                 + "zipcode=?, phone1=?, phone2=?, email=?, ref_id_degree_of_education=?, ref_id_marital_status=?, "
                 + "ref_id_deficiency=?, deficiency_reason=?, report_deficiency_date=?, mother_cpf=?, "
@@ -897,7 +898,8 @@ public class JDBCController {
             preparedStatement.setInt(column++, beneficiary.getIdCadastralStatus()); 
             preparedStatement.setNull(column++, Types.INTEGER); // update number            
             preparedStatement.setInt(column++, beneficiary.getIdUserRegistration()); // user registration
-            preparedStatement.setInt(column++, user.getId()); // user update
+            preparedStatement.setInt(column++, beneficiary.getIdUserCreate()); // user create
+            preparedStatement.setInt(column++, beneficiary.getIdUserUpdate()); // user update
             
             preparedStatement.setString(column++, beneficiary.getNationality());
             preparedStatement.setInt(column++, beneficiary.getIdCityPlaceOfBirth()); 
@@ -1011,7 +1013,7 @@ public class JDBCController {
     private int insertBeneficiary(Beneficiary beneficiary, UserDAO user) {
         String sqlInsertBeneficiary = "INSERT INTO funpref.beneficiary\n" +
             "(enrollment, ordinance, cpf, name, sex, birth_date, ref_id_cadastral_status, update_number, "
-                + "ref_id_user_registration, ref_id_user_update, nationality, "
+                + "ref_id_user_registration, ref_id_user_create, ref_id_user_update, nationality, "
                 + "ref_id_city_place_of_birth, death_date, address, ref_id_city_address, zipcode, phone1, "
                 + "phone2, email, ref_id_degree_of_education, ref_id_marital_status, ref_id_deficiency, "
                 + "deficiency_reason, report_deficiency_date, mother_cpf, mother_name, father_cpf, father_name, "
@@ -1023,7 +1025,7 @@ public class JDBCController {
                 + "chalk_powder_value, more_one_year_percentual, more_one_year_value, "
                 + "more_five_year_percentual, more_five_year_value, income_tax_rate, income_tax_value, "
                 + "payroll_loans_value, payroll_loans_gross_value, payroll_loans_net_value, active, registered_at, created_at, updated_at )\n" +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
                 + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
                 + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
@@ -1055,8 +1057,9 @@ public class JDBCController {
             preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getBirthDate().getTime() ) );
             preparedStatement.setInt(column++, beneficiary.getIdCadastralStatus()); 
             preparedStatement.setNull(column++, Types.INTEGER); // update number            
-            preparedStatement.setInt(column++, user.getId()); // user registration
-            preparedStatement.setInt(column++, user.getId()); // user update
+            preparedStatement.setInt(column++, beneficiary.getIdUserRegistration()); // user registration
+            preparedStatement.setInt(column++, beneficiary.getIdUserCreate()); // user create
+            preparedStatement.setInt(column++, beneficiary.getIdUserUpdate()); // user update
             
             preparedStatement.setString(column++, beneficiary.getNationality());
             preparedStatement.setInt(column++, beneficiary.getIdCityPlaceOfBirth()); 

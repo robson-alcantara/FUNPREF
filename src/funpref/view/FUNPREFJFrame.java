@@ -2181,7 +2181,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         //if( funprefController.revalidateLogin() ) {
         beneficiaryCRUDMode = BeneficiaryCRUD.NEW;
-        currentBeneficiary = new Beneficiary();
+        currentBeneficiary = null;
         preFillBeneficiaryCRUDJInternalFrame();
         clearBeneficiaryCRUDJInternalFrame();
         setEditableBeneficiaryCRUDJInternalFrame(true);
@@ -2842,7 +2842,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     }
     
     private void updateBeneficiaryCRUDJInternalFrameTitle( Beneficiary beneficiary ) {
-        if( beneficiary.getName() != null ) {
+        if( beneficiary != null ) {
             beneficiaryCRUDJInternalFrame.setTitle("" + beneficiary.getName() + " - " +
                     funprefController.decodeCadastralStatus( beneficiary.getIdCadastralStatus() ) );
         }
@@ -3829,6 +3829,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         else { // criação de um beneficiário
             beneficiary = new Beneficiary();
             beneficiary.setCreateDate(new Date() );
+            beneficiary.setIdUserCreate( funprefController.getUser().getId() );
         }        
         
         beneficiary.setRegistration( Integer.parseInt(jTextField12.getText()));
@@ -3850,6 +3851,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
             if( optionResult == 0 ) {
                 beneficiary.setIdCadastralStatus( 2 );  // recadastramento
                 beneficiary.setRegisterDate(new Date()); // informa a data do recadastramento
+                beneficiary.setIdUserRegistration(funprefController.getUser().getId());
             }
 
             else {
@@ -4057,6 +4059,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         }        
         
         beneficiary.setUpdateDate(new Date());
+        beneficiary.setIdUserUpdate(funprefController.getUser().getId());
         
         funprefController.saveBeneficiary(beneficiary);
         

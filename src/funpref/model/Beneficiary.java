@@ -92,6 +92,8 @@ public class Beneficiary {
     private int electoralSection;
     private int idProvinceElectoralZone;
     private int idUserRegistration;
+    private int idUserCreate;
+    private int idUserUpdate;
     private Date registerDate;
     private Date updateDate;
     private Date createDate;
@@ -706,6 +708,24 @@ public class Beneficiary {
     public void setIdUserRegistration(int idUserRegistration) {
         this.idUserRegistration = idUserRegistration;
     }
+
+    public int getIdUserCreate() {
+        return idUserCreate;
+    }
+
+    public void setIdUserCreate(int idUserCreate) {
+        this.idUserCreate = idUserCreate;
+    }
+
+    public int getIdUserUpdate() {
+        return idUserUpdate;
+    }
+
+    public void setIdUserUpdate(int idUserUpdate) {
+        this.idUserUpdate = idUserUpdate;
+    }
+    
+    
 
     public Date getRegisterDate() {
         return registerDate;
