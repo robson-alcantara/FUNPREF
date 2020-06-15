@@ -758,6 +758,7 @@ public class JDBCController {
     private ArrayList<Dependent> loadDependents(int idBeneficiary ) {
         ArrayList<Dependent> dependents = new ArrayList<Dependent>();
         Dependent dependent = null;
+        int column;
         
         String sql = "SELECT * FROM funpref.dependent where ref_id_beneficiary = '" + idBeneficiary + "'";
         
@@ -766,20 +767,21 @@ public class JDBCController {
             ResultSet rs = stmt.executeQuery(sql);
 
             while( rs.next() ) {            
+                column = 1;
                 dependent = new Dependent();
-                dependent.setId(rs.getInt(1));
-                dependent.setName(rs.getString(2));
-                dependent.setCpf(rs.getString(3));
-                dependent.setBirthDate(rs.getDate(4));
-                dependent.setIdKinship(rs.getInt(5));
-                dependent.setIdDeficiency(rs.getInt(6));
-                // idBeneficiary
+                dependent.setId(rs.getInt(column++));
+                dependent.setName(rs.getString(column++));
+                dependent.setCpf(rs.getString(column++));
+                dependent.setBirthDate(rs.getDate(column++));
+                dependent.setIdKinship(rs.getInt(column++));
+                dependent.setIdDeficiency(rs.getInt(column++));
+                column++; // idBeneficiary
                 
-                if( rs.getString(8) == null ) {
+                if( rs.getString(column) == null ) {
                     dependent.setSex(Beneficiary.Sex.NULL);
                 }
                 
-                else if( rs.getString(8).compareTo("m") == 0 ) {
+                else if( rs.getString(column).compareTo("m") == 0 ) {
                     dependent.setSex(Beneficiary.Sex.MALE);
                 }
                 
@@ -787,12 +789,19 @@ public class JDBCController {
                     dependent.setSex(Beneficiary.Sex.FEMALE);
                 }
                 
-                dependent.setPhone(rs.getString(9));
+                column++;
+                
+                dependent.setPhone(rs.getString(column++));
                 
                 if( dependent.getBirthDate()!= null ) {
                     dependent.setAge(Period.between(new java.util.Date(dependent.getBirthDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
                             (new Date()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()) );                   
                 }                
+                
+                dependent.setIdUserCreate(rs.getInt(column++));
+                dependent.setIdUserUpdate(rs.getInt(column++));
+                dependent.setCreateDate(rs.getTimestamp(column++));
+                dependent.setUpdateDate(rs.getTimestamp(column++));
                 
                 dependents.add(dependent);
             }
@@ -1213,33 +1222,45 @@ public class JDBCController {
             "`ref_id_beneficiary` = ?,\n" +
             "`sex` = ?,\n" +
             "`phone` = ?\n" +
+            "`ref_id_user_create` = ?\n" +
+            "`ref_id_user_update` = ?\n" +                
+            "`created_at` = ?\n" +
+            "`updated_at` = ?\n" +                
             "WHERE `id_dependent` = ?";
         
         int row = -1;
+        int column = 1;
         
         try {                
             PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdateDependent);          
-            preparedStatement.setString(1, dependent.getName());
-            preparedStatement.setString(2, dependent.getCpf());
-            preparedStatement.setDate(3, new java.sql.Date( dependent.getBirthDate().getTime() ) );
-            preparedStatement.setInt(4, dependent.getIdKinship());
-            preparedStatement.setInt(5, dependent.getIdDeficiency());
-            preparedStatement.setInt(6, id);
+            preparedStatement.setString(column++, dependent.getName());
+            preparedStatement.setString(column++, dependent.getCpf());
+            preparedStatement.setDate(column++, new java.sql.Date( dependent.getBirthDate().getTime() ) );
+            preparedStatement.setInt(column++, dependent.getIdKinship());
+            preparedStatement.setInt(column++, dependent.getIdDeficiency());
+            preparedStatement.setInt(column++, id);
                 
             if( dependent.getSex() == Beneficiary.Sex.NULL ) {
-                preparedStatement.setString(7, null);
+                preparedStatement.setString(column, null);
             }
 
             else if( dependent.getSex() == Beneficiary.Sex.MALE ) {
-                preparedStatement.setString(7, "m");
+                preparedStatement.setString(column, "m");
             }
 
             else {
-                preparedStatement.setString(7, "f");
+                preparedStatement.setString(column, "f");
             }
             
-            preparedStatement.setString(8, dependent.getPhone() );
-            preparedStatement.setInt(9, dependent.getId());                       
+            column++;
+            
+            preparedStatement.setString(column++, dependent.getPhone() );
+            preparedStatement.setInt(column++, dependent.getIdUserCreate());
+            preparedStatement.setInt(column++, dependent.getIdUserUpdate());
+            preparedStatement.setTimestamp(column++, new Timestamp( dependent.getCreateDate().getTime() ));
+            preparedStatement.setTimestamp(column++, new Timestamp( dependent.getUpdateDate().getTime() ));
+                        
+            preparedStatement.setInt(column++, dependent.getId());
             
             row = preparedStatement.executeUpdate();            
         } catch (SQLException ex) {
@@ -1258,7 +1279,11 @@ public class JDBCController {
             "`ref_if_deficiency`,\n" +
             "`ref_id_beneficiary`,\n" +
             "`sex`,\n" +
-            "`phone`)\n" +
+            "`phone`,\n" +
+            "`ref_id_user_create`,\n" +
+            "`ref_id_user_update`,\n" +
+            "`created_at`,\n" +
+            "`updated_at`)\n" +
             "VALUES\n" +
             "(?,\n" +
             "?,\n" +
@@ -1267,34 +1292,45 @@ public class JDBCController {
             "?,\n" +
             "?,\n" +
             "?,\n" +
+            "?,\n" +
+            "?,\n" +
+            "?,\n" +
+            "?,\n" +                
             "?)";
         
         String sqlLastInsertId = "SELECT LAST_INSERT_ID()";        
         
         int row = -1;
+        int column = 1;
         
         try {                
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInsertDependent);          
-            preparedStatement.setString(1, dependent.getName());
-            preparedStatement.setString(2, dependent.getCpf());
-            preparedStatement.setDate(3, new java.sql.Date( dependent.getBirthDate().getTime() ) );
-            preparedStatement.setInt(4, dependent.getIdKinship());
-            preparedStatement.setInt(5, dependent.getIdDeficiency());
-            preparedStatement.setInt(6, id);
+            preparedStatement.setString(column++, dependent.getName());
+            preparedStatement.setString(column++, dependent.getCpf());
+            preparedStatement.setDate(column++, new java.sql.Date( dependent.getBirthDate().getTime() ) );
+            preparedStatement.setInt(column++, dependent.getIdKinship());
+            preparedStatement.setInt(column++, dependent.getIdDeficiency());
+            preparedStatement.setInt(column++, id);
                 
             if( dependent.getSex() == Beneficiary.Sex.NULL ) {
-                preparedStatement.setString(7, null);
+                preparedStatement.setString(column, null);
             }
 
             else if( dependent.getSex() == Beneficiary.Sex.MALE ) {
-                preparedStatement.setString(7, "m");
+                preparedStatement.setString(column, "m");
             }
 
             else {
-                preparedStatement.setString(7, "f");
+                preparedStatement.setString(column, "f");
             }
             
-            preparedStatement.setString(8, dependent.getPhone() );                                  
+            column++;
+            
+            preparedStatement.setString(column++, dependent.getPhone() );                                  
+            preparedStatement.setInt(column++, dependent.getIdUserCreate());
+            preparedStatement.setInt(column++, dependent.getIdUserUpdate());
+            preparedStatement.setTimestamp(column++, new Timestamp( dependent.getCreateDate().getTime() ));
+            preparedStatement.setTimestamp(column++, new Timestamp( dependent.getUpdateDate().getTime() ));            
             
             row = preparedStatement.executeUpdate();      
             

@@ -23,6 +23,10 @@ public class Dependent {
     private Beneficiary.Sex sex;
     private String phone;    
     private Period age;
+    private int idUserCreate;
+    private int idUserUpdate;
+    private Date updateDate;
+    private Date createDate;    
     
     public Dependent() {
         this.id = -1;
@@ -99,8 +103,36 @@ public class Dependent {
     public void setAge(Period age) {
         this.age = age;
     }
-    
-    
-    
-    
+
+    public int getIdUserCreate() {
+        return idUserCreate;
+    }
+
+    public void setIdUserCreate(int idUserCreate) {
+        this.idUserCreate = idUserCreate;
+    }
+
+    public int getIdUserUpdate() {
+        return idUserUpdate;
+    }
+
+    public void setIdUserUpdate(int idUserUpdate) {
+        this.idUserUpdate = idUserUpdate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }    
 }

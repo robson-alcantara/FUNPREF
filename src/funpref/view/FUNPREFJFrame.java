@@ -2877,7 +2877,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         jTextField22.setEditable(false);
         jTextField21.setEditable(editable);    
         jTextField14.setEditable(editable);
-        jComboBox18.setEditable(editable);
+        jComboBox18.setEditable(false);
     }    
     
     public void setEditableBeneficiaryCRUDJInternalFrame(boolean editable) {
@@ -3401,9 +3401,15 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         
         Dependent dependent = new Dependent();
         
-        if( !jTextField38.getText().isEmpty() ) {
+        if( !jTextField38.getText().isEmpty() ) { // atualização
             dependent.setId( Integer.parseInt( jTextField38.getText() ) );
         }
+        
+        else { // criação
+            dependent.setIdUserCreate(funprefController.getUser().getId());
+            dependent.setCreateDate(new Date());
+        }        
+        
         dependent.setName( jTextField20.getText() );
         dependent.setIdKinship( ((KinshipDAO)jComboBox6.getSelectedItem()).getId() );
         //dependent.degreeOfKinship = encodeDegreeOfKinship( jComboBox6.getSelectedItem().toString() );
@@ -3418,6 +3424,9 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         dependent.setPhone( jTextField21.getText() ); 
         dependent.setCpf( jTextField14.getText() );
         dependent.setIdDeficiency( ((DeficiencyDAO)jComboBox18.getSelectedItem()).getId() );
+        
+        dependent.setIdUserUpdate( funprefController.getUser().getId() );
+        dependent.setUpdateDate(new Date());
         
         //currentBeneficiary.getDependents().add(dependent);
         funprefController.saveDependent(dependent);        

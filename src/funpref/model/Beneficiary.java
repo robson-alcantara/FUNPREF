@@ -723,9 +723,7 @@ public class Beneficiary {
 
     public void setIdUserUpdate(int idUserUpdate) {
         this.idUserUpdate = idUserUpdate;
-    }
-    
-    
+    }    
 
     public Date getRegisterDate() {
         return registerDate;

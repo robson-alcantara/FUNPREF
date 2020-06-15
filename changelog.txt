@@ -1,0 +1,15 @@
+===========
+ALTERAÇÕES
+===========
+
+v. 0.1.6 beta
+=============
+
+- adição de colunas que armazena os momentos de criação e atualização dos registros
+- opção de imprimir ficha do censo com data do recenseamento
+- adição de colunas que armazena usuário que criou e editou registro da tabelas de beneficiário e dependentes
+- adição da lógica de manipulação das datas e usuários de criação, atualização e recenseamento para os beneficiários e dependentes.
+  A lógica de recenseamento é apenas para o beneficiário.
+- correção de erro que permitia editar a deficiência do dependente.
+
+
