@@ -32,11 +32,13 @@ import funpref.model.dao.ProvinceDAO;
 import funpref.model.dao.StockingOrganDAO;
 import funpref.model.dao.UserDAO;
 import java.awt.Desktop;
+import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Period;
@@ -48,6 +50,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import javax.imageio.ImageIO;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -76,8 +79,20 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     public FUNPREFJFrame() {
         formatDate = new SimpleDateFormat("dd/MM/yyyy");
         initComponents();        
+        initImageIcon();
         setLocationRelativeTo( null );        
     }
+    
+    private void initImageIcon() {        
+        InputStream imageInputStream = this.getClass().getResourceAsStream("/resources/icon.png");
+        BufferedImage bufferedImage;
+        try {
+            bufferedImage = ImageIO.read(imageInputStream);
+            this.setIconImage(bufferedImage);  
+        } catch (IOException ex) {
+            Logger.getLogger(AboutJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }     
 
     /**
      * This method is called from within the constructor to initialize the form.
