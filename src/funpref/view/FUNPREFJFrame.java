@@ -574,9 +574,9 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
 
         jPanel3.setPreferredSize(new java.awt.Dimension(900, 456));
 
-        jLabel2.setText("portaria:");
+        jLabel2.setText("portaria: *");
 
-        jLabel3.setText("nome:");
+        jLabel3.setText("nome: *");
 
         jLabel4.setText("tipo do benefício:");
 
@@ -591,9 +591,9 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "anos" }));
         jComboBox2.setSelectedIndex(-1);
 
-        jLabel6.setText("cargo:");
+        jLabel6.setText("cargo: *");
 
-        jLabel7.setText("sexo:");
+        jLabel7.setText("sexo: *");
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "masculino", "feminino" }));
         jComboBox3.setSelectedIndex(-1);
@@ -603,15 +603,15 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setText("orgão de lotação:");
+        jLabel8.setText("orgão de lotação: *");
 
-        jLabel9.setText("data de admissão:");
+        jLabel9.setText("data de admissão: *");
 
-        jLabel10.setText("data de inativação:");
+        jLabel10.setText("data de inativação: *");
 
-        jLabel11.setText("RG:");
+        jLabel11.setText("RG: *");
 
-        jLabel12.setText("CPF:");
+        jLabel12.setText("CPF: *");
 
         jTextField6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -619,7 +619,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel13.setText("data de nascimento:");
+        jLabel13.setText("data de nascimento: *");
 
         jLabel16.setText("tempo de contribuição:");
 
@@ -640,7 +640,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
 
         jLabel19.setText("data de óbito:");
 
-        jLabel20.setText("órgão de emissão:");
+        jLabel20.setText("órgão de emissão: *");
 
         jLabel21.setText("data de requerimento:");
 
@@ -675,9 +675,9 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel25.setText("matrícula:");
+        jLabel25.setText("matrícula: *");
 
-        jLabel26.setText("estado civil:");
+        jLabel26.setText("estado civil: *");
 
         jButton8.setText("Salvar");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -686,9 +686,9 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel64.setText("UF");
+        jLabel64.setText("UF: *");
 
-        jLabel68.setText("data de emissão:");
+        jLabel68.setText("data de emissão: *");
 
         jLabel79.setText("deficiência:");
 
@@ -835,7 +835,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
                                     .addComponent(jLabel12)
                                     .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel13))))
-                        .addContainerGap(64, Short.MAX_VALUE))
+                        .addContainerGap(54, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel82)
@@ -861,7 +861,8 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
                                     .addComponent(jLabel2)
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel7)
-                                    .addComponent(jLabel13))
+                                    .addComponent(jLabel13)
+                                    .addComponent(jLabel25))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -869,8 +870,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
                                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel25)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(21, 21, 21)
                                 .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -978,23 +978,23 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
 
         jPanel5.setPreferredSize(new java.awt.Dimension(950, 461));
 
-        jLabel27.setText("endereço:");
+        jLabel27.setText("endereço: *");
 
-        jLabel28.setText("cidade:");
+        jLabel28.setText("cidade: *");
 
         jLabel29.setText("fone1:");
 
         jLabel30.setText("fone2:");
 
-        jLabel31.setText("CEP:");
+        jLabel31.setText("CEP: *");
 
         jLabel32.setText("email:");
 
-        jLabel33.setText("gaveta de documentos físicos:");
+        jLabel33.setText("gaveta de documentos físicos: *");
 
-        jLabel40.setText("agência BB:");
+        jLabel40.setText("agência BB: *");
 
-        jLabel41.setText("conta corrente:");
+        jLabel41.setText("conta corrente: *");
 
         jLabel42.setText("proventos - inativos (R$):");
 
@@ -1069,13 +1069,13 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
 
         jLabel60.setText("valor líquido (R$):");
 
-        jLabel62.setText("código da pasta física:");
+        jLabel62.setText("código da pasta física: *");
 
-        jLabel63.setText("nacionalidade:");
+        jLabel63.setText("nacionalidade: *");
 
-        jLabel73.setText("cidade de naturalidade:");
+        jLabel73.setText("cidade de naturalidade: *");
 
-        jLabel74.setText("UF:");
+        jLabel74.setText("UF: *");
 
         jComboBox12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1095,7 +1095,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel75.setText("UF:");
+        jLabel75.setText("UF: *");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -1390,11 +1390,11 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Dados 2", jPanel5);
 
-        jLabel69.setText("título de eleitor:");
+        jLabel69.setText("título de eleitor: *");
 
-        jLabel70.setText("zona eleitoral:");
+        jLabel70.setText("zona eleitoral: *");
 
-        jLabel71.setText("seção eleitoral:");
+        jLabel71.setText("seção eleitoral: *");
 
         jComboBox11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1402,13 +1402,13 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel72.setText("UF:");
+        jLabel72.setText("UF: *");
 
         jLabel77.setText("PIS/PASEP:");
 
-        jLabel78.setText("grau de formação:");
+        jLabel78.setText("grau de formação: *");
 
-        jLabel14.setText("nome da mãe:");
+        jLabel14.setText("nome da mãe: *");
 
         jLabel65.setText("cpf da mãe:");
 
@@ -3848,6 +3848,11 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
                 message = message + "O campo 'seção eleitoral' deve conter apenas números\n";
                 valid = false;
             }             
+        }        
+        
+        if(jComboBox11.getSelectedIndex()==-1) {
+            message = message + "A opção 'UF' do título de eleitor é inválida\n";
+            valid = false;            
         }        
         
 //        if(jTextField46.getText().isEmpty()) {

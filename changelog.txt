@@ -13,5 +13,6 @@ v. 0.1.6 beta
 - correção de erro que permitia editar a deficiência do dependente.
 - mudança da localização dos componentes de formulário: pai, mãe, estado civil e beneficiário de origem do pensionista
 - adição do campo de observações
+- informa campos obrigatórios de preenchimento (beneficiário)
 
 
