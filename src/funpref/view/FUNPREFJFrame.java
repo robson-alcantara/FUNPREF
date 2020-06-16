@@ -649,6 +649,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         jLabel23.setText("motivo de invalidez:");
 
         jTextArea1.setColumns(20);
+        jTextArea1.setLineWrap(true);
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
 
