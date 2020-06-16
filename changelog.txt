@@ -11,5 +11,6 @@ v. 0.1.6 beta
 - adição da lógica de manipulação das datas e usuários de criação, atualização e recenseamento para os beneficiários e dependentes.
   A lógica de recenseamento é apenas para o beneficiário.
 - correção de erro que permitia editar a deficiência do dependente.
+- mudança da localização dos componentes de formulários: pai, mãe, estado civil e beneficiário de origem do pensionista
 
 
