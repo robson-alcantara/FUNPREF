@@ -276,6 +276,9 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         jTextField8 = new javax.swing.JTextField();
         jLabel66 = new javax.swing.JLabel();
         jTextField42 = new javax.swing.JTextField();
+        jLabel84 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         dependentsJTable = new javax.swing.JTable();
@@ -1412,6 +1415,13 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
 
         jLabel66.setText("cpf do pai:");
 
+        jLabel84.setText("observações:");
+
+        jTextArea2.setColumns(20);
+        jTextArea2.setLineWrap(true);
+        jTextArea2.setRows(5);
+        jScrollPane5.setViewportView(jTextArea2);
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -1419,6 +1429,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel69)
@@ -1454,7 +1465,8 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
                             .addComponent(jTextField42, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel66)
                             .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel15))))
+                            .addComponent(jLabel15)))
+                    .addComponent(jLabel84))
                 .addContainerGap(149, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
@@ -1494,7 +1506,11 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
                         .addComponent(jLabel66)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField42, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(386, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel84)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(203, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Dados 3", jPanel8);
@@ -2676,6 +2692,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel81;
     private javax.swing.JLabel jLabel82;
     private javax.swing.JLabel jLabel83;
+    private javax.swing.JLabel jLabel84;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -2714,6 +2731,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -2722,6 +2740,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
@@ -3137,6 +3156,8 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         jTextField49.setText("");
         jButton13.setEnabled(false);
         
+        jTextArea2.setText("");
+        
         jComboBox16.setSelectedIndex(-1);
     } 
     
@@ -3394,6 +3415,10 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         if( ( beneficiary.getIdBenefitType() == 2 ) && ( ( beneficiaryCRUDMode == BeneficiaryCRUD.EDIT ) || ( beneficiaryCRUDMode == BeneficiaryCRUD.NEW ) ) ) {
             jButton13.setEnabled(true);                 
         }        
+        
+        if( beneficiary.getObservations() != null ) {
+            jTextArea2.setText( beneficiary.getObservations() );
+        }
                
         
         //jComboBox10.setSelectedItem( funprefController.decodeProvince( beneficiary.getIdProvinceRg() ) );
@@ -4089,6 +4114,8 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         
         beneficiary.setUpdateDate(new Date());
         beneficiary.setIdUserUpdate(funprefController.getUser().getId());
+        
+        beneficiary.setObservations( jTextArea2.getText());
         
         funprefController.saveBeneficiary(beneficiary);
         

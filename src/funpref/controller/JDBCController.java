@@ -706,6 +706,7 @@ public class JDBCController {
                 beneficiary.setInstituteEnrollment(rs.getInt(column++));
                 beneficiary.setPhysicalDocumentDrawer(rs.getInt(column++));
                 beneficiary.setIndexPhysicalDocument( rs.getInt(column++));
+                beneficiary.setObservations(rs.getString(column++));
                 beneficiary.setBankAgency(rs.getString(column++));
                 beneficiary.setAccount(rs.getString(column++));
                 column++; // earnings
@@ -872,7 +873,7 @@ public class JDBCController {
                 + "ref_id_issuing_body=?, ref_id_province_rg=?, admission_date=?, aplication_date=?, "
                 + "grant_of_benefit_date=?, ref_id_benefity_type=?, ref_id_calculation_form=?, "
                 + "ref_id_stocking_organ=?, office=?, previous_time=?, id_institutes_enrollment=?, "
-                + "physical_document_drawer=?, index_physical_document=?, bank_agency=?, account=?, "
+                + "physical_document_drawer=?, index_physical_document=?, observations=?, bank_agency=?, account=?, "
                 + "earnings=?, old_promotion=?, chalk_powder_percentual=?, chalk_powder_value=?, "
                 + "more_one_year_percentual=?, more_one_year_value=?, more_five_year_percentual=?, "
                 + "more_five_year_value=?, income_tax_rate=?, income_tax_value=?, payroll_loans_value=?, "
@@ -980,6 +981,7 @@ public class JDBCController {
             
             preparedStatement.setInt(column++, beneficiary.getPhysicalDocumentDrawer());
             preparedStatement.setInt(column++, beneficiary.getIndexPhysicalDocument());
+            preparedStatement.setString(column++, beneficiary.getObservations());
             preparedStatement.setString(column++, beneficiary.getBankAgency());
             preparedStatement.setString(column++, beneficiary.getAccount());            
             preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(52, beneficiary.getEarningsInative());
@@ -1030,12 +1032,12 @@ public class JDBCController {
                 + "rg, rg_emission_date, ref_id_issuing_body, ref_id_province_rg, admission_date, aplication_date, "
                 + "grant_of_benefit_date, ref_id_benefity_type, ref_id_calculation_form, ref_id_stocking_organ, "
                 + "office, previous_time, id_institutes_enrollment, physical_document_drawer, "
-                + "index_physical_document, bank_agency, account, earnings, old_promotion, chalk_powder_percentual, "
+                + "index_physical_document, observations, bank_agency, account, earnings, old_promotion, chalk_powder_percentual, "
                 + "chalk_powder_value, more_one_year_percentual, more_one_year_value, "
                 + "more_five_year_percentual, more_five_year_value, income_tax_rate, income_tax_value, "
                 + "payroll_loans_value, payroll_loans_gross_value, payroll_loans_net_value, active, registered_at, created_at, updated_at )\n" +
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
-                + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
+                + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
                 + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         String sqlLastInsertId = "SELECT LAST_INSERT_ID()";
@@ -1148,6 +1150,7 @@ public class JDBCController {
             
             preparedStatement.setInt(column++, beneficiary.getPhysicalDocumentDrawer());
             preparedStatement.setInt(column++, beneficiary.getIndexPhysicalDocument());
+            preparedStatement.setString(column++, beneficiary.getObservations());
             preparedStatement.setString(column++, beneficiary.getBankAgency());
             preparedStatement.setString(column++, beneficiary.getAccount());            
             preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(52, beneficiary.getEarningsInative());
@@ -1221,10 +1224,10 @@ public class JDBCController {
             "`ref_if_deficiency` = ?,\n" +
             "`ref_id_beneficiary` = ?,\n" +
             "`sex` = ?,\n" +
-            "`phone` = ?\n" +
-            "`ref_id_user_create` = ?\n" +
-            "`ref_id_user_update` = ?\n" +                
-            "`created_at` = ?\n" +
+            "`phone` = ?,\n" +
+            "`ref_id_user_create` = ?,\n" +
+            "`ref_id_user_update` = ?,\n" +                
+            "`created_at` = ?,\n" +
             "`updated_at` = ?\n" +                
             "WHERE `id_dependent` = ?";
         

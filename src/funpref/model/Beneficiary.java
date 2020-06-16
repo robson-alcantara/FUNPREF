@@ -56,6 +56,7 @@ public class Beneficiary {
     private String invalidityReason;
     private Date invalidityAwardDate;
     private ArrayList<Dependent> dependents;
+    private String observations;
     private String bankAgency;
     private String account;
     private double earningsInative;
@@ -356,6 +357,14 @@ public class Beneficiary {
     public void setBankAgency(String bankAgency) {
         this.bankAgency = bankAgency;
     }
+
+    public String getObservations() {
+        return observations;
+    }
+
+    public void setObservations(String observations) {
+        this.observations = observations;
+    }   
 
     public String getAccount() {
         return account;
