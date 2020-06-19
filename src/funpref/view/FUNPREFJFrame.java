@@ -90,7 +90,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
             bufferedImage = ImageIO.read(imageInputStream);
             this.setIconImage(bufferedImage);  
         } catch (IOException ex) {
-            Logger.getLogger(AboutJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FUNPREFController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }     
 
