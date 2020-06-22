@@ -56,141 +56,13 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
                 + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";        
         
         boolean result = true;
-        int column = 1;
+        Integer columnReference = null;
         
         try {                
             PreparedStatement preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(query);
-            preparedStatement.setInt(column++, beneficiary.getRegistration());
-            preparedStatement.setString(column++, beneficiary.getOrdinance());
-            preparedStatement.setString(column++, beneficiary.getCpf());            
-            preparedStatement.setString(column++, beneficiary.getName());
-                
-            if( beneficiary.getSex() == Beneficiary.Sex.NULL ) {
-                preparedStatement.setString(column, null);
-            }
-
-            else if( beneficiary.getSex() == Beneficiary.Sex.MALE ) {
-                preparedStatement.setString(column, "m");
-            }
-
-            else {
-                preparedStatement.setString(column, "f");
-            }
-            column++;
             
-            preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getBirthDate().getTime() ) );
-            preparedStatement.setInt(column++, beneficiary.getIdCadastralStatus()); 
-            preparedStatement.setNull(column++, Types.INTEGER); // update number            
-            preparedStatement.setInt(column++, beneficiary.getIdUserRegistration()); // user registration
-            preparedStatement.setInt(column++, beneficiary.getIdUserCreate()); // user create
-            preparedStatement.setInt(column++, beneficiary.getIdUserUpdate()); // user update
+            populatePreparedStatementFromResultSet(preparedStatement, beneficiary, columnReference, true );
             
-            preparedStatement.setString(column++, beneficiary.getNationality());
-            preparedStatement.setInt(column++, beneficiary.getIdCityPlaceOfBirth()); 
-            
-            if( beneficiary.getDeathDate() != null ) {
-                preparedStatement.setDate(column, new java.sql.Date( beneficiary.getDeathDate().getTime() ) );
-            }
-            
-            else {
-                preparedStatement.setNull(column, Types.DATE);
-            }
-            
-            column++;
-            
-            preparedStatement.setString(column++, beneficiary.getAddress());
-            preparedStatement.setInt(column++, beneficiary.getIdCityAddress());
-            preparedStatement.setString(column++, beneficiary.getZipCode());
-            preparedStatement.setString(column++, beneficiary.getPhone1());
-            preparedStatement.setString(column++, beneficiary.getPhone2());
-            preparedStatement.setString(column++, beneficiary.getEmail());
-            preparedStatement.setInt(column++, beneficiary.getIdDegreeOfEducation() );
-            preparedStatement.setInt(column++, beneficiary.getIdMaritalStatus());
-            preparedStatement.setInt(column++, beneficiary.getIdDeficiency());
-            preparedStatement.setString(column++, beneficiary.getInvalidityReason());
-            
-            if( beneficiary.getInvalidityAwardDate() != null ) {
-                preparedStatement.setDate(column, new java.sql.Date( beneficiary.getInvalidityAwardDate().getTime() ) );
-            }
-            
-            else {
-                preparedStatement.setNull(column, Types.DATE);
-            }
-            
-            column++;
-
-            preparedStatement.setString(column++, beneficiary.getMotherCpf());
-            preparedStatement.setString(column++, beneficiary.getMotherName());
-            preparedStatement.setString(column++, beneficiary.getFatherCpf());
-            preparedStatement.setString(column++, beneficiary.getFatherName());
-            preparedStatement.setString(column++, beneficiary.getPisPasep());
-            preparedStatement.setString(column++, beneficiary.getVotersTitle());
-            preparedStatement.setInt(column++, beneficiary.getElectoralZone());
-            preparedStatement.setInt(column++, beneficiary.getElectoralSection());
-            preparedStatement.setInt(column++, beneficiary.getIdProvinceElectoralZone());
-            preparedStatement.setString(column++, beneficiary.getRg());
-            preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getRgEmissionDate().getTime() )  );
-            preparedStatement.setInt(column++, beneficiary.getIdRgIssuingBody());
-            preparedStatement.setInt(column++, beneficiary.getIdProvinceRg());
-            preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getAdmissionDate().getTime() ) );
-            
-            if( beneficiary.getApplicationDate() != null ) {
-                preparedStatement.setDate(column, new java.sql.Date( beneficiary.getApplicationDate().getTime() ) );
-            }
-            
-            else {
-                preparedStatement.setNull(column, Types.DATE);
-            }
-            
-            column++;
-            
-            preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getInactivationDate().getTime() ) );
-            preparedStatement.setInt(column++, beneficiary.getIdBenefitType());
-            preparedStatement.setInt(column++, beneficiary.getIdCalculationForm());
-            preparedStatement.setInt(column++, beneficiary.getIdStockingOrgan());
-            preparedStatement.setString(column++, beneficiary.getOffice() );
-            preparedStatement.setNull(column++, Types.INTEGER); // previous time
-            
-            if( beneficiary.getInstituteEnrollment() >= 0 ) {
-                preparedStatement.setInt(column, beneficiary.getInstituteEnrollment());                
-            }
-            
-            else {
-                preparedStatement.setNull(column, Types.INTEGER);                
-            }
-            
-            column++;
-            
-            preparedStatement.setInt(column++, beneficiary.getPhysicalDocumentDrawer());
-            preparedStatement.setInt(column++, beneficiary.getIndexPhysicalDocument());
-            preparedStatement.setString(column++, beneficiary.getObservations());
-            preparedStatement.setString(column++, beneficiary.getBankAgency());
-            preparedStatement.setString(column++, beneficiary.getAccount());            
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(52, beneficiary.getEarningsInative());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(53, beneficiary.getOldPromotionValue());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(54, beneficiary.getChalkPowderPercentual());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(55, beneficiary.getChalkPowderValue());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(56, beneficiary.getMoreOneYearPercentual());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(57, beneficiary.getMoreOneYearValue());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(58, beneficiary.getMoreFiveYearPercentual());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(59, beneficiary.getMoreFiveYearValue());            
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(60, beneficiary.getIncomeTaxRate());            
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(61, beneficiary.getIncomeTaxValue());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(62, beneficiary.getPayrollLoanValue());
-            preparedStatement.setNull(column++, Types.DOUBLE); // payroll_loans_gross_value
-            preparedStatement.setNull(column++, Types.DOUBLE); // payroll_loans_net_value
-            preparedStatement.setBoolean(column++, true);                      
-            
-            if( beneficiary.getRegisterDate() != null ) {
-                preparedStatement.setTimestamp(column++, new Timestamp( beneficiary.getRegisterDate().getTime() ) );
-            }
-            
-            else {
-                preparedStatement.setNull(column++, Types.TIMESTAMP);
-            }
-            
-            preparedStatement.setTimestamp(column++, new Timestamp(beneficiary.getCreateDate().getTime() ));
-            preparedStatement.setTimestamp(column++, new Timestamp( beneficiary.getUpdateDate().getTime() ));                        
             preparedStatement.executeUpdate();            
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -237,134 +109,14 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             "WHERE id_beneficiary=?";
         
         boolean result = true;
-        int column = 1;
+        Integer columnReference = null;
         
         try {                
             PreparedStatement preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(query);
-            preparedStatement.setInt(column++, beneficiary.getRegistration());
-            preparedStatement.setString(column++, beneficiary.getOrdinance());
-            preparedStatement.setString(column++, beneficiary.getCpf());            
-            preparedStatement.setString(column++, beneficiary.getName());
-                
-            if( beneficiary.getSex() == Beneficiary.Sex.NULL ) {
-                preparedStatement.setString(column, null);
-            }
+            
+            populatePreparedStatementFromResultSet( preparedStatement, beneficiary, columnReference, false );            
 
-            else if( beneficiary.getSex() == Beneficiary.Sex.MALE ) {
-                preparedStatement.setString(column, "m");
-            }
-
-            else {
-                preparedStatement.setString(column, "f");
-            }
-            
-            column++;
-            
-            preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getBirthDate().getTime() ) );
-            preparedStatement.setInt(column++, beneficiary.getIdCadastralStatus()); 
-            preparedStatement.setNull(column++, Types.INTEGER); // update number            
-            preparedStatement.setInt(column++, beneficiary.getIdUserRegistration()); // user registration
-            preparedStatement.setInt(column++, beneficiary.getIdUserCreate()); // user create
-            preparedStatement.setInt(column++, beneficiary.getIdUserUpdate()); // user update
-            
-            preparedStatement.setString(column++, beneficiary.getNationality());
-            preparedStatement.setInt(column++, beneficiary.getIdCityPlaceOfBirth()); 
-            
-            if( beneficiary.getDeathDate() != null ) {
-                preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getDeathDate().getTime() ) );
-            }
-            
-            else {
-                preparedStatement.setNull(column++, Types.DATE);
-            }
-            
-            preparedStatement.setString(column++, beneficiary.getAddress());
-            preparedStatement.setInt(column++, beneficiary.getIdCityAddress());
-            preparedStatement.setString(column++, beneficiary.getZipCode());
-            preparedStatement.setString(column++, beneficiary.getPhone1());
-            preparedStatement.setString(column++, beneficiary.getPhone2());
-            preparedStatement.setString(column++, beneficiary.getEmail());
-            preparedStatement.setInt(column++, beneficiary.getIdDegreeOfEducation() );
-            preparedStatement.setInt(column++, beneficiary.getIdMaritalStatus());
-            preparedStatement.setInt(column++, beneficiary.getIdDeficiency());
-            preparedStatement.setString(column++, beneficiary.getInvalidityReason());
-            
-            if( beneficiary.getInvalidityAwardDate() != null ) {
-                preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getInvalidityAwardDate().getTime() ) );
-            }
-            
-            else {
-                preparedStatement.setNull(column++, Types.DATE);
-            }
-
-            preparedStatement.setString(column++, beneficiary.getMotherCpf());
-            preparedStatement.setString(column++, beneficiary.getMotherName());
-            preparedStatement.setString(column++, beneficiary.getFatherCpf());
-            preparedStatement.setString(column++, beneficiary.getFatherName());
-            preparedStatement.setString(column++, beneficiary.getPisPasep());
-            preparedStatement.setString(column++, beneficiary.getVotersTitle());
-            preparedStatement.setInt(column++, beneficiary.getElectoralZone());
-            preparedStatement.setInt(column++, beneficiary.getElectoralSection());
-            preparedStatement.setInt(column++, beneficiary.getIdProvinceElectoralZone());
-            preparedStatement.setString(column++, beneficiary.getRg());
-            preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getRgEmissionDate().getTime() )  );
-            preparedStatement.setInt(column++, beneficiary.getIdRgIssuingBody());
-            preparedStatement.setInt(column++, beneficiary.getIdProvinceRg());
-            preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getAdmissionDate().getTime() ) );
-            
-            if( beneficiary.getApplicationDate() != null ) {
-                preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getApplicationDate().getTime() ) );
-            }
-            
-            else {
-                preparedStatement.setNull(column++, Types.DATE);
-            }
-            
-            preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getInactivationDate().getTime() ) );
-            preparedStatement.setInt(column++, beneficiary.getIdBenefitType());
-            preparedStatement.setInt(column++, beneficiary.getIdCalculationForm());
-            preparedStatement.setInt(column++, beneficiary.getIdStockingOrgan());
-            preparedStatement.setString(column++, beneficiary.getOffice() );
-            preparedStatement.setNull(column++, Types.INTEGER); // previous time
-            
-            if( beneficiary.getInstituteEnrollment() >= 0 ) {
-                preparedStatement.setInt(column++, beneficiary.getInstituteEnrollment());                
-            }
-            
-            else {
-                preparedStatement.setNull(column++, Types.INTEGER);                
-            }            
-            
-            preparedStatement.setInt(column++, beneficiary.getPhysicalDocumentDrawer());
-            preparedStatement.setInt(column++, beneficiary.getIndexPhysicalDocument());
-            preparedStatement.setString(column++, beneficiary.getObservations());
-            preparedStatement.setString(column++, beneficiary.getBankAgency());
-            preparedStatement.setString(column++, beneficiary.getAccount());            
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(52, beneficiary.getEarningsInative());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(53, beneficiary.getOldPromotionValue());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(54, beneficiary.getChalkPowderPercentual());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(55, beneficiary.getChalkPowderValue());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(56, beneficiary.getMoreOneYearPercentual());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(57, beneficiary.getMoreOneYearValue());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(58, beneficiary.getMoreFiveYearPercentual());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(59, beneficiary.getMoreFiveYearValue());            
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(60, beneficiary.getIncomeTaxRate());            
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(61, beneficiary.getIncomeTaxValue());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(62, beneficiary.getPayrollLoanValue());
-            preparedStatement.setNull(column++, Types.DOUBLE); // payroll_loans_gross_value
-            preparedStatement.setNull(column++, Types.DOUBLE); // payroll_loans_net_value
-            preparedStatement.setBoolean(column++, true);
-            
-            if( beneficiary.getRegisterDate() != null ) {
-                preparedStatement.setTimestamp(column++, new Timestamp( beneficiary.getRegisterDate().getTime() ) );
-            }
-            
-            else {
-                preparedStatement.setNull(column++, Types.TIMESTAMP);
-            }
-            
-            preparedStatement.setTimestamp(column++, new Timestamp( beneficiary.getUpdateDate().getTime() ));            
-            preparedStatement.setInt(column++, beneficiary.getId());            
+            preparedStatement.setInt(columnReference++, beneficiary.getId());            
             preparedStatement.executeUpdate();            
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -383,126 +135,12 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         
         try {                
             Statement stmt = DAOFactoryImpl.getConnection().createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            ResultSet resultSet = stmt.executeQuery(query);
 
-            if( rs.next() ) {            
+            if( resultSet.next() ) {            
                 beneficiary = new Beneficiary();
-                beneficiary.setId(rs.getInt(column++));
-                beneficiary.setRegistration(rs.getInt(column++));
-                beneficiary.setOrdinance(rs.getString(column++));
-                beneficiary.setCpf(rs.getString(column++));
-                beneficiary.setName(rs.getString(column++));  
                 
-                if( rs.getString(column) == null ) {
-                    beneficiary.setSex(Beneficiary.Sex.NULL);
-                }
-                
-                else if( rs.getString(column).compareTo("m") == 0 ) {
-                    beneficiary.setSex(Beneficiary.Sex.MALE);
-                }
-                
-                else {
-                    beneficiary.setSex(Beneficiary.Sex.FEMALE);
-                }
-                
-                column++;
-                
-                beneficiary.setBirthDate(rs.getDate(column++));
-                beneficiary.setIdCadastralStatus(rs.getInt(column++));                
-                column++; // update number                
-                beneficiary.setIdUserRegistration(rs.getInt(column++)); // user registration
-                beneficiary.setIdUserCreate(rs.getInt(column++)); // user create
-                beneficiary.setIdUserUpdate(rs.getInt(column++)); // user update
-                beneficiary.setNationality(rs.getString(column++));
-                beneficiary.setIdCityPlaceOfBirth( rs.getInt(column++) );
-                beneficiary.setIdProvincePlaceOfBirth( getProvinceId( beneficiary.getIdCityPlaceOfBirth() ) );
-                beneficiary.setDeathDate(rs.getDate(column++));
-                
-                if( rs.wasNull() ) {
-                    beneficiary.setDeceased(false);
-                }
-                
-                else {
-                    beneficiary.setDeceased(true);
-                }
-                
-                beneficiary.setAddress(rs.getString(column++));
-                beneficiary.setIdCityAddress(rs.getInt(column++));
-                beneficiary.setIdProvinceAddress(getProvinceId(beneficiary.getIdCityAddress()));
-                beneficiary.setZipCode(rs.getString(column++));
-                beneficiary.setPhone1(rs.getString(column++));
-                beneficiary.setPhone2(rs.getString(column++));
-                beneficiary.setEmail(rs.getString(column++));
-                beneficiary.setIdDegreeOfEducation(rs.getInt(column++));
-                beneficiary.setIdMaritalStatus(rs.getInt(column++));
-                beneficiary.setIdDeficiency(rs.getInt(column++));
-                beneficiary.setInvalidityReason(rs.getString(column++));
-                beneficiary.setInvalidityAwardDate(rs.getDate(column++));
-                beneficiary.setMotherCpf(rs.getString(column++));
-                beneficiary.setMotherName(rs.getString(column++));
-                beneficiary.setFatherCpf(rs.getString(column++));
-                beneficiary.setFatherName(rs.getString(column++));   
-                beneficiary.setPisPasep(rs.getString(column++));
-                beneficiary.setVotersTitle(rs.getString(column++));                                
-                beneficiary.setElectoralZone(rs.getInt(column++));
-                beneficiary.setElectoralSection(rs.getInt(column++));
-                beneficiary.setIdProvinceElectoralZone(rs.getInt(column++));
-                beneficiary.setRg(rs.getString(column++));
-                beneficiary.setRgEmissionDate(rs.getDate(column++));
-                beneficiary.setIdRgIssuingBody(rs.getInt(column++));
-                beneficiary.setIdProvinceRg(rs.getInt(column++));
-                beneficiary.setAdmissionDate(rs.getDate(column++));
-                beneficiary.setApplicationDate(rs.getDate(column++));
-                beneficiary.setInactivationDate(rs.getDate(column++));
-                beneficiary.setIdBenefitType(rs.getInt(column++));
-                beneficiary.setIdCalculationForm(rs.getInt(column++));
-                beneficiary.setIdStockingOrgan(rs.getInt(column++));
-                beneficiary.setOffice(rs.getString(column++));
-                column++; // previous time
-                beneficiary.setInstituteEnrollment(rs.getInt(column++));
-                beneficiary.setPhysicalDocumentDrawer(rs.getInt(column++));
-                beneficiary.setIndexPhysicalDocument( rs.getInt(column++));
-                beneficiary.setObservations(rs.getString(column++));
-                beneficiary.setBankAgency(rs.getString(column++));
-                beneficiary.setAccount(rs.getString(column++));
-                column++; // earnings
-                column++; // old_promotion
-                column++; // chalk powder percentual
-                column++; // chalk powder value
-                column++; // more one year percentual
-                column++; // more one year value
-                column++; // more five year percentual
-                column++; // more five year value                
-                column++; // income tax rate
-                column++; // income tax value                  
-                column++; // payroll loans value                                
-                column++; // payroll loans gross value
-                column++; // payroll loans net value
-                column++; // active
-                beneficiary.setRegisterDate(rs.getTimestamp(column++));
-                beneficiary.setCreateDate(rs.getTimestamp(column++));
-                beneficiary.setUpdateDate(rs.getTimestamp(column++));                
-                
-                //beneficiary.setDependents( loadDependents( beneficiary.getId() ) );
-                
-                if( ( beneficiary.getAdmissionDate() != null ) && ( beneficiary.getInactivationDate() != null ) ) {
-                    beneficiary.setContributionTime( Period.between( new java.util.Date(beneficiary.getAdmissionDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                            new java.util.Date(beneficiary.getInactivationDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));        
-                }
-
-                try {
-                    if( beneficiary.getInactivationDate() != null ) {
-                        beneficiary.setContributionTimeFUNPREF( Period.between(formatDate.parse("01/01/1994").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                                new java.util.Date(beneficiary.getInactivationDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()) );
-                    }
-                } catch (ParseException ex) {
-                    Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                if( beneficiary.getInactivationDate() != null ) {
-                    beneficiary.setInactivityTime( Period.between(new java.util.Date(beneficiary.getInactivationDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                            (new Date()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()) );                   
-                }
+                populateBeneficiaryFromResultSet( beneficiary, resultSet );
             }
 
             } catch (SQLException ex) {
@@ -515,132 +153,17 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
     @Override
     public List<Beneficiary> findAll() {
         
-        ArrayList<Beneficiary> result = new ArrayList<>();
-        int column;
+        ArrayList<Beneficiary> result = new ArrayList<>();        
         
         try {
             Statement statement = DAOFactoryImpl.getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM funpref.beneficiary order by dishID desc");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM funpref.beneficiary order by name");
 
             while (resultSet.next()) {
-                column = 1;
+                
                 Beneficiary beneficiary = new Beneficiary();
-                beneficiary.setId(resultSet.getInt(column++));
-                beneficiary.setRegistration(resultSet.getInt(column++));
-                beneficiary.setOrdinance(resultSet.getString(column++));
-                beneficiary.setCpf(resultSet.getString(column++));
-                beneficiary.setName(resultSet.getString(column++));  
                 
-                if( resultSet.getString(column) == null ) {
-                    beneficiary.setSex(Beneficiary.Sex.NULL);
-                }
-                
-                else if( resultSet.getString(column).compareTo("m") == 0 ) {
-                    beneficiary.setSex(Beneficiary.Sex.MALE);
-                }
-                
-                else {
-                    beneficiary.setSex(Beneficiary.Sex.FEMALE);
-                }
-                
-                column++;
-                
-                beneficiary.setBirthDate(resultSet.getDate(column++));
-                beneficiary.setIdCadastralStatus(resultSet.getInt(column++));                
-                column++; // update number                
-                beneficiary.setIdUserRegistration(resultSet.getInt(column++)); // user registration
-                beneficiary.setIdUserCreate(resultSet.getInt(column++)); // user create
-                beneficiary.setIdUserUpdate(resultSet.getInt(column++)); // user update
-                beneficiary.setNationality(resultSet.getString(column++));
-                beneficiary.setIdCityPlaceOfBirth( resultSet.getInt(column++) );
-                beneficiary.setIdProvincePlaceOfBirth( getProvinceId( beneficiary.getIdCityPlaceOfBirth() ) );
-                beneficiary.setDeathDate(resultSet.getDate(column++));
-                
-                if( resultSet.wasNull() ) {
-                    beneficiary.setDeceased(false);
-                }
-                
-                else {
-                    beneficiary.setDeceased(true);
-                }
-                
-                beneficiary.setAddress(resultSet.getString(column++));
-                beneficiary.setIdCityAddress(resultSet.getInt(column++));
-                beneficiary.setIdProvinceAddress(getProvinceId(beneficiary.getIdCityAddress()));
-                beneficiary.setZipCode(resultSet.getString(column++));
-                beneficiary.setPhone1(resultSet.getString(column++));
-                beneficiary.setPhone2(resultSet.getString(column++));
-                beneficiary.setEmail(resultSet.getString(column++));
-                beneficiary.setIdDegreeOfEducation(resultSet.getInt(column++));
-                beneficiary.setIdMaritalStatus(resultSet.getInt(column++));
-                beneficiary.setIdDeficiency(resultSet.getInt(column++));
-                beneficiary.setInvalidityReason(resultSet.getString(column++));
-                beneficiary.setInvalidityAwardDate(resultSet.getDate(column++));
-                beneficiary.setMotherCpf(resultSet.getString(column++));
-                beneficiary.setMotherName(resultSet.getString(column++));
-                beneficiary.setFatherCpf(resultSet.getString(column++));
-                beneficiary.setFatherName(resultSet.getString(column++));   
-                beneficiary.setPisPasep(resultSet.getString(column++));
-                beneficiary.setVotersTitle(resultSet.getString(column++));                                
-                beneficiary.setElectoralZone(resultSet.getInt(column++));
-                beneficiary.setElectoralSection(resultSet.getInt(column++));
-                beneficiary.setIdProvinceElectoralZone(resultSet.getInt(column++));
-                beneficiary.setRg(resultSet.getString(column++));
-                beneficiary.setRgEmissionDate(resultSet.getDate(column++));
-                beneficiary.setIdRgIssuingBody(resultSet.getInt(column++));
-                beneficiary.setIdProvinceRg(resultSet.getInt(column++));
-                beneficiary.setAdmissionDate(resultSet.getDate(column++));
-                beneficiary.setApplicationDate(resultSet.getDate(column++));
-                beneficiary.setInactivationDate(resultSet.getDate(column++));
-                beneficiary.setIdBenefitType(resultSet.getInt(column++));
-                beneficiary.setIdCalculationForm(resultSet.getInt(column++));
-                beneficiary.setIdStockingOrgan(resultSet.getInt(column++));
-                beneficiary.setOffice(resultSet.getString(column++));
-                column++; // previous time
-                beneficiary.setInstituteEnrollment(resultSet.getInt(column++));
-                beneficiary.setPhysicalDocumentDrawer(resultSet.getInt(column++));
-                beneficiary.setIndexPhysicalDocument( resultSet.getInt(column++));
-                beneficiary.setObservations(resultSet.getString(column++));
-                beneficiary.setBankAgency(resultSet.getString(column++));
-                beneficiary.setAccount(resultSet.getString(column++));
-                column++; // earnings
-                column++; // old_promotion
-                column++; // chalk powder percentual
-                column++; // chalk powder value
-                column++; // more one year percentual
-                column++; // more one year value
-                column++; // more five year percentual
-                column++; // more five year value                
-                column++; // income tax rate
-                column++; // income tax value                  
-                column++; // payroll loans value                                
-                column++; // payroll loans gross value
-                column++; // payroll loans net value
-                column++; // active
-                beneficiary.setRegisterDate(resultSet.getTimestamp(column++));
-                beneficiary.setCreateDate(resultSet.getTimestamp(column++));
-                beneficiary.setUpdateDate(resultSet.getTimestamp(column++));                
-                
-                //beneficiary.setDependents( loadDependents( beneficiary.getId() ) );
-                
-                if( ( beneficiary.getAdmissionDate() != null ) && ( beneficiary.getInactivationDate() != null ) ) {
-                    beneficiary.setContributionTime( Period.between( new java.util.Date(beneficiary.getAdmissionDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                            new java.util.Date(beneficiary.getInactivationDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));        
-                }
-
-                try {
-                    if( beneficiary.getInactivationDate() != null ) {
-                        beneficiary.setContributionTimeFUNPREF( Period.between(formatDate.parse("01/01/1994").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                                new java.util.Date(beneficiary.getInactivationDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()) );
-                    }
-                } catch (ParseException ex) {
-                    Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                if( beneficiary.getInactivationDate() != null ) {
-                    beneficiary.setInactivityTime( Period.between(new java.util.Date(beneficiary.getInactivationDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                            (new Date()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()) );                   
-                }
+                populateBeneficiaryFromResultSet(beneficiary, resultSet);
 
                 result.add(beneficiary);
             }
@@ -658,15 +181,14 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         }
         
         ArrayList<Beneficiary> result = new ArrayList<>();
-        PreparedStatement preparedStatement;
-        int column;
+        PreparedStatement preparedStatement;        
         
         try {
             preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(
                     "select * from funpref.beneficiary "
-                    + "where (id_beneficiary = ? or ? = -2147483648)"
-                    + "and (where name like '%?%' or ? is null)"
-                    + "order by id_beneficiary");
+                    + " where (id_beneficiary = ? or ? = -2147483648)"
+                    + " and ( name like ? or name is null)"
+                    + " order by id_beneficiary");
             if (filterBeneficiary.getId() == -1) {
                 preparedStatement.setInt(1, Integer.MIN_VALUE);
                 preparedStatement.setInt(2, Integer.MIN_VALUE);
@@ -674,134 +196,26 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
                 preparedStatement.setInt(1, filterBeneficiary.getId());
                 preparedStatement.setInt(2, filterBeneficiary.getId());
             }
-            preparedStatement.setString(3, filterBeneficiary.getName());
-            preparedStatement.setString(4, filterBeneficiary.getName());
+            
+            if (filterBeneficiary.getName() != null) {
+                preparedStatement.setString(3, "%" + filterBeneficiary.getName() + "%");                
+            }
+            
+            else {
+                preparedStatement.setString(3, "%Iac8Ji%Gdl!w%");                
+            }
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
-                column = 1;
+            while (resultSet.next()) {                
                 Beneficiary beneficiary = new Beneficiary();
-                beneficiary.setId(resultSet.getInt(column++));
-                beneficiary.setRegistration(resultSet.getInt(column++));
-                beneficiary.setOrdinance(resultSet.getString(column++));
-                beneficiary.setCpf(resultSet.getString(column++));
-                beneficiary.setName(resultSet.getString(column++));  
                 
-                if( resultSet.getString(column) == null ) {
-                    beneficiary.setSex(Beneficiary.Sex.NULL);
-                }
-                
-                else if( resultSet.getString(column).compareTo("m") == 0 ) {
-                    beneficiary.setSex(Beneficiary.Sex.MALE);
-                }
-                
-                else {
-                    beneficiary.setSex(Beneficiary.Sex.FEMALE);
-                }
-                
-                column++;
-                
-                beneficiary.setBirthDate(resultSet.getDate(column++));
-                beneficiary.setIdCadastralStatus(resultSet.getInt(column++));                
-                column++; // update number                
-                beneficiary.setIdUserRegistration(resultSet.getInt(column++)); // user registration
-                beneficiary.setIdUserCreate(resultSet.getInt(column++)); // user create
-                beneficiary.setIdUserUpdate(resultSet.getInt(column++)); // user update
-                beneficiary.setNationality(resultSet.getString(column++));
-                beneficiary.setIdCityPlaceOfBirth( resultSet.getInt(column++) );
-                beneficiary.setIdProvincePlaceOfBirth( getProvinceId( beneficiary.getIdCityPlaceOfBirth() ) );
-                beneficiary.setDeathDate(resultSet.getDate(column++));
-                
-                if( resultSet.wasNull() ) {
-                    beneficiary.setDeceased(false);
-                }
-                
-                else {
-                    beneficiary.setDeceased(true);
-                }
-                
-                beneficiary.setAddress(resultSet.getString(column++));
-                beneficiary.setIdCityAddress(resultSet.getInt(column++));
-                beneficiary.setIdProvinceAddress(getProvinceId(beneficiary.getIdCityAddress()));
-                beneficiary.setZipCode(resultSet.getString(column++));
-                beneficiary.setPhone1(resultSet.getString(column++));
-                beneficiary.setPhone2(resultSet.getString(column++));
-                beneficiary.setEmail(resultSet.getString(column++));
-                beneficiary.setIdDegreeOfEducation(resultSet.getInt(column++));
-                beneficiary.setIdMaritalStatus(resultSet.getInt(column++));
-                beneficiary.setIdDeficiency(resultSet.getInt(column++));
-                beneficiary.setInvalidityReason(resultSet.getString(column++));
-                beneficiary.setInvalidityAwardDate(resultSet.getDate(column++));
-                beneficiary.setMotherCpf(resultSet.getString(column++));
-                beneficiary.setMotherName(resultSet.getString(column++));
-                beneficiary.setFatherCpf(resultSet.getString(column++));
-                beneficiary.setFatherName(resultSet.getString(column++));   
-                beneficiary.setPisPasep(resultSet.getString(column++));
-                beneficiary.setVotersTitle(resultSet.getString(column++));                                
-                beneficiary.setElectoralZone(resultSet.getInt(column++));
-                beneficiary.setElectoralSection(resultSet.getInt(column++));
-                beneficiary.setIdProvinceElectoralZone(resultSet.getInt(column++));
-                beneficiary.setRg(resultSet.getString(column++));
-                beneficiary.setRgEmissionDate(resultSet.getDate(column++));
-                beneficiary.setIdRgIssuingBody(resultSet.getInt(column++));
-                beneficiary.setIdProvinceRg(resultSet.getInt(column++));
-                beneficiary.setAdmissionDate(resultSet.getDate(column++));
-                beneficiary.setApplicationDate(resultSet.getDate(column++));
-                beneficiary.setInactivationDate(resultSet.getDate(column++));
-                beneficiary.setIdBenefitType(resultSet.getInt(column++));
-                beneficiary.setIdCalculationForm(resultSet.getInt(column++));
-                beneficiary.setIdStockingOrgan(resultSet.getInt(column++));
-                beneficiary.setOffice(resultSet.getString(column++));
-                column++; // previous time
-                beneficiary.setInstituteEnrollment(resultSet.getInt(column++));
-                beneficiary.setPhysicalDocumentDrawer(resultSet.getInt(column++));
-                beneficiary.setIndexPhysicalDocument( resultSet.getInt(column++));
-                beneficiary.setObservations(resultSet.getString(column++));
-                beneficiary.setBankAgency(resultSet.getString(column++));
-                beneficiary.setAccount(resultSet.getString(column++));
-                column++; // earnings
-                column++; // old_promotion
-                column++; // chalk powder percentual
-                column++; // chalk powder value
-                column++; // more one year percentual
-                column++; // more one year value
-                column++; // more five year percentual
-                column++; // more five year value                
-                column++; // income tax rate
-                column++; // income tax value                  
-                column++; // payroll loans value                                
-                column++; // payroll loans gross value
-                column++; // payroll loans net value
-                column++; // active
-                beneficiary.setRegisterDate(resultSet.getTimestamp(column++));
-                beneficiary.setCreateDate(resultSet.getTimestamp(column++));
-                beneficiary.setUpdateDate(resultSet.getTimestamp(column++));                
-                
-                //beneficiary.setDependents( loadDependents( beneficiary.getId() ) );
-                
-                if( ( beneficiary.getAdmissionDate() != null ) && ( beneficiary.getInactivationDate() != null ) ) {
-                    beneficiary.setContributionTime( Period.between( new java.util.Date(beneficiary.getAdmissionDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                            new java.util.Date(beneficiary.getInactivationDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));        
-                }
-
-                try {
-                    if( beneficiary.getInactivationDate() != null ) {
-                        beneficiary.setContributionTimeFUNPREF( Period.between(formatDate.parse("01/01/1994").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                                new java.util.Date(beneficiary.getInactivationDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()) );
-                    }
-                } catch (ParseException ex) {
-                    Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                if( beneficiary.getInactivationDate() != null ) {
-                    beneficiary.setInactivityTime( Period.between(new java.util.Date(beneficiary.getInactivationDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                            (new Date()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()) );                   
-                }
+                populateBeneficiaryFromResultSet(beneficiary, resultSet);
 
                 result.add(beneficiary);
             }
         } catch (SQLException ex) {
+            ex.printStackTrace();
             result = null;
         }
         return result;
@@ -825,5 +239,281 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         
         return provinceId;        
     }    
-    
+
+    private void populatePreparedStatementFromResultSet(PreparedStatement preparedStatement, Beneficiary beneficiary, Integer columnReference, boolean populateCreateDate) {
+        
+        int column = 1;
+        
+        try {
+            preparedStatement.setInt(column++, beneficiary.getRegistration());
+            preparedStatement.setString(column++, beneficiary.getOrdinance());
+            preparedStatement.setString(column++, beneficiary.getCpf());            
+            preparedStatement.setString(column++, beneficiary.getName());
+
+            if( null == beneficiary.getSex() ) {
+                preparedStatement.setString(column, null);
+            }
+
+            else switch (beneficiary.getSex()) {
+                case MALE:
+                    preparedStatement.setString(column, "m");
+                    break;                
+                case FEMALE:
+                    preparedStatement.setString(column, "f");
+                    break;
+                default:
+                    preparedStatement.setString(column, null);
+                    break;
+            }
+            
+            column++;
+
+            preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getBirthDate().getTime() ) );
+            preparedStatement.setInt(column++, beneficiary.getIdCadastralStatus()); 
+            preparedStatement.setNull(column++, Types.INTEGER); // update number            
+            preparedStatement.setInt(column++, beneficiary.getIdUserRegistration()); // user registration
+            preparedStatement.setInt(column++, beneficiary.getIdUserCreate()); // user create
+            preparedStatement.setInt(column++, beneficiary.getIdUserUpdate()); // user update
+
+            preparedStatement.setString(column++, beneficiary.getNationality());
+            preparedStatement.setInt(column++, beneficiary.getIdCityPlaceOfBirth()); 
+
+            if( beneficiary.getDeathDate() != null ) {
+                preparedStatement.setDate(column, new java.sql.Date( beneficiary.getDeathDate().getTime() ) );
+            }
+
+            else {
+                preparedStatement.setNull(column, Types.DATE);
+            }
+
+            column++;
+
+            preparedStatement.setString(column++, beneficiary.getAddress());
+            preparedStatement.setInt(column++, beneficiary.getIdCityAddress());
+            preparedStatement.setString(column++, beneficiary.getZipCode());
+            preparedStatement.setString(column++, beneficiary.getPhone1());
+            preparedStatement.setString(column++, beneficiary.getPhone2());
+            preparedStatement.setString(column++, beneficiary.getEmail());
+            preparedStatement.setInt(column++, beneficiary.getIdDegreeOfEducation() );
+            preparedStatement.setInt(column++, beneficiary.getIdMaritalStatus());
+            preparedStatement.setInt(column++, beneficiary.getIdDeficiency());
+            preparedStatement.setString(column++, beneficiary.getInvalidityReason());
+
+            if( beneficiary.getInvalidityAwardDate() != null ) {
+                preparedStatement.setDate(column, new java.sql.Date( beneficiary.getInvalidityAwardDate().getTime() ) );
+            }
+
+            else {
+                preparedStatement.setNull(column, Types.DATE);
+            }
+
+            column++;
+
+            preparedStatement.setString(column++, beneficiary.getMotherCpf());
+            preparedStatement.setString(column++, beneficiary.getMotherName());
+            preparedStatement.setString(column++, beneficiary.getFatherCpf());
+            preparedStatement.setString(column++, beneficiary.getFatherName());
+            preparedStatement.setString(column++, beneficiary.getPisPasep());
+            preparedStatement.setString(column++, beneficiary.getVotersTitle());
+            preparedStatement.setInt(column++, beneficiary.getElectoralZone());
+            preparedStatement.setInt(column++, beneficiary.getElectoralSection());
+            preparedStatement.setInt(column++, beneficiary.getIdProvinceElectoralZone());
+            preparedStatement.setString(column++, beneficiary.getRg());
+            preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getRgEmissionDate().getTime() )  );
+            preparedStatement.setInt(column++, beneficiary.getIdRgIssuingBody());
+            preparedStatement.setInt(column++, beneficiary.getIdProvinceRg());
+            preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getAdmissionDate().getTime() ) );
+
+            if( beneficiary.getApplicationDate() != null ) {
+                preparedStatement.setDate(column, new java.sql.Date( beneficiary.getApplicationDate().getTime() ) );
+            }
+
+            else {
+                preparedStatement.setNull(column, Types.DATE);
+            }
+
+            column++;
+
+            preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getInactivationDate().getTime() ) );
+            preparedStatement.setInt(column++, beneficiary.getIdBenefitType());
+            preparedStatement.setInt(column++, beneficiary.getIdCalculationForm());
+            preparedStatement.setInt(column++, beneficiary.getIdStockingOrgan());
+            preparedStatement.setString(column++, beneficiary.getOffice() );
+            preparedStatement.setNull(column++, Types.INTEGER); // previous time
+
+            if( beneficiary.getInstituteEnrollment() >= 0 ) {
+                preparedStatement.setInt(column, beneficiary.getInstituteEnrollment());                
+            }
+
+            else {
+                preparedStatement.setNull(column, Types.INTEGER);                
+            }
+
+            column++;
+
+            preparedStatement.setInt(column++, beneficiary.getPhysicalDocumentDrawer());
+            preparedStatement.setInt(column++, beneficiary.getIndexPhysicalDocument());
+            preparedStatement.setString(column++, beneficiary.getObservations());
+            preparedStatement.setString(column++, beneficiary.getBankAgency());
+            preparedStatement.setString(column++, beneficiary.getAccount());            
+            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(52, beneficiary.getEarningsInative());
+            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(53, beneficiary.getOldPromotionValue());
+            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(54, beneficiary.getChalkPowderPercentual());
+            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(55, beneficiary.getChalkPowderValue());
+            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(56, beneficiary.getMoreOneYearPercentual());
+            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(57, beneficiary.getMoreOneYearValue());
+            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(58, beneficiary.getMoreFiveYearPercentual());
+            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(59, beneficiary.getMoreFiveYearValue());            
+            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(60, beneficiary.getIncomeTaxRate());            
+            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(61, beneficiary.getIncomeTaxValue());
+            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(62, beneficiary.getPayrollLoanValue());
+            preparedStatement.setNull(column++, Types.DOUBLE); // payroll_loans_gross_value
+            preparedStatement.setNull(column++, Types.DOUBLE); // payroll_loans_net_value
+            preparedStatement.setBoolean(column++, true);                      
+
+            if( beneficiary.getRegisterDate() != null ) {
+                preparedStatement.setTimestamp(column++, new Timestamp( beneficiary.getRegisterDate().getTime() ) );
+            }
+
+            else {
+                preparedStatement.setNull(column++, Types.TIMESTAMP);
+            }
+
+            if (populateCreateDate) {
+                preparedStatement.setTimestamp(column++, new Timestamp(beneficiary.getCreateDate().getTime() ));
+            }
+            
+            preparedStatement.setTimestamp(column++, new Timestamp( beneficiary.getUpdateDate().getTime() ));                        
+            columnReference = column;
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+    }
+
+    private void populateBeneficiaryFromResultSet(Beneficiary beneficiary, ResultSet resultSet) {
+        
+        int column = 1;
+        
+        try {
+            beneficiary.setId(resultSet.getInt(column++));
+            beneficiary.setRegistration(resultSet.getInt(column++));
+            beneficiary.setOrdinance(resultSet.getString(column++));
+            beneficiary.setCpf(resultSet.getString(column++));
+            beneficiary.setName(resultSet.getString(column++));
+
+            if( resultSet.getString(column) == null ) {
+                beneficiary.setSex(Beneficiary.Sex.NULL);
+            }
+
+            else if( resultSet.getString(column).compareTo("m") == 0 ) {
+                beneficiary.setSex(Beneficiary.Sex.MALE);
+            }
+
+            else {
+                beneficiary.setSex(Beneficiary.Sex.FEMALE);
+            }
+
+            column++;
+
+            beneficiary.setBirthDate(resultSet.getDate(column++));
+            beneficiary.setIdCadastralStatus(resultSet.getInt(column++));
+            column++; // update number
+            beneficiary.setIdUserRegistration(resultSet.getInt(column++)); // user registration
+            beneficiary.setIdUserCreate(resultSet.getInt(column++)); // user create
+            beneficiary.setIdUserUpdate(resultSet.getInt(column++)); // user update
+            beneficiary.setNationality(resultSet.getString(column++));
+            beneficiary.setIdCityPlaceOfBirth( resultSet.getInt(column++) );
+            beneficiary.setIdProvincePlaceOfBirth( getProvinceId( beneficiary.getIdCityPlaceOfBirth() ) );
+            beneficiary.setDeathDate(resultSet.getDate(column++));
+
+            if( resultSet.wasNull() ) {
+                beneficiary.setDeceased(false);
+            }
+
+            else {
+                beneficiary.setDeceased(true);
+            }
+
+            beneficiary.setAddress(resultSet.getString(column++));
+            beneficiary.setIdCityAddress(resultSet.getInt(column++));
+            beneficiary.setIdProvinceAddress(getProvinceId(beneficiary.getIdCityAddress()));
+            beneficiary.setZipCode(resultSet.getString(column++));
+            beneficiary.setPhone1(resultSet.getString(column++));
+            beneficiary.setPhone2(resultSet.getString(column++));
+            beneficiary.setEmail(resultSet.getString(column++));
+            beneficiary.setIdDegreeOfEducation(resultSet.getInt(column++));
+            beneficiary.setIdMaritalStatus(resultSet.getInt(column++));
+            beneficiary.setIdDeficiency(resultSet.getInt(column++));
+            beneficiary.setInvalidityReason(resultSet.getString(column++));
+            beneficiary.setInvalidityAwardDate(resultSet.getDate(column++));
+            beneficiary.setMotherCpf(resultSet.getString(column++));
+            beneficiary.setMotherName(resultSet.getString(column++));
+            beneficiary.setFatherCpf(resultSet.getString(column++));
+            beneficiary.setFatherName(resultSet.getString(column++));
+            beneficiary.setPisPasep(resultSet.getString(column++));
+            beneficiary.setVotersTitle(resultSet.getString(column++));
+            beneficiary.setElectoralZone(resultSet.getInt(column++));
+            beneficiary.setElectoralSection(resultSet.getInt(column++));
+            beneficiary.setIdProvinceElectoralZone(resultSet.getInt(column++));
+            beneficiary.setRg(resultSet.getString(column++));
+            beneficiary.setRgEmissionDate(resultSet.getDate(column++));
+            beneficiary.setIdRgIssuingBody(resultSet.getInt(column++));
+            beneficiary.setIdProvinceRg(resultSet.getInt(column++));
+            beneficiary.setAdmissionDate(resultSet.getDate(column++));
+            beneficiary.setApplicationDate(resultSet.getDate(column++));
+            beneficiary.setInactivationDate(resultSet.getDate(column++));
+            beneficiary.setIdBenefitType(resultSet.getInt(column++));
+            beneficiary.setIdCalculationForm(resultSet.getInt(column++));
+            beneficiary.setIdStockingOrgan(resultSet.getInt(column++));
+            beneficiary.setOffice(resultSet.getString(column++));
+            column++; // previous time
+            beneficiary.setInstituteEnrollment(resultSet.getInt(column++));
+            beneficiary.setPhysicalDocumentDrawer(resultSet.getInt(column++));
+            beneficiary.setIndexPhysicalDocument( resultSet.getInt(column++));
+            beneficiary.setObservations(resultSet.getString(column++));
+            beneficiary.setBankAgency(resultSet.getString(column++));
+            beneficiary.setAccount(resultSet.getString(column++));
+            column++; // earnings
+            column++; // old_promotion
+            column++; // chalk powder percentual
+            column++; // chalk powder value
+            column++; // more one year percentual
+            column++; // more one year value
+            column++; // more five year percentual
+            column++; // more five year value
+            column++; // income tax rate
+            column++; // income tax value
+            column++; // payroll loans value
+            column++; // payroll loans gross value
+            column++; // payroll loans net value
+            column++; // active
+            beneficiary.setRegisterDate(resultSet.getTimestamp(column++));
+            beneficiary.setCreateDate(resultSet.getTimestamp(column++));
+            beneficiary.setUpdateDate(resultSet.getTimestamp(column++));
+
+            //beneficiary.setDependents( loadDependents( beneficiary.getId() ) );
+
+            if( ( beneficiary.getAdmissionDate() != null ) && ( beneficiary.getInactivationDate() != null ) ) {
+                beneficiary.setContributionTime( Period.between( new java.util.Date(beneficiary.getAdmissionDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                        new java.util.Date(beneficiary.getInactivationDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
+            }
+
+            try {
+                if( beneficiary.getInactivationDate() != null ) {
+                    beneficiary.setContributionTimeFUNPREF( Period.between(formatDate.parse("01/01/1994").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                            new java.util.Date(beneficiary.getInactivationDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()) );
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            if( beneficiary.getInactivationDate() != null ) {
+                beneficiary.setInactivityTime( Period.between(new java.util.Date(beneficiary.getInactivationDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                        (new Date()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()) );
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }    
 }

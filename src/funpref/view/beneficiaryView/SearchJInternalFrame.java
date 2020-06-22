@@ -5,16 +5,32 @@
  */
 package funpref.view.beneficiaryView;
 
+import funpref.controller.BeneficiaryController;
+import funpref.model.Beneficiary;
+import java.util.ArrayList;
+import javax.swing.JTable;
+
 /**
  *
  * @author robson
  */
 public class SearchJInternalFrame extends javax.swing.JInternalFrame {
+    
+    private static SearchJInternalFrame searchJInternalFrame;
+    private static int currentUserID;
+    private BeneficiaryController beneficiaryController;
+    private ArrayList<Beneficiary> findedBeneficiaries;
+    private boolean updatingSourceBeneficiary;
 
     /**
      * Creates new form SearchJInternalFrame
      */
-    public SearchJInternalFrame() {
+    public SearchJInternalFrame(int currentUserID, BeneficiaryController beneficiaryController, boolean updatingSourceBeneficiary) {
+        
+        SearchJInternalFrame.currentUserID = currentUserID;
+        this.beneficiaryController = beneficiaryController;
+        this.updatingSourceBeneficiary = updatingSourceBeneficiary;
+        
         initComponents();
     }
 
@@ -35,6 +51,8 @@ public class SearchJInternalFrame extends javax.swing.JInternalFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
+        setTitle("Pesquisa de Beneficiário");
+
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -45,63 +63,63 @@ public class SearchJInternalFrame extends javax.swing.JInternalFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "id", "matrícula", "nome"
+                "matrícula", "nome"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -113,6 +131,12 @@ public class SearchJInternalFrame extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(10);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(300);
+        }
 
         jButton2.setText("Cancelar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -121,7 +145,7 @@ public class SearchJInternalFrame extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton3.setText("Selecionar");
+        jButton3.setText("Carregar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -156,7 +180,7 @@ public class SearchJInternalFrame extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
                     .addComponent(jTextField1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -182,7 +206,8 @@ public class SearchJInternalFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-//        fillSearchJTable( funprefController.findText( jTextField1.getText(), updatingSourceBeneficiary ) );
+        findedBeneficiaries = beneficiaryController.getByExample( -1, jTextField1.getText() );
+        fillSearchJTable( findedBeneficiaries );
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -191,46 +216,50 @@ public class SearchJInternalFrame extends javax.swing.JInternalFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
-//        //        if( jTable1.getSelectedRow() >= 0 ) {
-//            //            if( !jTable1.getValueAt( jTable1.getSelectedRow(), 0 ).toString().isEmpty() ) {
-//                //                CRUDTicketJFrame newTicketJFrame = new CRUDTicketJFrame(this);
-//                //                newTicketJFrame.setTicketNumber( Integer.parseInt( jTable1.getValueAt( jTable1.getSelectedRow(), 0 ).toString() ) );
-//                //                newTicketJFrame.setUsersHashMap(usersHashMap);
-//                //                newTicketJFrame.setPlacesHashMap(placesHashMap);
-//                //                newTicketJFrame.setMode( CRUDTicketJFrame.CRUD.READ );
-//                //                newTicketJFrame.setTitle("Visualização");
-//                //                newTicketJFrame.setVisible(true);
-//                //                this.setEnabled(false);
-//
-//                if( (jTable1.getSelectedRow() >= 0 ) && (!(jTable1.getValueAt(jTable1.getSelectedRow(),0)).toString().isEmpty() ) ) {
-//                    if( !updatingSourceBeneficiary ) {
+        //        if( jTable1.getSelectedRow() >= 0 ) {
+            //            if( !jTable1.getValueAt( jTable1.getSelectedRow(), 0 ).toString().isEmpty() ) {
+                //                CRUDTicketJFrame newTicketJFrame = new CRUDTicketJFrame(this);
+                //                newTicketJFrame.setTicketNumber( Integer.parseInt( jTable1.getValueAt( jTable1.getSelectedRow(), 0 ).toString() ) );
+                //                newTicketJFrame.setUsersHashMap(usersHashMap);
+                //                newTicketJFrame.setPlacesHashMap(placesHashMap);
+                //                newTicketJFrame.setMode( CRUDTicketJFrame.CRUD.READ );
+                //                newTicketJFrame.setTitle("Visualização");
+                //                newTicketJFrame.setVisible(true);
+                //                this.setEnabled(false);
+
+                if( (jTable1.getSelectedRow() >= 0 ) && (!(jTable1.getValueAt(jTable1.getSelectedRow(),0)).toString().isEmpty() ) ) {
+                    if( !updatingSourceBeneficiary ) {
 //                        preFillBeneficiaryCRUDJInternalFrame();
 //                        clearBeneficiaryCRUDJInternalFrame();
+
+                        beneficiaryController.setCurrentBeneficiary( findedBeneficiaries.get( jTable1.getSelectedRow() ) );
+
+
 //                        funprefController.readAndFillBeneficiaryCRUDJInternalFrame((int)jTable1.getValueAt(jTable1.getSelectedRow(),0), beneficiaryCRUDMode );
-//                        jTabbedPane2.setSelectedIndex(0);
-//                        //clearSearchJInternalFrame();
-//                        beneficiaryCRUDJInternalFrame.setVisible(true);
-//                    }
-//
-//                    else {
+                        //jTabbedPane2.setSelectedIndex(0);
+                        //clearSearchJInternalFrame();
+                        //beneficiaryCRUDJInternalFrame.setVisible(true);
+                    }
+
+                    else {
 //                        int beneficiaryId = (int)jTable1.getValueAt(jTable1.getSelectedRow(),0);
 //                        int instituteEnrollment = funprefController.getBeneficiaryEnrollmentById( beneficiaryId );
 //                        jTextField48.setText( "" + instituteEnrollment );
 //                        jTextField49.setText( funprefController.getBeneficiaryNameByEnrollment( instituteEnrollment ) );
 //                        updatingSourceBeneficiary = false;
-//
-//                    }
-//
-//                    searchJInternalFrame.setVisible(false);
-//                }
-//
-//                //            }
-//            //            else {
-//                //                JOptionPane.showMessageDialog(rootPane, "Selecione um inativo", "Erro", JOptionPane.ERROR_MESSAGE);
-//                //            }
-//            //        } else {
-//            //            JOptionPane.showMessageDialog(rootPane, "Selecione um inativo", "Erro", JOptionPane.ERROR_MESSAGE);
-//            //        }
+
+                    }
+
+                    searchJInternalFrame.setVisible(false);
+                }
+
+                //            }
+            //            else {
+                //                JOptionPane.showMessageDialog(rootPane, "Selecione um inativo", "Erro", JOptionPane.ERROR_MESSAGE);
+                //            }
+            //        } else {
+            //            JOptionPane.showMessageDialog(rootPane, "Selecione um inativo", "Erro", JOptionPane.ERROR_MESSAGE);
+            //        }
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -244,4 +273,32 @@ public class SearchJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
+    public static SearchJInternalFrame getOrderFrame(int currentUserID, BeneficiaryController beneficiaryController, boolean updatingSourceBeneficiary ) {
+        if (searchJInternalFrame != null) {
+            searchJInternalFrame.dispose();
+        }
+        else {
+            searchJInternalFrame = new SearchJInternalFrame(currentUserID, beneficiaryController, updatingSourceBeneficiary );
+        }
+        return searchJInternalFrame;
+    }
+
+    private void fillSearchJTable(ArrayList<Beneficiary> beneficiaries) {
+        clearTable(jTable1);
+        
+        for( int i = 0; i < beneficiaries.size(); i++ ) {            
+            jTable1.setValueAt(beneficiaries.get(i).getRegistration(), i, 0);
+            jTable1.setValueAt(beneficiaries.get(i).getName(), i, 1);
+        }
+    }
+
+    private void clearTable(JTable table) {
+       for (int i = 0; i < table.getRowCount(); i++) {
+          for(int j = 0; j < table.getColumnCount(); j++) {
+              table.setValueAt("", i, j);
+          }
+       }
+    }
+    
 }

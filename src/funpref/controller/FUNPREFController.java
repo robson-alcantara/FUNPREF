@@ -14,6 +14,11 @@ import funpref.view.FUNPREFJFrame;
 public class FUNPREFController {
     
     private FUNPREFJFrame funprefJFrame;
+    private BeneficiaryController beneficiaryController;
+    
+    public FUNPREFController() {
+        beneficiaryController = new BeneficiaryController();
+    }
 
     public void run() {
 
@@ -41,7 +46,7 @@ public class FUNPREFController {
         }      
         
         if( validLogin() ) {
-            funprefJFrame = new FUNPREFJFrame();
+            funprefJFrame = new FUNPREFJFrame( beneficiaryController );
             funprefJFrame.setVisible(true);
         }
         

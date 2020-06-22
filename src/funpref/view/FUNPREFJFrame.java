@@ -31,27 +31,15 @@ package funpref.view;
 //import funpref.model.dao.ProvinceDAO;
 //import funpref.model.dao.StockingOrganDAO;
 //import funpref.model.dao.UserDAO;
-import java.awt.Desktop;
+import funpref.controller.BeneficiaryController;
+import funpref.view.beneficiaryView.SearchJInternalFrame;
 import java.awt.image.BufferedImage;
-import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Period;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import javax.imageio.ImageIO;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -72,15 +60,23 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     public BeneficiaryCRUD beneficiaryCRUDMode;
     
 //    private Beneficiary currentBeneficiary;
+    
+    private final int currentUserID;    
+    
+    private SearchJInternalFrame searchJInternalFrame;
+    private BeneficiaryController beneficiaryController;
 
     /**table
      * Creates new form FUNPREFJFrame
      */
-    public FUNPREFJFrame() {
+    public FUNPREFJFrame( BeneficiaryController beneficiaryController ) {
         formatDate = new SimpleDateFormat("dd/MM/yyyy");
+        this.beneficiaryController = beneficiaryController;
         initComponents();        
         initImageIcon();
         setLocationRelativeTo( null );        
+        
+        currentUserID = 0; //TODO: stub, add local variable in constructor
     }
     
     private void initImageIcon() {        
@@ -382,7 +378,21 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        fillSearchJInternalFrame();
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                searchJInternalFrame = SearchJInternalFrame.getOrderFrame(currentUserID, beneficiaryController, false);
+                jDesktopPane1.add(searchJInternalFrame);
+                searchJInternalFrame.setLocation(jDesktopPane1.getLocation().x + ( ( jDesktopPane1.getWidth() - searchJInternalFrame.getWidth() ) / 2 ),
+                        jDesktopPane1.getLocation().y + 10);
+                searchJInternalFrame.toFront();
+                searchJInternalFrame.setSelected(true);
+                searchJInternalFrame.setClosable(true);
+                searchJInternalFrame.setVisible(true);
+                searchJInternalFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            } catch (Exception ex) {
+                
+            }
+        });
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
