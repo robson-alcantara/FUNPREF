@@ -187,7 +187,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(
                     "select * from funpref.beneficiary "
                     + " where (id_beneficiary = ? or ? = -2147483648)"
-                    + " and ( name like ? or name is null)"
+                    + " and ( name like ? )"
                     + " order by id_beneficiary");
             if (filterBeneficiary.getId() == -1) {
                 preparedStatement.setInt(1, Integer.MIN_VALUE);
@@ -202,7 +202,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             }
             
             else {
-                preparedStatement.setString(3, "%Iac8Ji%Gdl!w%");                
+                preparedStatement.setString(3, "%%");                
             }
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -220,6 +220,59 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         }
         return result;
     }
+    
+    @Override
+    public List<Beneficiary> findByExamplePart(Beneficiary filterBeneficiary) {
+        
+        if (filterBeneficiary == null) {
+            throw new IllegalArgumentException();
+        }
+        
+        ArrayList<Beneficiary> result = new ArrayList<>();
+        PreparedStatement preparedStatement;        
+        int column = 1;
+        
+        try {
+            preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(
+                    "select * from funpref.beneficiary "
+                    + " where (id_beneficiary = ? or ? = -2147483648)"
+                    + " and ( name like ? )"
+                    + " order by id_beneficiary");
+            if (filterBeneficiary.getId() == -1) {
+                preparedStatement.setInt(1, Integer.MIN_VALUE);
+                preparedStatement.setInt(2, Integer.MIN_VALUE);
+            } else {
+                preparedStatement.setInt(1, filterBeneficiary.getId());
+                preparedStatement.setInt(2, filterBeneficiary.getId());
+            }
+            
+            if (filterBeneficiary.getName() != null) {
+                preparedStatement.setString(3, "%" + filterBeneficiary.getName() + "%");                
+            }
+            
+            else {
+                preparedStatement.setString(3, "%%");                
+            }
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {                
+                Beneficiary beneficiary = new Beneficiary();
+                
+                beneficiary.setId(resultSet.getInt(column++));
+                beneficiary.setRegistration(resultSet.getInt(column++));
+                column++;
+                column++;
+                beneficiary.setName(resultSet.getString(column++));
+
+                result.add(beneficiary);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            result = null;
+        }
+        return result;
+    }    
     
     private int getProvinceId(int idCity ) {
         int provinceId = -1;

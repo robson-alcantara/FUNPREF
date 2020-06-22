@@ -206,7 +206,7 @@ public class SearchJInternalFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        findedBeneficiaries = beneficiaryController.getByExample( -1, jTextField1.getText() );
+        findedBeneficiaries = beneficiaryController.findByExamplePart(-1, jTextField1.getText() );
         fillSearchJTable( findedBeneficiaries );
     }//GEN-LAST:event_jTextField1ActionPerformed
 
@@ -232,7 +232,8 @@ public class SearchJInternalFrame extends javax.swing.JInternalFrame {
 //                        preFillBeneficiaryCRUDJInternalFrame();
 //                        clearBeneficiaryCRUDJInternalFrame();
 
-                        beneficiaryController.setCurrentBeneficiary( findedBeneficiaries.get( jTable1.getSelectedRow() ) );
+                        beneficiaryController.setCurrentBeneficiary( beneficiaryController.findById(findedBeneficiaries.get( jTable1.getSelectedRow() ).getId() ) );
+                        beneficiaryController.fillAndShowBeneficiaryJInternalFrame();
 
 
 //                        funprefController.readAndFillBeneficiaryCRUDJInternalFrame((int)jTable1.getValueAt(jTable1.getSelectedRow(),0), beneficiaryCRUDMode );
@@ -250,7 +251,7 @@ public class SearchJInternalFrame extends javax.swing.JInternalFrame {
 
                     }
 
-                    searchJInternalFrame.setVisible(false);
+                    searchJInternalFrame.dispose();
                 }
 
                 //            }

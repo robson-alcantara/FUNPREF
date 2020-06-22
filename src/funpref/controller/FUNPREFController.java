@@ -47,6 +47,7 @@ public class FUNPREFController {
         
         if( validLogin() ) {
             funprefJFrame = new FUNPREFJFrame( beneficiaryController );
+            beneficiaryController.setFunprefJFrame(funprefJFrame);
             funprefJFrame.setVisible(true);
         }
         

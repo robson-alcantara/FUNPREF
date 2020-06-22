@@ -40,6 +40,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import javax.imageio.ImageIO;
+import javax.swing.JDesktopPane;
 
 /**
  *
@@ -77,6 +78,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         setLocationRelativeTo( null );        
         
         currentUserID = 0; //TODO: stub, add local variable in constructor
+        this.beneficiaryController.setCurrentUserID(currentUserID);
     }
     
     private void initImageIcon() {        
@@ -89,6 +91,10 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
             Logger.getLogger(FUNPREFJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }     
+    
+    public JDesktopPane getJDesktopPane() {
+        return jDesktopPane;
+    }    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -105,7 +111,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        jDesktopPane1 = new javax.swing.JDesktopPane();
+        jDesktopPane = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -351,14 +357,14 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jDesktopPane1)
+            .addComponent(jDesktopPane)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 672, Short.MAX_VALUE))
+                .addComponent(jDesktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 672, Short.MAX_VALUE))
         );
 
         pack();
@@ -381,9 +387,9 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> {
             try {
                 searchJInternalFrame = SearchJInternalFrame.getOrderFrame(currentUserID, beneficiaryController, false);
-                jDesktopPane1.add(searchJInternalFrame);
-                searchJInternalFrame.setLocation(jDesktopPane1.getLocation().x + ( ( jDesktopPane1.getWidth() - searchJInternalFrame.getWidth() ) / 2 ),
-                        jDesktopPane1.getLocation().y + 10);
+                jDesktopPane.add(searchJInternalFrame);
+                searchJInternalFrame.setLocation(jDesktopPane.getLocation().x + ( ( jDesktopPane.getWidth() - searchJInternalFrame.getWidth() ) / 2 ),
+                        jDesktopPane.getLocation().y + 10);
                 searchJInternalFrame.toFront();
                 searchJInternalFrame.setSelected(true);
                 searchJInternalFrame.setClosable(true);
@@ -594,7 +600,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton7;
-    private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JDesktopPane jDesktopPane;
     private javax.swing.JLabel jLabel67;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

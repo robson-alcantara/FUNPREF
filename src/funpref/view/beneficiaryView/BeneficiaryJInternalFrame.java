@@ -5,6 +5,9 @@
  */
 package funpref.view.beneficiaryView;
 
+import funpref.controller.BeneficiaryController;
+import funpref.model.Beneficiary;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 
 /**
@@ -12,12 +15,21 @@ import javax.swing.JOptionPane;
  * @author robson
  */
 public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
+    
+    BeneficiaryController beneficiaryController;
+    Beneficiary currentBeneficiary;
+    int currentUserID;
+    private final SimpleDateFormat formatDate;  
 
     /**
      * Creates new form BeneficiaryJInternalFrame
      */
-    public BeneficiaryJInternalFrame() {
+    public BeneficiaryJInternalFrame(Beneficiary currentBeneficiary, int currentUserID, BeneficiaryController beneficiaryController) {
         initComponents();
+        this.currentBeneficiary = currentBeneficiary;
+        this.currentUserID = currentUserID;
+        this.beneficiaryController = beneficiaryController;
+        formatDate = new SimpleDateFormat("dd/MM/yyyy");
     }
 
     /**
@@ -1540,4 +1552,216 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JButton readDependentJButton;
     private javax.swing.JButton updateDependentJButton;
     // End of variables declaration//GEN-END:variables
+
+    public void fillFields() {
+        //updateBeneficiaryCRUDJInternalFrameTitle(currentBeneficiary );
+        
+        if( currentBeneficiary.getOrdinance() != null ) {
+            jTextField2.setText("" + currentBeneficiary.getOrdinance());
+        }
+        
+        jTextField3.setText("" + currentBeneficiary.getName());
+        
+        //jComboBox3.setSelectedItem(decodeSex(currentBeneficiary.getSex() ) );
+        
+        jFormattedTextField3.setText(formatDate.format(currentBeneficiary.getBirthDate() ) );
+        
+        //jComboBox5.setSelectedItem(funprefController.decodeMaritalStatus(currentBeneficiary.getIdMaritalStatus()) );
+        jCheckBox1.setSelected(currentBeneficiary.isDeceased());
+        
+        if( currentBeneficiary.isDeceased() ) {
+            jFormattedTextField4.setText(formatDate.format(currentBeneficiary.getDeathDate() ) );
+            
+//            if( ( beneficiaryCRUDMode == BeneficiaryCRUD.EDIT ) || ( beneficiaryCRUDMode == BeneficiaryCRUD.NEW ) ) {
+//                jFormattedTextField4.setEditable(true);
+//            }
+        }
+        
+        
+        jTextField5.setText(currentBeneficiary.getRg() );
+        
+        if( currentBeneficiary.getRgEmissionDate() != null ) {
+            jFormattedTextField5.setText(formatDate.format(currentBeneficiary.getRgEmissionDate() ) );
+        }
+        
+//        jComboBox9.setSelectedItem(funprefController.decodeRgIssuingBody(currentBeneficiary.getIdRgIssuingBody() ) );        
+//        jComboBox10.setSelectedItem(funprefController.decodeProvince(currentBeneficiary.getIdProvinceRg() ) );
+        jTextField6.setText("" + currentBeneficiary.getCpf());
+        
+        jTextField7.setText(currentBeneficiary.getMotherName() );
+        jTextField8.setText(currentBeneficiary.getFatherName() );
+        
+//        jComboBox1.setSelectedItem(funprefController.decodeBenefitType(currentBeneficiary.getIdBenefitType() ) );
+// //        jComboBox2.setSelectedItem( decodeForm( beneficiary.getForm() ) );
+        
+        if( currentBeneficiary.getAdmissionDate() != null ) {
+            jFormattedTextField1.setText(formatDate.format(currentBeneficiary.getAdmissionDate() ) );
+        }
+        
+        if( currentBeneficiary.getInactivationDate() != null ) {
+            jFormattedTextField2.setText(formatDate.format(currentBeneficiary.getInactivationDate() ) );
+        }
+        
+        if( currentBeneficiary.getApplicationDate() != null ) {
+            jFormattedTextField6.setText(formatDate.format(currentBeneficiary.getApplicationDate() ) );
+        }
+        
+//        if( currentBeneficiary.getContributionTime() != null ) {
+//            jTextField9.setText(decodePeriod(currentBeneficiary.getContributionTime() ) );
+//        }
+//        
+//        if( ( currentBeneficiary.getContributionTimeFUNPREF() != null ) && ( !currentBeneficiary.getContributionTimeFUNPREF().isNegative() ) ) {
+//            jTextField10.setText(decodePeriod(currentBeneficiary.getContributionTimeFUNPREF() ) );
+//        }
+//        
+//        if( currentBeneficiary.getInactivityTime() != null ) {
+//            jTextField11.setText(decodePeriod(currentBeneficiary.getInactivityTime() ) );          
+//        }
+        
+        jTextField47.setText("" + currentBeneficiary.getInstituteEnrollment() );
+        jTextField12.setText("" + currentBeneficiary.getRegistration() );
+        jTextField4.setText(currentBeneficiary.getOffice() );
+        
+//        jComboBox4.setSelectedItem(funprefController.decodeStockingOrgan(currentBeneficiary.getIdStockingOrgan() ) );        
+//        
+//        if((((BenefitTypeDAO)jComboBox1.getSelectedItem()).toString()).compareTo("invalidez") == 0 ) {  
+//            jTextArea1.setText(currentBeneficiary.getInvalidityReason() );
+//            
+//            if( currentBeneficiary.getInvalidityAwardDate() != null ) {
+//                jFormattedTextField7.setText(formatDate.format(currentBeneficiary.getInvalidityAwardDate() ) );
+//            }        
+//        }
+        
+//        jComboBox17.setSelectedItem(funprefController.decodeDeficiency(currentBeneficiary.getIdDeficiency() ) );
+        
+        // Tela de dependentes
+        
+//        updateDependentsJTable(currentBeneficiary );        
+        
+        // Tela de Finanças/Endereço/Outros
+        jTextField23.setText(currentBeneficiary.getBankAgency() );
+        jTextField24.setText(currentBeneficiary.getAccount() );
+        
+        jTextField25.setText("" + currentBeneficiary.getEarningsInative() );
+        
+        jCheckBox2.setSelected(currentBeneficiary.isOldPromotion());
+        
+        if( currentBeneficiary.isOldPromotion() ) {
+            jTextField26.setText("" + currentBeneficiary.getOldPromotionValue());
+            
+//            if( ( beneficiaryCRUDMode == BeneficiaryCRUD.EDIT ) || ( beneficiaryCRUDMode == BeneficiaryCRUD.NEW ) ) {
+//                jTextField26.setEditable(true);
+//            }
+        }
+        
+        jCheckBox3.setSelected(currentBeneficiary.isChalkPowder());
+        
+        if(currentBeneficiary.isChalkPowder()) {
+//            jComboBox8.setSelectedItem(decodeChalkPowderPercentual(currentBeneficiary.getChalkPowderPercentual() ) );
+            jTextField29.setText("" + currentBeneficiary.getChalkPowderValue());
+            
+//            if( ( beneficiaryCRUDMode == BeneficiaryCRUD.EDIT ) || ( beneficiaryCRUDMode == BeneficiaryCRUD.NEW ) ) {
+//                jComboBox8.setEnabled(true);
+//                jTextField29.setEditable(true);
+//            }            
+        }
+        
+        jCheckBox4.setSelected(currentBeneficiary.isMoreOneYear());
+        
+        if( currentBeneficiary.isMoreOneYear() ) {
+            jTextField27.setText("" + (currentBeneficiary.getMoreOneYearPercentual()*100.0) + "%");
+            jTextField34.setText("" + currentBeneficiary.getMoreOneYearValue());
+            
+//            if( ( beneficiaryCRUDMode == BeneficiaryCRUD.EDIT ) || ( beneficiaryCRUDMode == BeneficiaryCRUD.NEW ) ) {
+//                jTextField27.setEditable(true);
+//                jTextField34.setEditable(true);
+//            }
+        }
+        
+        jCheckBox5.setSelected(currentBeneficiary.isMoreFiveYear());
+        
+        if( currentBeneficiary.isMoreFiveYear() ) {            
+            jTextField28.setText("" + (currentBeneficiary.getMoreFiveYearPercentual()*100.0) + "%");
+            jTextField30.setText("" + currentBeneficiary.getMoreFiveYearValue());
+            
+//            if( ( beneficiaryCRUDMode == BeneficiaryCRUD.EDIT ) || ( beneficiaryCRUDMode == BeneficiaryCRUD.NEW ) ) {
+//                jTextField28.setEditable(true);
+//                jTextField30.setEditable(true);                
+//            }
+        }            
+
+        jTextField32.setText("" + (currentBeneficiary.getIncomeTaxRate()*100.0) + "%");
+        jTextField33.setText("" + currentBeneficiary.getIncomeTaxValue());
+        
+        jCheckBox6.setSelected(currentBeneficiary.isPayrollLoan());
+        
+        if(currentBeneficiary.isPayrollLoan()) {
+            jTextField31.setText("" + currentBeneficiary.getPayrollLoanValue());
+            jButton6.setEnabled(true);
+        }
+        
+        else {
+            jButton6.setEnabled(false);
+        }
+        
+        jTextField35.setText("" + currentBeneficiary.getGrossValue());
+        jTextField36.setText("" + currentBeneficiary.getDiscounts());
+        jTextField37.setText("" + currentBeneficiary.getNetValue());
+        
+        jTextField40.setText("" + currentBeneficiary.getNationality());
+//        jComboBox12.setSelectedItem(funprefController.decodeProvince(currentBeneficiary.getIdProvincePlaceOfBirth() ) );
+//        jComboBox13.setModel(funprefController.getCitiesModel(currentBeneficiary.getIdProvincePlaceOfBirth()) );
+//        jComboBox13.setSelectedItem(funprefController.decodeCity(currentBeneficiary.getIdCityPlaceOfBirth() ) );
+//        
+//        if( currentBeneficiary.getIdProvinceAddress() >= 0 ) {
+//            jComboBox15.setSelectedItem(funprefController.decodeProvince(currentBeneficiary.getIdProvinceAddress()) );
+//        }
+//        jComboBox14.setModel(funprefController.getCitiesModel(currentBeneficiary.getIdProvinceAddress()) );
+//        jComboBox14.setSelectedItem(funprefController.decodeCity(currentBeneficiary.getIdCityAddress()) );        
+        
+        jTextField13.setText("" + currentBeneficiary.getAddress());
+        //jTextField14.setText("" + beneficiary.getCity());
+        
+        jTextField17.setText("" + currentBeneficiary.getZipCode());
+        
+        if( currentBeneficiary.getPhone1() != null ) { 
+            jTextField15.setText(currentBeneficiary.getPhone1());
+        }
+        
+        if( currentBeneficiary.getPhone2() != null ) { 
+            jTextField16.setText(currentBeneficiary.getPhone2());
+        }
+        
+        if( currentBeneficiary.getEmail() != null ) { 
+            jTextField18.setText(currentBeneficiary.getEmail());
+        }
+        
+        jTextField19.setText("" + currentBeneficiary.getPhysicalDocumentDrawer());        
+        jTextField39.setText("" + currentBeneficiary.getIndexPhysicalDocument()); 
+        
+        jTextField43.setText(currentBeneficiary.getVotersTitle() );
+        jTextField44.setText("" + currentBeneficiary.getElectoralZone());
+        jTextField45.setText("" + currentBeneficiary.getElectoralSection());
+//        jComboBox11.setSelectedItem(funprefController.decodeProvince(currentBeneficiary.getIdProvinceElectoralZone() ) );
+        
+        if( currentBeneficiary.getPisPasep() != null ) {
+            jTextField46.setText("" + currentBeneficiary.getPisPasep());
+        }
+        
+//        jComboBox16.setSelectedItem(funprefController.decodeDegreeEducation(currentBeneficiary.getIdDegreeOfEducation() ) );
+        
+        if( currentBeneficiary.getInstituteEnrollment() >= 0 ) {
+            jTextField48.setText("" + currentBeneficiary.getInstituteEnrollment() );        
+        }
+        
+//        jTextField49.setText(funprefController.getBeneficiaryNameByEnrollment(currentBeneficiary.getInstituteEnrollment() ) );
+//        
+//        if( ( currentBeneficiary.getIdBenefitType() == 2 ) && ( ( beneficiaryCRUDMode == BeneficiaryCRUD.EDIT ) || ( beneficiaryCRUDMode == BeneficiaryCRUD.NEW ) ) ) {
+//            jButton13.setEnabled(true);                 
+//        }        
+        
+        if( currentBeneficiary.getObservations() != null ) {
+            jTextArea2.setText(currentBeneficiary.getObservations() );
+        }
+    }
 }

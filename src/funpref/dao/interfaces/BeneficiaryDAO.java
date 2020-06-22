@@ -26,4 +26,6 @@ public interface BeneficiaryDAO {
     
     public List<Beneficiary> findByExample(Beneficiary beneficiary);    
     
+    public List<Beneficiary> findByExamplePart(Beneficiary beneficiary);
+    
 }
