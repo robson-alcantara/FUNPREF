@@ -32,7 +32,8 @@ package funpref.view;
 //import funpref.model.dao.StockingOrganDAO;
 //import funpref.model.dao.UserDAO;
 import funpref.controller.BeneficiaryController;
-import funpref.view.beneficiaryView.SearchJInternalFrame;
+import funpref.controller.FUNPREFController;
+import funpref.view.beneficiaryView.SearchBeneficiaryJInternalFrame;
 import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,22 +64,21 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
 //    private Beneficiary currentBeneficiary;
     
     private final int currentUserID;    
-    
-    private SearchJInternalFrame searchJInternalFrame;
-    private BeneficiaryController beneficiaryController;
+        
+    private FUNPREFController funprefController;
 
     /**table
      * Creates new form FUNPREFJFrame
      */
-    public FUNPREFJFrame( BeneficiaryController beneficiaryController ) {
+    public FUNPREFJFrame( FUNPREFController funprefController ) {
         formatDate = new SimpleDateFormat("dd/MM/yyyy");
-        this.beneficiaryController = beneficiaryController;
+        this.funprefController = funprefController;
         initComponents();        
         initImageIcon();
         setLocationRelativeTo( null );        
         
         currentUserID = 0; //TODO: stub, add local variable in constructor
-        this.beneficiaryController.setCurrentUserID(currentUserID);
+        this.funprefController.setCurrentUserID(currentUserID);
     }
     
     private void initImageIcon() {        
@@ -386,15 +386,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         java.awt.EventQueue.invokeLater(() -> {
             try {
-                searchJInternalFrame = SearchJInternalFrame.getOrderFrame(currentUserID, beneficiaryController, false);
-                jDesktopPane.add(searchJInternalFrame);
-                searchJInternalFrame.setLocation(jDesktopPane.getLocation().x + ( ( jDesktopPane.getWidth() - searchJInternalFrame.getWidth() ) / 2 ),
-                        jDesktopPane.getLocation().y + 10);
-                searchJInternalFrame.toFront();
-                searchJInternalFrame.setSelected(true);
-                searchJInternalFrame.setClosable(true);
-                searchJInternalFrame.setVisible(true);
-                searchJInternalFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                funprefController.getSearchBeneficiaryController().show();
             } catch (Exception ex) {
                 
             }

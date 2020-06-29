@@ -6,6 +6,7 @@
 package funpref.view.beneficiaryView;
 
 import funpref.controller.BeneficiaryController;
+import funpref.controller.SearchBeneficiaryController;
 import funpref.model.Beneficiary;
 import java.util.ArrayList;
 import javax.swing.JTable;
@@ -14,21 +15,21 @@ import javax.swing.JTable;
  *
  * @author robson
  */
-public class SearchJInternalFrame extends javax.swing.JInternalFrame {
+public class SearchBeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
     
-    private static SearchJInternalFrame searchJInternalFrame;
-    private static int currentUserID;
-    private BeneficiaryController beneficiaryController;
+    private static SearchBeneficiaryJInternalFrame searchJInternalFrame;
+    //private static int currentUserID;
+    private SearchBeneficiaryController searchBeneficiaryController;
     private ArrayList<Beneficiary> findedBeneficiaries;
     private boolean updatingSourceBeneficiary;
 
     /**
      * Creates new form SearchJInternalFrame
      */
-    public SearchJInternalFrame(int currentUserID, BeneficiaryController beneficiaryController, boolean updatingSourceBeneficiary) {
+    public SearchBeneficiaryJInternalFrame(SearchBeneficiaryController searchBeneficiaryController, boolean updatingSourceBeneficiary) {
         
-        SearchJInternalFrame.currentUserID = currentUserID;
-        this.beneficiaryController = beneficiaryController;
+        //SearchJInternalFrame.currentUserID = currentUserID;
+        this.searchBeneficiaryController = searchBeneficiaryController;
         this.updatingSourceBeneficiary = updatingSourceBeneficiary;
         
         initComponents();
@@ -206,7 +207,7 @@ public class SearchJInternalFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        findedBeneficiaries = beneficiaryController.findByExamplePart(-1, jTextField1.getText() );
+        findedBeneficiaries = searchBeneficiaryController.getFunprefController().getBeneficiaryController().findByExamplePart(-1, jTextField1.getText() );
         fillSearchJTable( findedBeneficiaries );
     }//GEN-LAST:event_jTextField1ActionPerformed
 
@@ -232,8 +233,8 @@ public class SearchJInternalFrame extends javax.swing.JInternalFrame {
 //                        preFillBeneficiaryCRUDJInternalFrame();
 //                        clearBeneficiaryCRUDJInternalFrame();
 
-                        beneficiaryController.setCurrentBeneficiary( beneficiaryController.findById(findedBeneficiaries.get( jTable1.getSelectedRow() ).getId() ) );
-                        beneficiaryController.fillAndShowBeneficiaryJInternalFrame();
+                        searchBeneficiaryController.getFunprefController().getBeneficiaryController().setCurrentBeneficiary( searchBeneficiaryController.getFunprefController().getBeneficiaryController().findById(findedBeneficiaries.get( jTable1.getSelectedRow() ).getId() ) );
+                        searchBeneficiaryController.getFunprefController().getBeneficiaryController().fillAndShowBeneficiaryJInternalFrame();
 
 
 //                        funprefController.readAndFillBeneficiaryCRUDJInternalFrame((int)jTable1.getValueAt(jTable1.getSelectedRow(),0), beneficiaryCRUDMode );
@@ -275,12 +276,12 @@ public class SearchJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
-    public static SearchJInternalFrame getOrderFrame(int currentUserID, BeneficiaryController beneficiaryController, boolean updatingSourceBeneficiary ) {
+    public static SearchBeneficiaryJInternalFrame getOrderFrame(SearchBeneficiaryController searchBeneficiaryController, boolean updatingSourceBeneficiary ) {
         if (searchJInternalFrame != null) {
             searchJInternalFrame.dispose();
         }
         else {
-            searchJInternalFrame = new SearchJInternalFrame(currentUserID, beneficiaryController, updatingSourceBeneficiary );
+            searchJInternalFrame = new SearchBeneficiaryJInternalFrame(searchBeneficiaryController, updatingSourceBeneficiary );
         }
         return searchJInternalFrame;
     }

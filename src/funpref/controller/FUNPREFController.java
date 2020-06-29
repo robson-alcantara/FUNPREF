@@ -15,9 +15,13 @@ public class FUNPREFController {
     
     private FUNPREFJFrame funprefJFrame;
     private BeneficiaryController beneficiaryController;
+    private SearchBeneficiaryController searchBeneficiaryController;
+    
+    int currentUserID;
     
     public FUNPREFController() {
-        beneficiaryController = new BeneficiaryController();
+        beneficiaryController = new BeneficiaryController( this );
+        searchBeneficiaryController = new SearchBeneficiaryController( this );
     }
 
     public void run() {
@@ -46,17 +50,32 @@ public class FUNPREFController {
         }      
         
         if( validLogin() ) {
-            funprefJFrame = new FUNPREFJFrame( beneficiaryController );
-            beneficiaryController.setFunprefJFrame(funprefJFrame);
+            funprefJFrame = new FUNPREFJFrame( this );            
             funprefJFrame.setVisible(true);
-        }
-        
-        
-        
-    }
-
-    private boolean validLogin() {
-        return true;
+        }        
     }
     
+    private boolean validLogin() {
+        return true;
+    }    
+
+    public FUNPREFJFrame getFunprefJFrame() {
+        return funprefJFrame;
+    }    
+
+    public int getCurrentUserID() {
+        return currentUserID;
+    }
+
+    public void setCurrentUserID(int currentUserID) {
+        this.currentUserID = currentUserID;
+    }    
+
+    public BeneficiaryController getBeneficiaryController() {
+        return beneficiaryController;
+    }
+
+    public SearchBeneficiaryController getSearchBeneficiaryController() {
+        return searchBeneficiaryController;
+    }    
 }

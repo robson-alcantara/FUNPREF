@@ -8,7 +8,6 @@ package funpref.controller;
 import funpref.dao.concrete.DAOFactoryImpl;
 import funpref.dao.interfaces.BeneficiaryDAO;
 import funpref.model.Beneficiary;
-import funpref.view.FUNPREFJFrame;
 import funpref.view.beneficiaryView.BeneficiaryJInternalFrame;
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
@@ -22,15 +21,15 @@ import java.util.logging.Logger;
 public class BeneficiaryController {
     
     private final BeneficiaryDAO beneficiaryDAO;
-    private BeneficiaryJInternalFrame beneficiaryJInternalFrame;
-    private FUNPREFJFrame funprefJFrame;
+    private BeneficiaryJInternalFrame beneficiaryJInternalFrame;    
     
-    private Beneficiary currentBeneficiary;
-    int currentUserID;
+    private Beneficiary currentBeneficiary;    
+    private FUNPREFController funprefController;
 
-    public BeneficiaryController() {
+    BeneficiaryController(FUNPREFController funprefController) {
+        this.funprefController = funprefController;
         beneficiaryDAO = new DAOFactoryImpl().getBeneficiaryDAO();
-    }    
+    }
 
     public Beneficiary getCurrentBeneficiary() {
         return currentBeneficiary;
@@ -39,24 +38,6 @@ public class BeneficiaryController {
     public void setCurrentBeneficiary(Beneficiary currentBeneficiary) {
         this.currentBeneficiary = currentBeneficiary;
     }    
-
-    public int getCurrentUserID() {
-        return currentUserID;
-    }
-
-    public void setCurrentUserID(int currentUserID) {
-        this.currentUserID = currentUserID;
-    }    
-
-    public FUNPREFJFrame getFunprefJFrame() {
-        return funprefJFrame;
-    }
-
-    public void setFunprefJFrame(FUNPREFJFrame funprefJFrame) {
-        this.funprefJFrame = funprefJFrame;
-    }
-    
-    
 
     public ArrayList<Beneficiary> findByExamplePart(int beneficiaryID, String nameSubstring ) {
         
@@ -76,12 +57,12 @@ public class BeneficiaryController {
 
     public void fillAndShowBeneficiaryJInternalFrame() {
         try {
-            beneficiaryJInternalFrame = new BeneficiaryJInternalFrame( currentBeneficiary, currentUserID, this);
+            beneficiaryJInternalFrame = new BeneficiaryJInternalFrame( currentBeneficiary, funprefController.getCurrentUserID(), this);
             beneficiaryJInternalFrame.fillFields();
             
-            funprefJFrame.getJDesktopPane().add(beneficiaryJInternalFrame);
-            beneficiaryJInternalFrame.setLocation(funprefJFrame.getJDesktopPane().getLocation().x + ( ( funprefJFrame.getJDesktopPane().getWidth() - beneficiaryJInternalFrame.getWidth() ) / 2 ),
-                    funprefJFrame.getJDesktopPane().getLocation().y + 10);
+            funprefController.getFunprefJFrame().getJDesktopPane().add(beneficiaryJInternalFrame);
+            beneficiaryJInternalFrame.setLocation(funprefController.getFunprefJFrame().getJDesktopPane().getLocation().x + ( ( funprefController.getFunprefJFrame().getJDesktopPane().getWidth() - beneficiaryJInternalFrame.getWidth() ) / 2 ),
+                    funprefController.getFunprefJFrame().getJDesktopPane().getLocation().y + 10);
             beneficiaryJInternalFrame.toFront();
             beneficiaryJInternalFrame.setSelected(true);
             beneficiaryJInternalFrame.setClosable(true);
