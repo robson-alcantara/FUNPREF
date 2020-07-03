@@ -5,10 +5,16 @@
  */
 package funpref.dao.concrete;
 
+import funpref.dao.interfaces.DependentDAO;
+
 /**
  *
  * @author robson
  */
-public class DependentDAOImpl {
+public class DependentDAOImpl implements DependentDAO {
+
+    public DependentDAOImpl() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

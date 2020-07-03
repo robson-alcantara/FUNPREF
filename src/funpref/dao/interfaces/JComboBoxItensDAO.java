@@ -5,10 +5,15 @@
  */
 package funpref.dao.interfaces;
 
+import funpref.model.combobox.ComboBoxItem;
+import java.util.ArrayList;
+
 /**
  *
  * @author robson
  */
-public interface DependentDAO {
-    
+public interface JComboBoxItensDAO {
+    public ArrayList<ComboBoxItem> findAll( String table );    
+
+    public ArrayList<ComboBoxItem> findCities(int idProvince);
 }

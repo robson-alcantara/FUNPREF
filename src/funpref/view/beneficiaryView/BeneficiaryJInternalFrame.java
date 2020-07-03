@@ -7,6 +7,7 @@ package funpref.view.beneficiaryView;
 
 import funpref.controller.BeneficiaryController;
 import funpref.model.Beneficiary;
+import funpref.model.combobox.ComboBoxItem;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 
@@ -16,6 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
     
+    private static BeneficiaryJInternalFrame beneficiaryJInternalFrame;
     BeneficiaryController beneficiaryController;
     Beneficiary currentBeneficiary;
     int currentUserID;
@@ -30,7 +32,18 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         this.currentUserID = currentUserID;
         this.beneficiaryController = beneficiaryController;
         formatDate = new SimpleDateFormat("dd/MM/yyyy");
+        fillJComboBoxes();
     }
+    
+    public static BeneficiaryJInternalFrame getOrderFrame(Beneficiary currentBeneficiary, int currentUserID, BeneficiaryController beneficiaryController) {
+        if (beneficiaryJInternalFrame != null) {
+            beneficiaryJInternalFrame.dispose();
+        }
+        else {
+            beneficiaryJInternalFrame = new BeneficiaryJInternalFrame( currentBeneficiary, currentUserID, beneficiaryController );
+        }
+        return beneficiaryJInternalFrame;
+    }    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -1553,6 +1566,19 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
     private javax.swing.JButton updateDependentJButton;
     // End of variables declaration//GEN-END:variables
 
+    private void fillJComboBoxes() {        
+        jComboBox5.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getModel( "marital_status" ));
+        jComboBox9.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getModel( "issuing_body" ));
+        jComboBox10.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getModel( "province" ));
+        jComboBox4.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getModel( "stocking_organ" ));
+        jComboBox1.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getModel( "benefit_type" ));
+        jComboBox12.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getModel( "province" ));
+        jComboBox11.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getModel( "province" ));
+        jComboBox15.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getModel( "province" ));
+        jComboBox16.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getModel( "degree_of_education" ));
+        jComboBox17.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getModel( "deficiency" ));
+    }     
+    
     public void fillFields() {
         //updateBeneficiaryCRUDJInternalFrameTitle(currentBeneficiary );
         
@@ -1562,11 +1588,11 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         
         jTextField3.setText("" + currentBeneficiary.getName());
         
-        //jComboBox3.setSelectedItem(decodeSex(currentBeneficiary.getSex() ) );
+        jComboBox3.setSelectedItem( decodeSex(currentBeneficiary.getSex() ) );
         
         jFormattedTextField3.setText(formatDate.format(currentBeneficiary.getBirthDate() ) );
         
-        //jComboBox5.setSelectedItem(funprefController.decodeMaritalStatus(currentBeneficiary.getIdMaritalStatus()) );
+        jComboBox5.setSelectedItem( beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdMaritalStatus(), "marital_status") );
         jCheckBox1.setSelected(currentBeneficiary.isDeceased());
         
         if( currentBeneficiary.isDeceased() ) {
@@ -1584,14 +1610,14 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
             jFormattedTextField5.setText(formatDate.format(currentBeneficiary.getRgEmissionDate() ) );
         }
         
-//        jComboBox9.setSelectedItem(funprefController.decodeRgIssuingBody(currentBeneficiary.getIdRgIssuingBody() ) );        
-//        jComboBox10.setSelectedItem(funprefController.decodeProvince(currentBeneficiary.getIdProvinceRg() ) );
+        jComboBox9.setSelectedItem( beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdRgIssuingBody(), "issuing_body") );        
+        jComboBox10.setSelectedItem( beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdProvinceRg(), "province") );
         jTextField6.setText("" + currentBeneficiary.getCpf());
         
         jTextField7.setText(currentBeneficiary.getMotherName() );
         jTextField8.setText(currentBeneficiary.getFatherName() );
         
-//        jComboBox1.setSelectedItem(funprefController.decodeBenefitType(currentBeneficiary.getIdBenefitType() ) );
+        jComboBox1.setSelectedItem( beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdBenefitType(), "benefit_type") );
 // //        jComboBox2.setSelectedItem( decodeForm( beneficiary.getForm() ) );
         
         if( currentBeneficiary.getAdmissionDate() != null ) {
@@ -1606,33 +1632,33 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
             jFormattedTextField6.setText(formatDate.format(currentBeneficiary.getApplicationDate() ) );
         }
         
-//        if( currentBeneficiary.getContributionTime() != null ) {
-//            jTextField9.setText(decodePeriod(currentBeneficiary.getContributionTime() ) );
-//        }
-//        
-//        if( ( currentBeneficiary.getContributionTimeFUNPREF() != null ) && ( !currentBeneficiary.getContributionTimeFUNPREF().isNegative() ) ) {
-//            jTextField10.setText(decodePeriod(currentBeneficiary.getContributionTimeFUNPREF() ) );
-//        }
-//        
-//        if( currentBeneficiary.getInactivityTime() != null ) {
-//            jTextField11.setText(decodePeriod(currentBeneficiary.getInactivityTime() ) );          
-//        }
+        if( currentBeneficiary.getContributionTime() != null ) {
+            jTextField9.setText( beneficiaryController.getFunprefController().decodePeriod(currentBeneficiary.getContributionTime() ) );
+        }
+        
+        if( ( currentBeneficiary.getContributionTimeFUNPREF() != null ) && ( !currentBeneficiary.getContributionTimeFUNPREF().isNegative() ) ) {
+            jTextField10.setText(beneficiaryController.getFunprefController().decodePeriod(currentBeneficiary.getContributionTimeFUNPREF() ) );
+        }
+        
+        if( currentBeneficiary.getInactivityTime() != null ) {
+            jTextField11.setText(beneficiaryController.getFunprefController().decodePeriod(currentBeneficiary.getInactivityTime() ) );          
+        }
         
         jTextField47.setText("" + currentBeneficiary.getInstituteEnrollment() );
         jTextField12.setText("" + currentBeneficiary.getRegistration() );
         jTextField4.setText(currentBeneficiary.getOffice() );
         
-//        jComboBox4.setSelectedItem(funprefController.decodeStockingOrgan(currentBeneficiary.getIdStockingOrgan() ) );        
-//        
-//        if((((BenefitTypeDAO)jComboBox1.getSelectedItem()).toString()).compareTo("invalidez") == 0 ) {  
-//            jTextArea1.setText(currentBeneficiary.getInvalidityReason() );
-//            
-//            if( currentBeneficiary.getInvalidityAwardDate() != null ) {
-//                jFormattedTextField7.setText(formatDate.format(currentBeneficiary.getInvalidityAwardDate() ) );
-//            }        
-//        }
+        jComboBox4.setSelectedItem(beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdStockingOrgan(), "stocking_organ") );
         
-//        jComboBox17.setSelectedItem(funprefController.decodeDeficiency(currentBeneficiary.getIdDeficiency() ) );
+        if((((ComboBoxItem)jComboBox1.getSelectedItem()).toString()).equals("invalidez") ) {  
+            jTextArea1.setText(currentBeneficiary.getInvalidityReason() );
+            
+            if( currentBeneficiary.getInvalidityAwardDate() != null ) {
+                jFormattedTextField7.setText(formatDate.format(currentBeneficiary.getInvalidityAwardDate() ) );
+            }        
+        }
+        
+        jComboBox17.setSelectedItem(beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdDeficiency(), "deficiency") );
         
         // Tela de dependentes
         
@@ -1709,19 +1735,18 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         jTextField37.setText("" + currentBeneficiary.getNetValue());
         
         jTextField40.setText("" + currentBeneficiary.getNationality());
-//        jComboBox12.setSelectedItem(funprefController.decodeProvince(currentBeneficiary.getIdProvincePlaceOfBirth() ) );
-//        jComboBox13.setModel(funprefController.getCitiesModel(currentBeneficiary.getIdProvincePlaceOfBirth()) );
-//        jComboBox13.setSelectedItem(funprefController.decodeCity(currentBeneficiary.getIdCityPlaceOfBirth() ) );
-//        
-//        if( currentBeneficiary.getIdProvinceAddress() >= 0 ) {
-//            jComboBox15.setSelectedItem(funprefController.decodeProvince(currentBeneficiary.getIdProvinceAddress()) );
-//        }
-//        jComboBox14.setModel(funprefController.getCitiesModel(currentBeneficiary.getIdProvinceAddress()) );
-//        jComboBox14.setSelectedItem(funprefController.decodeCity(currentBeneficiary.getIdCityAddress()) );        
+        jComboBox12.setSelectedItem(beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdProvincePlaceOfBirth(), "province") );
+        jComboBox13.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getCitiesModel(currentBeneficiary.getIdProvincePlaceOfBirth()) );
+        jComboBox13.setSelectedItem(beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdCityPlaceOfBirth(), "city") );  
+        
+        if( currentBeneficiary.getIdProvinceAddress() >= 0 ) {
+            jComboBox15.setSelectedItem(beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdProvinceAddress(), "province") );
+        }
+        jComboBox14.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getCitiesModel(currentBeneficiary.getIdProvinceAddress()) );
+        jComboBox14.setSelectedItem(beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdCityAddress(), "city") );  
         
         jTextField13.setText("" + currentBeneficiary.getAddress());
-        //jTextField14.setText("" + beneficiary.getCity());
-        
+                
         jTextField17.setText("" + currentBeneficiary.getZipCode());
         
         if( currentBeneficiary.getPhone1() != null ) { 
@@ -1742,13 +1767,13 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         jTextField43.setText(currentBeneficiary.getVotersTitle() );
         jTextField44.setText("" + currentBeneficiary.getElectoralZone());
         jTextField45.setText("" + currentBeneficiary.getElectoralSection());
-//        jComboBox11.setSelectedItem(funprefController.decodeProvince(currentBeneficiary.getIdProvinceElectoralZone() ) );
+        jComboBox11.setSelectedItem(beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdProvinceElectoralZone(), "province") );
         
         if( currentBeneficiary.getPisPasep() != null ) {
             jTextField46.setText("" + currentBeneficiary.getPisPasep());
         }
         
-//        jComboBox16.setSelectedItem(funprefController.decodeDegreeEducation(currentBeneficiary.getIdDegreeOfEducation() ) );
+        jComboBox16.setSelectedItem(beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdDegreeOfEducation(), "degree_of_education") );
         
         if( currentBeneficiary.getInstituteEnrollment() >= 0 ) {
             jTextField48.setText("" + currentBeneficiary.getInstituteEnrollment() );        
@@ -1763,5 +1788,19 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         if( currentBeneficiary.getObservations() != null ) {
             jTextArea2.setText(currentBeneficiary.getObservations() );
         }
+    }
+
+    private String decodeSex(Beneficiary.Sex sex) {
+        String sexString = null;
+        
+        if( sex == Beneficiary.Sex.MALE ) {
+            sexString = "masculino";
+        }
+        
+        else if( sex == Beneficiary.Sex.FEMALE ) {
+            sexString = "feminino";
+        }        
+        
+        return sexString;
     }
 }

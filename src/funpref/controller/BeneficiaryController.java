@@ -37,7 +37,15 @@ public class BeneficiaryController {
 
     public void setCurrentBeneficiary(Beneficiary currentBeneficiary) {
         this.currentBeneficiary = currentBeneficiary;
-    }    
+    } 
+
+    public FUNPREFController getFunprefController() {
+        return funprefController;
+    }
+
+    public void setFunprefController(FUNPREFController funprefController) {
+        this.funprefController = funprefController;
+    }
 
     public ArrayList<Beneficiary> findByExamplePart(int beneficiaryID, String nameSubstring ) {
         
@@ -57,7 +65,7 @@ public class BeneficiaryController {
 
     public void fillAndShowBeneficiaryJInternalFrame() {
         try {
-            beneficiaryJInternalFrame = new BeneficiaryJInternalFrame( currentBeneficiary, funprefController.getCurrentUserID(), this);
+            beneficiaryJInternalFrame = BeneficiaryJInternalFrame.getOrderFrame( currentBeneficiary, funprefController.getCurrentUserID(), this);
             beneficiaryJInternalFrame.fillFields();
             
             funprefController.getFunprefJFrame().getJDesktopPane().add(beneficiaryJInternalFrame);

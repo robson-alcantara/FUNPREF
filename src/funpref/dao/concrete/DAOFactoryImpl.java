@@ -3,6 +3,7 @@ package funpref.dao.concrete;
 import funpref.dao.interfaces.BeneficiaryDAO;
 import funpref.dao.interfaces.DAOFactory;
 import funpref.dao.interfaces.DependentDAO;
+import funpref.dao.interfaces.JComboBoxItensDAO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -19,7 +20,12 @@ public final class DAOFactoryImpl implements DAOFactory{
 
     @Override
     public DependentDAO getDependentDAO() {
-        return new DependentDAO();
+        return new DependentDAOImpl();
+    }
+
+    @Override
+    public JComboBoxItensDAO getJComboBoxItensDAO() {
+        return new JComboBoxItensDAOImpl();
     }
     
     private static class DataBaseConnection {

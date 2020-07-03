@@ -6,6 +6,7 @@
 package funpref.controller;
 
 import funpref.view.FUNPREFJFrame;
+import java.time.Period;
 
 /**
  *
@@ -16,12 +17,14 @@ public class FUNPREFController {
     private FUNPREFJFrame funprefJFrame;
     private BeneficiaryController beneficiaryController;
     private SearchBeneficiaryController searchBeneficiaryController;
+    private JComboBoxModelController jComboBoxModelController;
     
     int currentUserID;
     
     public FUNPREFController() {
         beneficiaryController = new BeneficiaryController( this );
         searchBeneficiaryController = new SearchBeneficiaryController( this );
+        jComboBoxModelController = new JComboBoxModelController(this);
     }
 
     public void run() {
@@ -77,5 +80,49 @@ public class FUNPREFController {
 
     public SearchBeneficiaryController getSearchBeneficiaryController() {
         return searchBeneficiaryController;
+    }
+
+    public JComboBoxModelController getjComboBoxModelController() {
+        return jComboBoxModelController;
+    }
+
+    public void setjComboBoxModelController(JComboBoxModelController jComboBoxModelController) {
+        this.jComboBoxModelController = jComboBoxModelController;
     }    
+    
+    public String decodePeriod(Period period) {
+        
+        String periodString = "";
+        
+        if( period.getYears() > 0 ) {
+            periodString += "" + period.getYears() + " anos";
+        }
+        
+        if( period.getMonths() > 0 ) {
+            
+            if( !periodString.isEmpty() ) {
+                
+                if( ( period.getYears() > 0 ) && ( period.getDays() == 0 ) ) {
+                    periodString += " e ";
+                }
+                
+                else {                
+                    periodString += ", ";
+                }
+            }
+            
+            periodString += "" + period.getMonths() + " meses";
+        }    
+        
+        if( period.getDays() > 0 ) {
+            
+            if( !periodString.isEmpty() ) {
+                periodString += " e ";
+            }
+            
+            periodString += "" + period.getDays() + " dias";
+        }         
+        
+        return periodString;
+    }        
 }
