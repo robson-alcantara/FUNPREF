@@ -43,10 +43,10 @@ public class ComboBoxItem {
         return description;
     }    
 
-    @Override
-    public boolean equals(Object o) {
-        return this.id == ((ComboBoxItem)o).id; 
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        return this.id == ((ComboBoxItem)o).id; 
+//    }
     
     
     

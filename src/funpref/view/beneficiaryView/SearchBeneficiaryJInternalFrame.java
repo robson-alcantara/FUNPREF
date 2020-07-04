@@ -10,6 +10,7 @@ import funpref.controller.SearchBeneficiaryController;
 import funpref.model.Beneficiary;
 import java.util.ArrayList;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -276,9 +277,10 @@ public class SearchBeneficiaryJInternalFrame extends javax.swing.JInternalFrame 
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
-    public static SearchBeneficiaryJInternalFrame getOrderFrame(SearchBeneficiaryController searchBeneficiaryController, boolean updatingSourceBeneficiary ) {
+    public static SearchBeneficiaryJInternalFrame getSearchBeneficiaryJInternalFrame(SearchBeneficiaryController searchBeneficiaryController, boolean updatingSourceBeneficiary ) {
         if (searchJInternalFrame != null) {
             searchJInternalFrame.dispose();
+            searchJInternalFrame.reset();
         }
         else {
             searchJInternalFrame = new SearchBeneficiaryJInternalFrame(searchBeneficiaryController, updatingSourceBeneficiary );
@@ -289,9 +291,11 @@ public class SearchBeneficiaryJInternalFrame extends javax.swing.JInternalFrame 
     private void fillSearchJTable(ArrayList<Beneficiary> beneficiaries) {
         clearTable(jTable1);
         
-        for( int i = 0; i < beneficiaries.size(); i++ ) {            
-            jTable1.setValueAt(beneficiaries.get(i).getRegistration(), i, 0);
-            jTable1.setValueAt(beneficiaries.get(i).getName(), i, 1);
+        for( int i = 0; i < beneficiaries.size(); i++ ) {    
+            if( i <= 46 ) { // número de espaços da jTable1
+                jTable1.setValueAt(beneficiaries.get(i).getRegistration(), i, 0);
+                jTable1.setValueAt(beneficiaries.get(i).getName(), i, 1);
+            }
         }
     }
 
@@ -301,6 +305,11 @@ public class SearchBeneficiaryJInternalFrame extends javax.swing.JInternalFrame 
               table.setValueAt("", i, j);
           }
        }
+    }
+
+    private void reset() {
+        jTextField1.setText("");
+        clearTable(jTable1);
     }
     
 }

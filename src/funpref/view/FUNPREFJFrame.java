@@ -31,9 +31,8 @@ package funpref.view;
 //import funpref.model.dao.ProvinceDAO;
 //import funpref.model.dao.StockingOrganDAO;
 //import funpref.model.dao.UserDAO;
-import funpref.controller.BeneficiaryController;
 import funpref.controller.FUNPREFController;
-import funpref.view.beneficiaryView.SearchBeneficiaryJInternalFrame;
+import funpref.model.Beneficiary;
 import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,10 +64,11 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     
     private final int currentUserID;    
         
-    private FUNPREFController funprefController;
+    private final FUNPREFController funprefController;
 
     /**table
      * Creates new form FUNPREFJFrame
+     * @param funprefController
      */
     public FUNPREFJFrame( FUNPREFController funprefController ) {
         formatDate = new SimpleDateFormat("dd/MM/yyyy");
@@ -119,7 +119,6 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         jMenuItem6 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
@@ -221,9 +220,6 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         jMenu1.add(jMenuItem1);
 
         jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Editar");
-        jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Opções");
 
@@ -394,16 +390,9 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-//        //if( funprefController.revalidateLogin() ) {
-//        beneficiaryCRUDMode = BeneficiaryCRUD.NEW;
-//        currentBeneficiary = null;
-//        preFillBeneficiaryCRUDJInternalFrame();
-//        clearBeneficiaryCRUDJInternalFrame();
-//        setEditableBeneficiaryCRUDJInternalFrame(true);
-//        jTabbedPane2.setSelectedIndex(0);                
-//        updateBeneficiaryCRUDJInternalFrameTitle( currentBeneficiary );
-//        beneficiaryCRUDJInternalFrame.setVisible(true);             
-//        //} 
+        funprefController.getBeneficiaryController().setCurrentBeneficiary( new Beneficiary() );
+        funprefController.getBeneficiaryController().setCrudWrite(true);
+        funprefController.getBeneficiaryController().fillAndShowBeneficiaryJInternalFrame();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -411,17 +400,24 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-//        fillSearchJInternalFrame();
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                funprefController.getSearchBeneficiaryController().show();
+            } catch (Exception ex) {
+                
+            }
+        });
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-//        //if( funprefController.revalidateLogin() ) {
-//        beneficiaryCRUDMode = BeneficiaryCRUD.EDIT;
-//        jButton3.setText("Editar");   
-//        jTextField1.setText("");
-//        clearTable(jTable1);
-//        searchJInternalFrame.setVisible(true);
-//        //}
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                funprefController.getBeneficiaryController().setCrudWrite(true);
+                funprefController.getSearchBeneficiaryController().show();
+            } catch (Exception ex) {
+                
+            }
+        });
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
@@ -595,7 +591,6 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     private javax.swing.JDesktopPane jDesktopPane;
     private javax.swing.JLabel jLabel67;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;

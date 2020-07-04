@@ -22,13 +22,16 @@ public class BeneficiaryController {
     
     private final BeneficiaryDAO beneficiaryDAO;
     private BeneficiaryJInternalFrame beneficiaryJInternalFrame;    
+    private FUNPREFController funprefController;
     
     private Beneficiary currentBeneficiary;    
-    private FUNPREFController funprefController;
+    private boolean crudWrite;
+    
 
     BeneficiaryController(FUNPREFController funprefController) {
         this.funprefController = funprefController;
         beneficiaryDAO = new DAOFactoryImpl().getBeneficiaryDAO();
+        crudWrite = false;
     }
 
     public Beneficiary getCurrentBeneficiary() {
@@ -46,6 +49,14 @@ public class BeneficiaryController {
     public void setFunprefController(FUNPREFController funprefController) {
         this.funprefController = funprefController;
     }
+
+    public boolean isCrudWrite() {
+        return crudWrite;
+    }
+
+    public void setCrudWrite(boolean crudWrite) {
+        this.crudWrite = crudWrite;
+    }    
 
     public ArrayList<Beneficiary> findByExamplePart(int beneficiaryID, String nameSubstring ) {
         
@@ -65,8 +76,13 @@ public class BeneficiaryController {
 
     public void fillAndShowBeneficiaryJInternalFrame() {
         try {
-            beneficiaryJInternalFrame = BeneficiaryJInternalFrame.getOrderFrame( currentBeneficiary, funprefController.getCurrentUserID(), this);
-            beneficiaryJInternalFrame.fillFields();
+            beneficiaryJInternalFrame = BeneficiaryJInternalFrame.getBeneficiaryJInternalFrame( currentBeneficiary, funprefController.getCurrentUserID(), this);
+            beneficiaryJInternalFrame.setEditableFields( crudWrite );
+            //beneficiaryJInternalFrame.prepareFields();
+            
+            if( currentBeneficiary.getId() != -1 ) {
+                beneficiaryJInternalFrame.fillFields();
+            }
             
             funprefController.getFunprefJFrame().getJDesktopPane().add(beneficiaryJInternalFrame);
             beneficiaryJInternalFrame.setLocation(funprefController.getFunprefJFrame().getJDesktopPane().getLocation().x + ( ( funprefController.getFunprefJFrame().getJDesktopPane().getWidth() - beneficiaryJInternalFrame.getWidth() ) / 2 ),
@@ -78,5 +94,9 @@ public class BeneficiaryController {
         } catch (PropertyVetoException ex) {
             Logger.getLogger(BeneficiaryController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public String getNameById(int id) {
+        return beneficiaryDAO.getNameByID(id);
     }
 }

@@ -35,15 +35,27 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         fillJComboBoxes();
     }
     
-    public static BeneficiaryJInternalFrame getOrderFrame(Beneficiary currentBeneficiary, int currentUserID, BeneficiaryController beneficiaryController) {
+    public static BeneficiaryJInternalFrame getBeneficiaryJInternalFrame(Beneficiary currentBeneficiary, int currentUserID, BeneficiaryController beneficiaryController) {
         if (beneficiaryJInternalFrame != null) {
+            beneficiaryJInternalFrame.setCurrentBeneficiary(currentBeneficiary);
             beneficiaryJInternalFrame.dispose();
+            beneficiaryJInternalFrame.reset();
         }
         else {
             beneficiaryJInternalFrame = new BeneficiaryJInternalFrame( currentBeneficiary, currentUserID, beneficiaryController );
         }
         return beneficiaryJInternalFrame;
-    }    
+    }
+
+    public Beneficiary getCurrentBeneficiary() {
+        return currentBeneficiary;
+    }
+
+    public void setCurrentBeneficiary(Beneficiary currentBeneficiary) {
+        this.currentBeneficiary = currentBeneficiary;
+    }
+
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -623,7 +635,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
                             .addComponent(jButton4)
                             .addComponent(jButton5)
                             .addComponent(jButton8))))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Dados 1", jPanel3);
@@ -1163,7 +1175,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
                 .addComponent(jLabel84)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(153, Short.MAX_VALUE))
+                .addContainerGap(168, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Dados 3", jPanel8);
@@ -1285,7 +1297,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
+            .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
         );
 
         pack();
@@ -1648,7 +1660,9 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         jTextField12.setText("" + currentBeneficiary.getRegistration() );
         jTextField4.setText(currentBeneficiary.getOffice() );
         
-        jComboBox4.setSelectedItem(beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdStockingOrgan(), "stocking_organ") );
+        if ( currentBeneficiary.getIdStockingOrgan() > 0 ) {
+            jComboBox4.setSelectedItem(beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdStockingOrgan(), "stocking_organ") );
+        }
         
         if((((ComboBoxItem)jComboBox1.getSelectedItem()).toString()).equals("invalidez") ) {  
             jTextArea1.setText(currentBeneficiary.getInvalidityReason() );
@@ -1739,11 +1753,14 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         jComboBox13.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getCitiesModel(currentBeneficiary.getIdProvincePlaceOfBirth()) );
         jComboBox13.setSelectedItem(beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdCityPlaceOfBirth(), "city") );  
         
-        if( currentBeneficiary.getIdProvinceAddress() >= 0 ) {
+        if( currentBeneficiary.getIdProvinceAddress() > 0 ) {
             jComboBox15.setSelectedItem(beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdProvinceAddress(), "province") );
         }
         jComboBox14.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getCitiesModel(currentBeneficiary.getIdProvinceAddress()) );
-        jComboBox14.setSelectedItem(beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdCityAddress(), "city") );  
+        
+        if( currentBeneficiary.getIdCityAddress() > 0 ) {
+            jComboBox14.setSelectedItem(beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdCityAddress(), "city") );  
+        }
         
         jTextField13.setText("" + currentBeneficiary.getAddress());
                 
@@ -1779,7 +1796,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
             jTextField48.setText("" + currentBeneficiary.getInstituteEnrollment() );        
         }
         
-//        jTextField49.setText(funprefController.getBeneficiaryNameByEnrollment(currentBeneficiary.getInstituteEnrollment() ) );
+        jTextField49.setText( beneficiaryController.getNameById(currentBeneficiary.getInstituteEnrollment() ) );
 //        
 //        if( ( currentBeneficiary.getIdBenefitType() == 2 ) && ( ( beneficiaryCRUDMode == BeneficiaryCRUD.EDIT ) || ( beneficiaryCRUDMode == BeneficiaryCRUD.NEW ) ) ) {
 //            jButton13.setEnabled(true);                 
@@ -1802,5 +1819,254 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         }        
         
         return sexString;
+    }
+
+    public void setEditableFields(boolean editable) {
+        jTextField2.setEditable(editable);
+        jTextField3.setEditable(editable);
+        
+        jComboBox3.setEnabled(editable);
+        
+        jFormattedTextField3.setEditable(editable);
+        
+        jComboBox5.setEnabled(editable);
+        jCheckBox1.setEnabled(editable);        
+
+        jFormattedTextField4.setEditable(false);
+        
+        jTextField5.setEditable(editable);
+        
+        jButton13.setEnabled(editable);
+        
+        jFormattedTextField5.setEditable(editable);
+        jComboBox9.setEnabled(editable);
+        jComboBox10.setEnabled(editable);
+        jTextField6.setEditable(editable);
+        
+        jTextField7.setEditable(editable);
+        jTextField8.setEditable(editable);
+        jTextField41.setEditable(editable);
+        jTextField42.setEditable(editable);        
+        
+        jComboBox1.setEnabled(editable);    
+        jComboBox2.setEnabled(false);    
+        
+        jFormattedTextField1.setEditable(editable);    
+        jFormattedTextField2.setEditable(editable);    
+        jFormattedTextField6.setEditable(editable);    
+        
+        jTextField9.setEditable(false);
+        jTextField10.setEditable(false);        
+        jTextField11.setEditable(false);  
+        
+        jTextField47.setEditable(editable);
+        jTextField12.setEditable(editable);    
+        jTextField4.setEditable(editable);    
+        
+        jComboBox4.setEnabled(editable);      
+        
+        jTextArea1.setEditable(false);    
+        jFormattedTextField7.setEditable(false);
+        jComboBox17.setEnabled(false);
+        
+        jTextField23.setEditable(editable);    
+        jTextField24.setEditable(editable);    
+        
+        jTextField25.setEditable(false);    
+        
+        jCheckBox2.setEnabled(false);
+        jTextField26.setEditable(false);  
+        
+        jCheckBox3.setEnabled(false);        
+        
+        jComboBox8.setEnabled(false);   
+        jTextField29.setEditable(false);  
+        
+        jCheckBox4.setEnabled(false);            
+
+        jTextField27.setEditable(false);  
+        jTextField34.setEditable(false);  
+        
+        jCheckBox5.setEnabled(false);              
+      
+        jTextField28.setEditable(false);  
+        jTextField30.setEditable(false);  
+
+        jTextField32.setEditable(false);  
+        jTextField33.setEditable(false);  
+        
+        jCheckBox6.setEnabled(false);
+        jTextField31.setEditable(false);  
+        jButton6.setEnabled(false);
+        
+        jTextField35.setEditable(false);  
+        jTextField36.setEditable(false);  
+        jTextField37.setEditable(false);  
+        
+        jTextField13.setEditable(editable);  
+        jComboBox14.setEnabled(editable);
+        jComboBox15.setEnabled(editable);        
+        
+        jTextField17.setEditable(editable);  
+        jTextField15.setEditable(editable);  
+        jTextField16.setEditable(editable);  
+        jTextField18.setEditable(editable); 
+        jComboBox11.setEnabled(editable);
+        jComboBox12.setEnabled(editable);
+        jComboBox13.setEnabled(editable);
+        jComboBox14.setEnabled(editable);
+        jComboBox15.setEnabled(editable);
+        
+        
+        jTextField19.setEditable(editable);  
+        jTextField39.setEditable(editable);
+        jTextField40.setEditable(editable);
+        
+        jTextField43.setEditable(editable);
+        jTextField44.setEditable(editable);
+        jTextField45.setEditable(editable);        
+        jTextField46.setEditable(editable);        
+        
+        jButton8.setVisible(editable);
+        
+        jComboBox16.setEnabled(editable);        
+        
+        createDependentJButton.setVisible(editable);
+        updateDependentJButton.setVisible(editable);
+        deleteDependentJButton.setVisible(editable);        
+    }
+
+    public void prepareFields() {
+//        jComboBox3.setSelectedIndex(-1);        
+//        jComboBox5.setSelectedIndex(-1);
+//        jComboBox9.setSelectedIndex(-1);
+//        jComboBox10.setSelectedIndex(-1);
+//        jComboBox1.setSelectedIndex(0);
+//        jComboBox2.setSelectedIndex(-1);
+//        jComboBox4.setSelectedIndex(-1);        
+//        jComboBox17.setSelectedIndex(0);
+//        jComboBox8.setSelectedIndex(-1);
+//        jComboBox14.setSelectedIndex(-1);
+//        jComboBox15.setSelectedIndex(-1);
+//        jComboBox11.setSelectedIndex(-1);
+//        jComboBox12.setSelectedIndex(-1);        
+//        jComboBox13.setSelectedIndex(-1);        
+//        jComboBox16.setSelectedIndex(-1);
+    }
+
+    private void reset() {
+        jTextField2.setText("");
+        jTextField3.setText("");
+        
+        jComboBox3.setSelectedIndex(-1);
+        
+        jFormattedTextField3.setText("");
+        
+        jComboBox5.setSelectedIndex(-1);
+        jCheckBox1.setSelected(false);        
+        
+        jFormattedTextField4.setText("");        
+        
+        jTextField5.setText("");
+        
+        jFormattedTextField5.setText("");
+        jComboBox9.setSelectedIndex(-1);
+        jComboBox10.setSelectedIndex(-1);
+        jTextField6.setText("");
+        
+        jTextField7.setText("");
+        jTextField8.setText("");
+        jTextField41.setText("");
+        jTextField42.setText("");      
+        
+        jComboBox1.setSelectedIndex(0);
+        jComboBox2.setSelectedIndex(-1);
+        
+        jFormattedTextField1.setText("");
+        jFormattedTextField2.setText("");
+        jFormattedTextField6.setText("");
+        
+        jTextField9.setText("");
+        
+        jTextField10.setText("");
+        
+        jTextField47.setText(""); 
+        jTextField11.setText("");        
+        jTextField12.setText("");
+        jTextField4.setText("");
+        
+        jComboBox4.setSelectedIndex(-1);        
+
+        jTextArea1.setText("");
+        jFormattedTextField7.setText("");
+        jComboBox17.setSelectedIndex(0);
+        
+//        clearTable(dependentsJTable);
+        
+        jTextField23.setText("");
+        jTextField24.setText("");
+        
+        jTextField25.setText("");
+        
+        jCheckBox2.setSelected(false);        
+        
+        jTextField26.setText("");
+                
+        jCheckBox3.setSelected(false);
+        
+        jComboBox8.setSelectedIndex(-1);
+        jTextField29.setText("");
+        
+        jCheckBox4.setSelected(false);
+                
+        jTextField27.setText("");
+        jTextField34.setText("");        
+        
+        jCheckBox5.setSelected(false);
+            
+        jTextField28.setText("");
+        jTextField30.setText("");
+
+        jTextField32.setText("");
+        jTextField33.setText("");
+        
+        jCheckBox6.setSelected(false);
+        
+        jTextField31.setText("");
+        jButton6.setEnabled(false);
+      
+        jTextField35.setText("");
+        jTextField36.setText("");
+        jTextField37.setText("");
+        
+        jTextField13.setText("");
+        jComboBox14.setSelectedIndex(-1);
+        jComboBox15.setSelectedIndex(0);
+        //jTextField14.setText("");
+        
+        jTextField17.setText("");
+        jTextField15.setText("");
+        jTextField16.setText("");
+        jTextField18.setText("");
+        jComboBox11.setSelectedIndex(-1);
+        jComboBox12.setSelectedIndex(0);        
+        jComboBox13.setSelectedIndex(-1);
+        
+        jTextField19.setText("");        
+        jTextField39.setText(""); 
+        
+        jTextField43.setText("");
+        jTextField44.setText("");
+        jTextField45.setText("");        
+        
+        jTextField46.setText("");
+        
+        jTextField48.setText("");        
+        jTextField49.setText("");
+        jButton13.setEnabled(false);
+        
+        jTextArea2.setText("");
+        
+        jComboBox16.setSelectedIndex(-1);        
     }
 }

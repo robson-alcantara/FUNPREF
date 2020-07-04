@@ -98,6 +98,18 @@ public class Beneficiary implements Serializable {
     private Date registerDate;
     private Date updateDate;
     private Date createDate;
+    
+    public Beneficiary() {
+        id = -1;
+        dependents = new ArrayList<Dependent>();
+        idProvinceAddress = -1;
+        idCityAddress = -1;
+        idProvinceElectoralZone = -1;
+        idProvincePlaceOfBirth = -1;
+        idCityPlaceOfBirth = -1;
+        idProvinceRg = -1;
+        instituteEnrollment = -1;
+    }    
 
     public int getId() {
         return id;

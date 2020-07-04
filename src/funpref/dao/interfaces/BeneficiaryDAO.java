@@ -21,6 +21,8 @@ public interface BeneficiaryDAO {
     public boolean updateBeneficiary(Beneficiary beneficiary);
 
     public Beneficiary findByID(int beneficiaryID);
+    
+    public String getNameByID(int beneficiaryID);
 
     public List<Beneficiary> findAll();
     

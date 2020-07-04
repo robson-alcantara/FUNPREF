@@ -230,7 +230,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         
         ArrayList<Beneficiary> result = new ArrayList<>();
         PreparedStatement preparedStatement;        
-        int column = 1;
+        int column;
         
         try {
             preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(
@@ -257,6 +257,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {                
+                column = 1;
                 Beneficiary beneficiary = new Beneficiary();
                 
                 beneficiary.setId(resultSet.getInt(column++));
@@ -291,6 +292,27 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         } 
         
         return provinceId;        
+    }    
+    
+    @Override
+    public String getNameByID(int beneficiaryID) {
+        String name = "";
+        
+        String query = "SELECT name FROM funpref.beneficiary where id_beneficiary = '" + beneficiaryID + "'";
+        
+        try {                
+            Statement stmt = DAOFactoryImpl.getConnection().createStatement();
+            ResultSet resultSet = stmt.executeQuery(query);
+
+            if( resultSet.next() ) {            
+                name = resultSet.getString(1);
+            }
+
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }        
+        
+        return name;
     }    
 
     private void populatePreparedStatementFromResultSet(PreparedStatement preparedStatement, Beneficiary beneficiary, Integer columnReference, boolean populateCreateDate) {

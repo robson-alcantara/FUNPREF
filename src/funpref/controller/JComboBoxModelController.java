@@ -139,6 +139,19 @@ public class JComboBoxModelController {
                 break;
         }
         
-        return comboBoxItems.get( comboBoxItems.indexOf( new ComboBoxItem( id ) ) );
+        return comboBoxItems.get( findComboBoxItemIndex( id, comboBoxItems ) );
     }    
+
+    private int findComboBoxItemIndex(int id, ArrayList<ComboBoxItem> comboBoxItems) {
+        int index = -1;
+        
+        for( int i = 0; i < comboBoxItems.size(); i++ ) {
+            if( comboBoxItems.get(i).getId() == id ) {
+                index = i;
+                i = comboBoxItems.size();
+            }
+        }
+        
+        return index;
+    }
 }
