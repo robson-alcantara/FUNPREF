@@ -23,11 +23,12 @@ public interface BeneficiaryDAO {
     public Beneficiary findByID(int beneficiaryID);
     
     public String getNameByID(int beneficiaryID);
+    
+    public String getCadastralStatusDescriptionById(int id);
 
     public List<Beneficiary> findAll();
     
     public List<Beneficiary> findByExample(Beneficiary beneficiary);    
     
-    public List<Beneficiary> findByExamplePart(Beneficiary beneficiary);
-    
+    public List<Beneficiary> findByExamplePart(Beneficiary beneficiary);    
 }

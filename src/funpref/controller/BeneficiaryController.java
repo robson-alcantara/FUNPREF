@@ -8,6 +8,7 @@ package funpref.controller;
 import funpref.dao.concrete.DAOFactoryImpl;
 import funpref.dao.interfaces.BeneficiaryDAO;
 import funpref.model.Beneficiary;
+import funpref.model.Dependent;
 import funpref.view.beneficiaryView.BeneficiaryJInternalFrame;
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class BeneficiaryController {
     
     private final BeneficiaryDAO beneficiaryDAO;
     private BeneficiaryJInternalFrame beneficiaryJInternalFrame;    
-    private FUNPREFController funprefController;
+    private final FUNPREFController funprefController;
     
     private Beneficiary currentBeneficiary;    
     private boolean crudWrite;
@@ -46,10 +47,6 @@ public class BeneficiaryController {
         return funprefController;
     }
 
-    public void setFunprefController(FUNPREFController funprefController) {
-        this.funprefController = funprefController;
-    }
-
     public boolean isCrudWrite() {
         return crudWrite;
     }
@@ -71,7 +68,9 @@ public class BeneficiaryController {
     }    
     
     public Beneficiary findById( int beneficiaryID ) {
-        return beneficiaryDAO.findByID(beneficiaryID);
+        Beneficiary beneficiary = beneficiaryDAO.findByID(beneficiaryID);
+        beneficiary.setDependents( new ArrayList<Dependent> (funprefController.getDependentController().findAllByBeneficiaryID(beneficiaryID) ) );
+        return beneficiary;
     }
 
     public void fillAndShowBeneficiaryJInternalFrame() {
@@ -99,4 +98,21 @@ public class BeneficiaryController {
     public String getNameById(int id) {
         return beneficiaryDAO.getNameByID(id);
     }
+
+    public String getCadastralStatusDescriptionById(int id) {
+        return beneficiaryDAO.getCadastralStatusDescriptionById(id);
+    }
+    
+    public Dependent getDependentById(int id) {
+        int index = -1;
+        
+        for( int i = 0; i < currentBeneficiary.getDependents().size(); i++ ) {
+            if( currentBeneficiary.getDependents().get(i).getId() == id ) {
+                index = i;
+                i = currentBeneficiary.getDependents().size();
+            }
+        }        
+        
+        return currentBeneficiary.getDependents().get(index);
+    }    
 }

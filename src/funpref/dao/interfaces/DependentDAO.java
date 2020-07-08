@@ -5,10 +5,17 @@
  */
 package funpref.dao.interfaces;
 
+import funpref.model.Dependent;
+import java.util.List;
+
 /**
  *
  * @author robson
  */
 public interface DependentDAO {
+    
+    public List<Dependent> findAllByBeneficiaryID(int beneficiaryID);
+    
+    public String getKinshipByID(int kinshipID);    
     
 }

@@ -15,14 +15,16 @@ import java.time.Period;
 public class FUNPREFController {
     
     private FUNPREFJFrame funprefJFrame;
-    private BeneficiaryController beneficiaryController;
-    private SearchBeneficiaryController searchBeneficiaryController;
+    private final BeneficiaryController beneficiaryController;
+    private final DependentController dependentController;
+    private final SearchBeneficiaryController searchBeneficiaryController;
     private JComboBoxModelController jComboBoxModelController;
     
     int currentUserID;
     
     public FUNPREFController() {
         beneficiaryController = new BeneficiaryController( this );
+        dependentController = new DependentController(this);
         searchBeneficiaryController = new SearchBeneficiaryController( this );
         jComboBoxModelController = new JComboBoxModelController(this);
     }
@@ -78,6 +80,10 @@ public class FUNPREFController {
         return beneficiaryController;
     }
 
+    public DependentController getDependentController() {
+        return dependentController;
+    }
+    
     public SearchBeneficiaryController getSearchBeneficiaryController() {
         return searchBeneficiaryController;
     }

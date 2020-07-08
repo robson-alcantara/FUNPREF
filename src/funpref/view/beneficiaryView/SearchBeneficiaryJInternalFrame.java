@@ -5,12 +5,10 @@
  */
 package funpref.view.beneficiaryView;
 
-import funpref.controller.BeneficiaryController;
 import funpref.controller.SearchBeneficiaryController;
 import funpref.model.Beneficiary;
 import java.util.ArrayList;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,7 +18,7 @@ public class SearchBeneficiaryJInternalFrame extends javax.swing.JInternalFrame 
     
     private static SearchBeneficiaryJInternalFrame searchJInternalFrame;
     //private static int currentUserID;
-    private SearchBeneficiaryController searchBeneficiaryController;
+    private final SearchBeneficiaryController searchBeneficiaryController;
     private ArrayList<Beneficiary> findedBeneficiaries;
     private boolean updatingSourceBeneficiary;
 
@@ -35,6 +33,14 @@ public class SearchBeneficiaryJInternalFrame extends javax.swing.JInternalFrame 
         
         initComponents();
     }
+
+    public boolean isUpdatingSourceBeneficiary() {
+        return updatingSourceBeneficiary;
+    }
+
+    public void setUpdatingSourceBeneficiary(boolean updatingSourceBeneficiary) {
+        this.updatingSourceBeneficiary = updatingSourceBeneficiary;
+    }    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -213,7 +219,7 @@ public class SearchBeneficiaryJInternalFrame extends javax.swing.JInternalFrame 
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-//        searchJInternalFrame.setVisible(false);
+        dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -279,6 +285,7 @@ public class SearchBeneficiaryJInternalFrame extends javax.swing.JInternalFrame 
 
     public static SearchBeneficiaryJInternalFrame getSearchBeneficiaryJInternalFrame(SearchBeneficiaryController searchBeneficiaryController, boolean updatingSourceBeneficiary ) {
         if (searchJInternalFrame != null) {
+            searchJInternalFrame.setUpdatingSourceBeneficiary(updatingSourceBeneficiary);
             searchJInternalFrame.dispose();
             searchJInternalFrame.reset();
         }

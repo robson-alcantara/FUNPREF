@@ -314,6 +314,27 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         
         return name;
     }    
+    
+    @Override
+    public String getCadastralStatusDescriptionById(int idCadastralStatus) {
+        String description = "";
+        
+        String query = "SELECT status FROM funpref.cadastral_status where id_cadastral_status = '" + idCadastralStatus + "'";
+        
+        try {                
+            Statement stmt = DAOFactoryImpl.getConnection().createStatement();
+            ResultSet resultSet = stmt.executeQuery(query);
+
+            if( resultSet.next() ) {            
+                description = resultSet.getString(1);
+            }
+
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }        
+        
+        return description;
+    }    
 
     private void populatePreparedStatementFromResultSet(PreparedStatement preparedStatement, Beneficiary beneficiary, Integer columnReference, boolean populateCreateDate) {
         
