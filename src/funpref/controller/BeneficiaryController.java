@@ -115,4 +115,32 @@ public class BeneficiaryController {
         
         return currentBeneficiary.getDependents().get(index);
     }    
+
+    public void updateDependentsJTable() {
+        beneficiaryJInternalFrame.updateDependentsJTable();
+    }
+
+    public void showBeneficiaryJInternalFrame() {
+        beneficiaryJInternalFrame.setVisible(true);
+    }
+
+    public boolean save() {
+        
+        boolean validSave;
+        
+        if( currentBeneficiary.getId() > 0 ) { // atualiza o beneficiário
+            validSave = beneficiaryDAO.update(currentBeneficiary);
+        }
+        
+        else {  // insere o beneficiário
+            validSave = beneficiaryDAO.insert(currentBeneficiary);
+            currentBeneficiary.setId( beneficiaryDAO.getId() );
+        }
+        
+        if( validSave ) {
+            validSave = funprefController.getDependentController().save(currentBeneficiary.getDependents(), currentBeneficiary);        
+        }
+        
+        return validSave;
+    }
 }

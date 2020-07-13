@@ -26,7 +26,8 @@ public class Dependent {
     private int idUserCreate;
     private int idUserUpdate;
     private Date updateDate;
-    private Date createDate;    
+    private Date createDate;
+    private int idBeneficiary;
     
     public Dependent() {
         this.id = -1;
@@ -134,5 +135,13 @@ public class Dependent {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }    
+
+    public int getIdBeneficiary() {
+        return idBeneficiary;
+    }
+
+    public void setIdBeneficiary(int idBeneficiary) {
+        this.idBeneficiary = idBeneficiary;
     }    
 }

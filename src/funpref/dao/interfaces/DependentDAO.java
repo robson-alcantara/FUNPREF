@@ -14,6 +14,12 @@ import java.util.List;
  */
 public interface DependentDAO {
     
+    public boolean insert(Dependent dependent);
+
+    public boolean delete(Dependent dependent);
+
+    public boolean update(Dependent dependent);    
+    
     public List<Dependent> findAllByBeneficiaryID(int beneficiaryID);
     
     public String getKinshipByID(int kinshipID);    

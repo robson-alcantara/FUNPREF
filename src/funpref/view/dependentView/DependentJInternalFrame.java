@@ -8,7 +8,14 @@ package funpref.view.dependentView;
 import funpref.controller.DependentController;
 import funpref.model.Beneficiary;
 import funpref.model.Dependent;
+import funpref.model.combobox.ComboBoxItem;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -74,6 +81,24 @@ public class DependentJInternalFrame extends javax.swing.JInternalFrame {
         jButton11 = new javax.swing.JButton();
         jComboBox18 = new javax.swing.JComboBox<>();
         jLabel81 = new javax.swing.JLabel();
+
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jLabel34.setText("nome:");
 
@@ -210,7 +235,7 @@ public class DependentJInternalFrame extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -223,16 +248,25 @@ public class DependentJInternalFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        save();
 //        saveDependentCRUDJInternalFrame();
+        dependentController.getFunprefController().getBeneficiaryController().updateDependentsJTable();
+        close();
+
 //        updateDependentsJTable( currentBeneficiary );
 //        beneficiaryCRUDJInternalFrame.setVisible(true);
 //        dependentCRUDJInternalFrame.setVisible(false);
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        close();
 //        beneficiaryCRUDJInternalFrame.setVisible(true);
 //        dependentCRUDJInternalFrame.setVisible(false);
     }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        close();
+    }//GEN-LAST:event_formInternalFrameClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -278,16 +312,27 @@ public class DependentJInternalFrame extends javax.swing.JInternalFrame {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void fillDependentCRUDJInternalFrame(Dependent dependent) {
+    public void fillFields(Dependent dependent) {
         jTextField38.setText("" + dependent.getId());
         jTextField20.setText(dependent.getName());
-        jComboBox6.setSelectedItem( dependentController.getFunprefController().getjComboBoxModelController().getComboBoxItem(dependent.getIdKinship(), "kinship") );
+        
+        if( dependent.getIdKinship() > 0 ) {
+            jComboBox6.setSelectedItem( dependentController.getFunprefController().getjComboBoxModelController().getComboBoxItem(dependent.getIdKinship(), "kinship") );
+        }
+        
         jComboBox7.setSelectedItem( decodeSex( dependent.getSex() ));
-        jFormattedTextField8.setText( formatDate.format( dependent.getBirthDate() ) );
-        jTextField22.setText( dependentController.getFunprefController().decodePeriod( dependent.getAge() ) );        
+        
+        if( dependent.getBirthDate() != null ) {
+            jFormattedTextField8.setText( formatDate.format( dependent.getBirthDate() ) );
+            jTextField22.setText( dependentController.getFunprefController().decodePeriod( dependent.getAge() ) );        
+        }        
+        
         jTextField21.setText(dependent.getPhone()); 
         jTextField14.setText(dependent.getCpf());
-        jComboBox18.setSelectedItem( dependentController.getFunprefController().getjComboBoxModelController().getComboBoxItem(dependent.getIdDeficiency(), "deficiency") );
+        
+        if( dependent.getIdDeficiency() > 0 ) {
+            jComboBox18.setSelectedItem( dependentController.getFunprefController().getjComboBoxModelController().getComboBoxItem(dependent.getIdDeficiency(), "deficiency") );
+        }
     }
     
     public void fillJComboBoxes() {                
@@ -320,5 +365,58 @@ public class DependentJInternalFrame extends javax.swing.JInternalFrame {
         jTextField14.setEditable(editable);
         jComboBox18.setEnabled(editable);
     }
+
+    private void save() {
+        
+        Dependent dependent = new Dependent();
+        
+        if( !jTextField38.getText().isEmpty() ) { // atualização
+            dependent.setId( Integer.parseInt( jTextField38.getText() ) );
+        }
+        
+        else { // criação
+            dependent.setIdUserCreate( dependentController.getFunprefController().getCurrentUserID());
+            dependent.setCreateDate(new Date());
+        }        
+        
+        dependent.setName( jTextField20.getText() );
+        dependent.setIdKinship( ((ComboBoxItem)jComboBox6.getSelectedItem()).getId() );
+        //dependent.degreeOfKinship = encodeDegreeOfKinship( jComboBox6.getSelectedItem().toString() );
+        dependent.setSex( encodeSex( jComboBox7.getSelectedItem().toString() ) );
+        try {
+            dependent.setBirthDate( formatDate.parse( jFormattedTextField8.getText() ) );
+        } catch (ParseException ex) {
+            Logger.getLogger(DependentJInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        dependent.setAge( Period.between(dependent.getBirthDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                    (new Date()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));      
+        dependent.setPhone( jTextField21.getText() ); 
+        dependent.setCpf( jTextField14.getText() );
+        dependent.setIdDeficiency( ((ComboBoxItem)jComboBox18.getSelectedItem()).getId() );
+        
+        dependent.setIdUserUpdate( dependentController.getFunprefController().getCurrentUserID() );
+        dependent.setUpdateDate(new Date());
+        
+        //currentBeneficiary.getDependents().add(dependent);
+        dependentController.add(dependent);         
+    }
     
+    private Beneficiary.Sex encodeSex(String sexString) {
+        Beneficiary.Sex sex;
+        
+        if( sexString.compareTo("masculino") == 0 ) {
+            sex = Beneficiary.Sex.MALE;
+        }
+        
+        else {
+            sex = Beneficiary.Sex.FEMALE;
+        }   
+        
+        return sex;
+    } 
+    
+    private void close() {
+        dependentController.getFunprefController().getBeneficiaryController().showBeneficiaryJInternalFrame();
+        this.dispose();        
+    }
 }

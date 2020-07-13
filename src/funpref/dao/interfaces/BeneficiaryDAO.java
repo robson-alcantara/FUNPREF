@@ -14,11 +14,11 @@ import java.util.List;
  */
 public interface BeneficiaryDAO {
     
-    public boolean insertBeneficiary(Beneficiary beneficiary);
+    public boolean insert(Beneficiary beneficiary);
 
-    public boolean deleteBeneficiary(Beneficiary beneficiary);
+    public boolean delete(Beneficiary beneficiary);
 
-    public boolean updateBeneficiary(Beneficiary beneficiary);
+    public boolean update(Beneficiary beneficiary);
 
     public Beneficiary findByID(int beneficiaryID);
     
@@ -31,4 +31,6 @@ public interface BeneficiaryDAO {
     public List<Beneficiary> findByExample(Beneficiary beneficiary);    
     
     public List<Beneficiary> findByExamplePart(Beneficiary beneficiary);    
+
+    public int getId();
 }

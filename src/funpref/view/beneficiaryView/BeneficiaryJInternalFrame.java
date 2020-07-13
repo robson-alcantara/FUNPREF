@@ -9,7 +9,14 @@ import funpref.controller.BeneficiaryController;
 import funpref.model.Beneficiary;
 import funpref.model.Dependent;
 import funpref.model.combobox.ComboBoxItem;
+import funpref.view.FUNPREFJFrame;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
@@ -48,6 +55,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         }
         else {
             beneficiaryJInternalFrame = new BeneficiaryJInternalFrame( currentBeneficiary, currentUserID, beneficiaryController );
+            beneficiaryJInternalFrame.reset();
         }
         return beneficiaryJInternalFrame;
     }
@@ -238,6 +246,24 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         createDependentJButton = new javax.swing.JButton();
         updateDependentJButton = new javax.swing.JButton();
         deleteDependentJButton = new javax.swing.JButton();
+
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jTabbedPane2.setPreferredSize(new java.awt.Dimension(950, 489));
 
@@ -431,7 +457,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
                                     .addComponent(jComboBox9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBox10, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel64)))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -875,7 +901,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel74)
-                                    .addComponent(jComboBox12, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jComboBox12, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel73)
@@ -909,12 +935,12 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel75)
-                                    .addComponent(jComboBox15, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jComboBox15, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel28)
                                     .addComponent(jComboBox14, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 69, Short.MAX_VALUE)))
+                        .addGap(0, 59, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -1115,7 +1141,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel72)
-                            .addComponent(jComboBox11, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBox11, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(22, 22, 22)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField46, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1137,7 +1163,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
                             .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel15)))
                     .addComponent(jLabel84))
-                .addContainerGap(149, Short.MAX_VALUE))
+                .addContainerGap(139, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1325,7 +1351,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTextField9ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        dispose();
+        close();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -1355,7 +1381,18 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-
+        if( verifyFields() ) {
+            beneficiaryController.setCurrentBeneficiary( populateBeneficiary() );
+            if( beneficiaryController.save() ) {
+                JOptionPane.showMessageDialog(rootPane, "Registro salvo com sucesso", "FUNPREF", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+            else {
+                JOptionPane.showMessageDialog(rootPane, "Um erro ocorreu ao tentar salvar o beneficiário", "FUNPREF", JOptionPane.ERROR_MESSAGE);
+            }
+            //beneficiaryCRUDJInternalFrame.setVisible(false);
+            //currentBeneficiary = null;
+        }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
@@ -1385,7 +1422,9 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jCheckBox6ActionPerformed
 
     private void jComboBox12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox12ActionPerformed
-
+        if( jComboBox12.getSelectedItem() != null ) {
+            jComboBox13.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getCitiesModel( ((ComboBoxItem) jComboBox12.getSelectedItem()).getId() ) );
+        }
     }//GEN-LAST:event_jComboBox12ActionPerformed
 
     private void jComboBox13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox13ActionPerformed
@@ -1393,7 +1432,9 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jComboBox13ActionPerformed
 
     private void jComboBox15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox15ActionPerformed
-
+        if( jComboBox15.getSelectedItem() != null ) {
+            jComboBox14.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getCitiesModel( ((ComboBoxItem) jComboBox15.getSelectedItem()).getId() ) );
+        }
     }//GEN-LAST:event_jComboBox15ActionPerformed
 
     private void jComboBox11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox11ActionPerformed
@@ -1411,19 +1452,30 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
             //dependent = beneficiaryController.getDependentById(Integer.parseInt( dependentsJTable.getValueAt( dependentsJTable.getSelectedRow(), 0 ).toString() ));
             dependent = currentBeneficiary.getDependents().get(dependentsJTable.getSelectedRow());
             //preFillDependentCRUDJInternalFrame();
-            beneficiaryController.getFunprefController().getDependentController().fillAndShowDependentCRUDJInternalFrame(dependent, beneficiaryController.isCrudWrite());
+            beneficiaryController.getFunprefController().getDependentController().fillAndShowDependentCRUDJInternalFrame(dependent, false);
+            this.setVisible(false);
 //            setEditableDependentCRUDJInternalFrame(false);
 //            dependentCRUDJInternalFrame.setVisible(true);                
         }        
     }//GEN-LAST:event_readDependentJButtonActionPerformed
 
     private void createDependentJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createDependentJButtonActionPerformed
-
+        beneficiaryController.getFunprefController().getDependentController().fillAndShowDependentCRUDJInternalFrame(new Dependent(), true);
+        this.setVisible(false);
     }//GEN-LAST:event_createDependentJButtonActionPerformed
 
     private void updateDependentJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDependentJButtonActionPerformed
-
+        if( (dependentsJTable.getSelectedRow() >= 0 ) && (!(dependentsJTable.getValueAt(dependentsJTable.getSelectedRow(),0)).toString().isEmpty() ) ) {                  
+            Dependent dependent;
+            dependent = currentBeneficiary.getDependents().get(dependentsJTable.getSelectedRow());
+            beneficiaryController.getFunprefController().getDependentController().fillAndShowDependentCRUDJInternalFrame(dependent, true);
+            this.setVisible(false);
+        }
     }//GEN-LAST:event_updateDependentJButtonActionPerformed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        close();
+    }//GEN-LAST:event_formInternalFrameClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1623,7 +1675,9 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         
         jComboBox3.setSelectedItem( decodeSex(currentBeneficiary.getSex() ) );
         
-        jFormattedTextField3.setText(formatDate.format(currentBeneficiary.getBirthDate() ) );
+        if(currentBeneficiary.getBirthDate() != null) {
+            jFormattedTextField3.setText(formatDate.format(currentBeneficiary.getBirthDate() ) );
+        }
         
         if( currentBeneficiary.getIdMaritalStatus() > 0 ){
             jComboBox5.setSelectedItem( beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdMaritalStatus(), "marital_status") );
@@ -1710,7 +1764,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         
         // Tela de dependentes
         
-        updateDependentsJTable(currentBeneficiary );        
+        updateDependentsJTable();        
         
         // Tela de Finanças/Endereço/Outros
         jTextField23.setText(currentBeneficiary.getBankAgency() );
@@ -2086,7 +2140,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         
         jTextField13.setText("");
         jComboBox14.setSelectedIndex(-1);
-        jComboBox15.setSelectedIndex(0);
+        jComboBox15.setSelectedIndex(-1);
         //jTextField14.setText("");
         
         jTextField17.setText("");
@@ -2094,7 +2148,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         jTextField16.setText("");
         jTextField18.setText("");
         jComboBox11.setSelectedIndex(-1);
-        jComboBox12.setSelectedIndex(0);        
+        jComboBox12.setSelectedIndex(-1);        
         jComboBox13.setSelectedIndex(-1);
         
         jTextField19.setText("");        
@@ -2115,16 +2169,16 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         jComboBox16.setSelectedIndex(-1);        
     }
     
-    private void updateDependentsJTable(Beneficiary beneficiary) {
+    public void updateDependentsJTable() {
         
         int counter;
         
         clearTable(dependentsJTable);
         
-        for( int i = 0; i < beneficiary.getDependents().size(); i++) {
+        for( int i = 0; i < currentBeneficiary.getDependents().size(); i++) {
             counter = 0;            
-            dependentsJTable.setValueAt(beneficiary.getDependents().get(i).getName(), i, counter++);
-            dependentsJTable.setValueAt( beneficiaryController.getFunprefController().getDependentController().getKinshipById(beneficiary.getDependents().get(i).getIdKinship() ), i, counter++);
+            dependentsJTable.setValueAt(currentBeneficiary.getDependents().get(i).getName(), i, counter++);
+            dependentsJTable.setValueAt( beneficiaryController.getFunprefController().getDependentController().getKinshipById(currentBeneficiary.getDependents().get(i).getIdKinship() ), i, counter++);
         }
     }
     
@@ -2135,4 +2189,666 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
           }
        }
     }    
+
+    private void close() {
+        beneficiaryController.setCurrentBeneficiary(null);
+        this.dispose();
+    }
+
+    private boolean verifyFields() {
+        String message = "";
+        boolean valid = true;
+        Date aDate;
+        int aValueInt;
+        double aValueDouble;
+        
+        if(jTextField12.getText().isEmpty()) {
+            message = message + "O campo 'matrícula' está vazio\n";
+            valid = false;
+        } 
+
+        else {            
+            try {
+                aValueInt = Integer.parseInt(jTextField12.getText());
+            } catch(NumberFormatException ex) {
+                message = message + "O campo 'matrícula' deve conter apenas números\n";
+                valid = false;
+            }            
+        }  
+        
+        if(jTextField2.getText().isEmpty()) {
+            message = message + "O campo 'portaria' está vazio\n";
+            valid = false;
+        }
+        
+        if(jTextField3.getText().isEmpty()) {
+            message = message + "O campo 'nome' está vazio\n";
+            valid = false;
+        }        
+        
+        if(jComboBox3.getSelectedIndex()==-1) {
+            message = message + "A opção 'sexo' é inválida\n";
+            valid = false;            
+        }
+        
+        if(jFormattedTextField3.getText().isEmpty()) {
+            message = message + "O campo 'data de nascimento' está vazio\n";
+            valid = false;
+        }  
+        
+        else {
+            try {
+                aDate = formatDate.parse(jFormattedTextField3.getText());
+            } catch (ParseException ex) {
+                message = message + "O campo 'data de nascimento' está incorreto\n";
+                valid = false;
+            }
+        }                    
+        
+        if(jComboBox5.getSelectedIndex()==-1) {
+            message = message + "A opção 'estado civil' é inválida\n";
+            valid = false;            
+        } 
+        
+        if(jCheckBox1.isSelected()) {
+            if(jFormattedTextField4.getText().isEmpty()) {
+                message = message + "O campo 'data de óbito' está vazio\n";
+                valid = false;
+            }   
+            
+            else {
+                try {
+                    aDate = formatDate.parse(jFormattedTextField4.getText());
+                } catch (ParseException ex) {
+                    message = message + "O campo 'data de óbito' está incorreto\n";
+                    valid = false;
+                }
+            }             
+        }
+        
+        if(jTextField5.getText().isEmpty()) {
+            message = message + "O campo 'RG' está vazio\n";
+            valid = false;
+        }         
+        
+        if(jFormattedTextField5.getText().isEmpty()) {
+            message = message + "O campo 'data de emissão' está vazio\n";
+            valid = false;
+        }
+        
+        else {
+            try {
+                aDate = formatDate.parse(jFormattedTextField5.getText());
+            } catch (ParseException ex) {
+                message = message + "O campo 'data de emissão' está incorreto\n";
+                valid = false;
+            }
+        }         
+        
+        if(jComboBox9.getSelectedIndex()==-1) {
+            message = message + "A opção 'órgão de emissão' é inválida\n";
+            valid = false;            
+        }         
+        
+        if(jComboBox10.getSelectedIndex()==-1) {
+            message = message + "A opção 'UF do órgão de emissão' é inválida\n";
+            valid = false;            
+        }        
+        
+        if(jTextField6.getText().isEmpty()) {
+            message = message + "O campo 'CPF' está vazio\n";
+            valid = false;
+        }         
+        
+        if(jTextField7.getText().isEmpty()) {
+            message = message + "O campo 'nome da mãe' está vazio\n";
+            valid = false;
+        }           
+        
+        if(jComboBox1.getSelectedIndex()==-1) {
+            message = message + "A opção 'regra' é inválida\n";
+            valid = false;            
+        }         
+        
+//        if(jComboBox2.getSelectedIndex()==-1) {
+//            message = message + "A opção 'forma de cálculo' é inválida\n";
+//            valid = false;            
+//        }   
+        
+        if(jFormattedTextField1.getText().isEmpty()) {
+            message = message + "O campo 'data de admissão' está vazio\n";
+            valid = false;
+        }
+        
+        else {
+            try {
+                aDate = formatDate.parse(jFormattedTextField1.getText());
+            } catch (ParseException ex) {
+                message = message + "O campo 'data de admissão' está incorreto\n";
+                valid = false;
+            }
+        }          
+
+        if(jFormattedTextField2.getText().isEmpty()) {
+            message = message + "O campo 'data de inativação' está vazio\n";
+            valid = false;
+        }
+        
+        else {
+            try {
+                aDate = formatDate.parse(jFormattedTextField2.getText());
+            } catch (ParseException ex) {
+                message = message + "O campo 'data de inativação' está incorreto\n";
+                valid = false;
+            }
+        }        
+        
+//        if(jFormattedTextField6.getText().isEmpty()) {
+//            message = message + "O campo 'data de requerimento' está vazio\n";
+//            valid = false;
+//        }
+//        
+//        else {
+//            try {
+//                aDate = formatDate.parse(jFormattedTextField6.getText());
+//            } catch (ParseException ex) {
+//                message = message + "O campo 'data de requerimento' está incorreto\n";
+//                valid = false;
+//            }
+//        } 
+
+
+        if(!jFormattedTextField6.getText().isEmpty()) {
+            try {
+                aDate = formatDate.parse(jFormattedTextField6.getText());
+            } catch (ParseException ex) {
+                message = message + "O campo 'data de requerimento' está incorreto\n";
+                valid = false;
+            }
+        }
+
+        if(!jTextField47.getText().isEmpty()) {
+            try {
+                aValueInt = Integer.parseInt(jTextField47.getText());
+            } catch(NumberFormatException ex) {
+                message = message + "O campo 'matrícula (ativo)' deve conter apenas números\n";
+                valid = false;
+            }            
+        } 
+        
+        if(jTextField4.getText().isEmpty()) {
+            message = message + "O campo 'cargo' está vazio\n";
+            valid = false;
+        }   
+        
+        if(jComboBox4.getSelectedIndex()==-1) {
+            message = message + "A opção 'órgão de lotação' é inválida\n";
+            valid = false;            
+        }  
+        
+        if(( jComboBox4.getSelectedIndex() != -1 ) && ( jComboBox4.getSelectedItem().toString().compareTo("invalidez") == 0 ) ) {
+            if(jTextArea1.getText().isEmpty()) {
+                message = message + "O campo 'motivo de invalidez' está vazio\n";
+                valid = false;
+            }
+
+            if(jFormattedTextField7.getText().isEmpty()) {
+                message = message + "O campo 'data do laudo de invalidez' está vazio\n";
+                valid = false;
+            }
+            
+            else {
+                try {
+                    aDate = formatDate.parse(jFormattedTextField7.getText());
+                } catch (ParseException ex) {
+                    message = message + "O campo 'data do laudo de invalidez' está incorreto\n";
+                    valid = false;
+                }
+            }             
+        }
+        
+        if(jTextField23.getText().isEmpty()) {
+            message = message + "O campo 'agência BB' está vazio\n";
+            valid = false;
+        } 
+        
+        if(jTextField24.getText().isEmpty()) {
+            message = message + "O campo 'conta corrente' está vazio\n";
+            valid = false;
+        }  
+
+//        if(jTextField25.getText().isEmpty()) {
+//            message = message + "O campo 'proventos - inativos (R$)' está vazio\n";
+//            valid = false;
+//        } 
+
+        if(!jTextField25.getText().isEmpty()) {
+            try {
+                aValueDouble = Double.parseDouble(jTextField47.getText());
+            } catch(NumberFormatException ex) {
+                message = message + "O campo 'proventos - inativos (R$)' está preenchido de forma incorreta\n";
+                valid = false;
+            }             
+        } 
+
+        if(jCheckBox2.isSelected()) {
+            if(jTextField26.getText().isEmpty()) {
+                message = message + "O campo 'valor (R$)' (promoção antiga) está vazio\n";
+                valid = false;
+            }         
+        }   
+        
+        if(jCheckBox3.isSelected()) {
+            if(jComboBox8.getSelectedIndex()==-1) {
+                message = message + "A opção 'percentual' (pó de giz) é inválida\n";
+                valid = false;            
+            } 
+            
+            if(jTextField29.getText().isEmpty()) {
+                message = message + "O campo 'valor (R$)' (pó de giz) está vazio\n";
+                valid = false;
+            }            
+        }  
+        
+        if(jCheckBox4.isSelected()) {
+            if(jTextField27.getText().isEmpty()) {
+                message = message + "O campo 'percentual (%)' (anuênio) está vazio\n";
+                valid = false;
+            } 
+            
+            if(jTextField34.getText().isEmpty()) {
+                message = message + "O campo 'valor (R$)' (anuênio) está vazio\n";
+                valid = false;
+            }            
+        } 
+        
+        if(jCheckBox5.isSelected()) {
+            if(jTextField28.getText().isEmpty()) {
+                message = message + "O campo 'percentual (%)' (quinquênio) está vazio\n";
+                valid = false;
+            } 
+            
+            if(jTextField30.getText().isEmpty()) {
+                message = message + "O campo 'valor (R$)' (quinquênio) está vazio\n";
+                valid = false;
+            }            
+        } 
+        
+        if(jCheckBox6.isSelected()) {         
+            if(jTextField31.getText().isEmpty()) {
+                message = message + "O campo 'valor (R$)' (empréstimo consignado) está vazio\n";
+                valid = false;
+            }            
+        }
+        
+        if(jTextField40.getText().isEmpty()) {
+            message = message + "O campo 'nacionalidade' está vazio\n";
+            valid = false;
+        } 
+        
+        if(jComboBox13.getSelectedIndex()==-1) {
+            message = message + "A opção 'cidade de naturalidade' é inválida\n";
+            valid = false;            
+        }        
+        
+        if(jTextField13.getText().isEmpty()) {
+            message = message + "O campo 'endereço' está vazio\n";
+            valid = false;
+        } 
+        
+        if(jComboBox14.getSelectedIndex()==-1) {
+            message = message + "A opção 'cidade' é inválida\n";
+            valid = false;            
+        }         
+        
+        if(jTextField17.getText().isEmpty()) {
+            message = message + "O campo 'CEP' está vazio\n";
+            valid = false;
+        }  
+        
+        if(jTextField19.getText().isEmpty()) {
+            message = message + "O campo 'gaveta de documentos físicos' está vazio\n";
+            valid = false;
+        }
+        
+        else {            
+            try {
+                aValueInt = Integer.parseInt(jTextField19.getText());
+            } catch(NumberFormatException ex) {
+                message = message + "O campo 'gaveta de documentos físicos' deve conter apenas números\n";
+                valid = false;
+            }            
+        }        
+        
+        if(jTextField39.getText().isEmpty()) {
+            message = message + "O campo 'código da pasta física' está vazio\n";
+            valid = false;
+        }
+        
+        else {            
+            try {
+                aValueInt = Integer.parseInt(jTextField39.getText());
+            } catch(NumberFormatException ex) {
+                message = message + "O campo 'código da pasta física' deve conter apenas números\n";
+                valid = false;
+            }            
+        }        
+
+        if(jTextField43.getText().isEmpty()) {
+            message = message + "O campo 'título do eleitor' está vazio\n";
+            valid = false;
+        }          
+        
+        if(jTextField44.getText().isEmpty()) {
+            message = message + "O campo 'zona eleitoral' está vazio\n";
+            valid = false;
+        } 
+        
+        else {
+            try {
+                aValueInt = Integer.parseInt(jTextField44.getText());
+            } catch(NumberFormatException ex) {
+                message = message + "O campo 'zona eleitoral' deve conter apenas números\n";
+                valid = false;
+            }             
+        }
+        
+        if(jTextField45.getText().isEmpty()) {
+            message = message + "O campo 'seção eleitoral' está vazio\n";
+            valid = false;
+        }  
+        
+        else {
+            try {
+                aValueInt = Integer.parseInt(jTextField45.getText());
+            } catch(NumberFormatException ex) {
+                message = message + "O campo 'seção eleitoral' deve conter apenas números\n";
+                valid = false;
+            }             
+        }        
+        
+        if(jComboBox11.getSelectedIndex()==-1) {
+            message = message + "A opção 'UF' do título de eleitor é inválida\n";
+            valid = false;            
+        }        
+        
+//        if(jTextField46.getText().isEmpty()) {
+//            message = message + "O campo 'PIS/PASEP' está vazio\n";
+//            valid = false;
+//        } 
+        
+        if(jComboBox16.getSelectedIndex()==-1) {
+            message = message + "A opção 'grau de formação' é inválida\n";
+            valid = false;            
+        }        
+        
+        if( ((ComboBoxItem)jComboBox1.getSelectedItem()).getId() == 2 ) { // se for pensionista
+            if(jTextField48.getText().isEmpty()) {
+                message = message + "O campo 'matrícula do beneficiário de origem' está vazio\n";
+                valid = false;
+            }            
+        }
+
+        if(!valid) {
+            JOptionPane.showMessageDialog(rootPane, message, "Erro(s)", JOptionPane.ERROR_MESSAGE);                 
+        }        
+        
+        return valid;
+    }
+
+    private Beneficiary populateBeneficiary() {
+        Beneficiary beneficiary = beneficiaryController.getCurrentBeneficiary();
+        
+        if( beneficiary.getId() == -1 ) { // criação de um beneficiário
+            beneficiary.setCreateDate(new Date() );
+            beneficiary.setIdUserCreate( beneficiaryController.getFunprefController().getCurrentUserID() );
+        }
+        
+        beneficiary.setRegistration( Integer.parseInt(jTextField12.getText()));
+        beneficiary.setOrdinance( jTextField2.getText() );
+        beneficiary.setCpf( jTextField6.getText() );
+        beneficiary.setName( jTextField3.getText() );
+        
+        beneficiary.setSex( encodeSex( jComboBox3.getSelectedItem().toString() ) );     
+        
+        try {
+            beneficiary.setBirthDate( formatDate.parse( jFormattedTextField3.getText() ) );
+        } catch (ParseException ex) {
+            Logger.getLogger(FUNPREFJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if( beneficiary.getIdCadastralStatus() != 2 ) {
+            int optionResult = JOptionPane.showConfirmDialog(null, "Essa operação é uma atualização do censo?", "FUNPREF", JOptionPane.YES_NO_OPTION);
+
+            if( optionResult == 0 ) {
+                beneficiary.setIdCadastralStatus( 2 );  // recadastramento
+                beneficiary.setRegisterDate(new Date()); // informa a data do recadastramento
+                beneficiary.setIdUserRegistration(beneficiaryController.getFunprefController().getCurrentUserID() );
+            }
+
+            else {
+                beneficiary.setIdCadastralStatus( 3 );  // atualizado
+            }
+        }     
+
+        // update number
+        // reregistration datetime
+        // user registration
+        // user update        
+        
+        beneficiary.setNationality( jTextField40.getText() );
+        beneficiary.setIdCityPlaceOfBirth(  ((ComboBoxItem)jComboBox13.getSelectedItem()).getId() );
+        beneficiary.setIdProvincePlaceOfBirth( ((ComboBoxItem)jComboBox12.getSelectedItem()).getId() );
+        //beneficiary.setMaritalStatusId(funprefController.encodeMaritalStatus( jComboBox5.getSelectedItem().toString() ) );
+        beneficiary.setDeceased( jCheckBox1.isSelected() );        
+        
+        if( beneficiary.isDeceased() ) {
+            try {            
+                beneficiary.setDeathDate( formatDate.parse(jFormattedTextField4.getText()) );
+            } catch (ParseException ex) {
+                Logger.getLogger(FUNPREFJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        else {
+            beneficiary.setDeathDate(null);
+        }
+        
+        beneficiary.setAddress( jTextField13.getText() );
+        beneficiary.setIdCityAddress(((ComboBoxItem)jComboBox14.getSelectedItem()).getId() );
+        beneficiary.setIdProvinceAddress(((ComboBoxItem)jComboBox15.getSelectedItem()).getId() );
+        
+        beneficiary.setZipCode( jTextField17.getText() );
+        beneficiary.setPhone1( jTextField15.getText() );
+        beneficiary.setPhone2( jTextField16.getText() );
+        beneficiary.setEmail( jTextField18.getText() );  
+        
+        beneficiary.setIdDegreeOfEducation(  ((ComboBoxItem)jComboBox16.getSelectedItem()).getId() );
+        beneficiary.setIdMaritalStatus( ((ComboBoxItem)jComboBox5.getSelectedItem()).getId() );
+        
+        if((((ComboBoxItem)jComboBox1.getSelectedItem()).toString()).compareTo("invalidez") == 0 ) {  
+            beneficiary.setIdDeficiency( ((ComboBoxItem)jComboBox17.getSelectedItem()).getId() );
+            beneficiary.setInvalidityReason( jTextArea1.getText() );
+            try {            
+                beneficiary.setInvalidityAwardDate( formatDate.parse(jFormattedTextField7.getText()) );
+            } catch (ParseException ex) {
+                Logger.getLogger(FUNPREFJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }            
+        }
+        
+        else {
+            beneficiary.setIdDeficiency( 1 );
+            beneficiary.setInvalidityReason( "" );
+            beneficiary.setInvalidityAwardDate( null );
+        }
+        
+        if( !jTextField41.getText().isEmpty() ) {
+            beneficiary.setMotherCpf(jTextField41.getText());
+        }
+        beneficiary.setMotherName( jTextField7.getText() );
+        
+        if( !jTextField42.getText().isEmpty() ) {
+            beneficiary.setFatherCpf(jTextField42.getText());
+        } 
+        beneficiary.setFatherName( jTextField8.getText() );
+        
+        beneficiary.setPisPasep( jTextField46.getText() );
+        beneficiary.setVotersTitle( jTextField43.getText() );
+        beneficiary.setElectoralZone( Integer.parseInt( jTextField44.getText() ) );
+        beneficiary.setElectoralSection(Integer.parseInt( jTextField45.getText() ) );
+        beneficiary.setIdProvinceElectoralZone( ((ComboBoxItem)jComboBox11.getSelectedItem()).getId() );
+        beneficiary.setRg( jTextField5.getText() );       
+        
+        try {
+            beneficiary.setRgEmissionDate( formatDate.parse(jFormattedTextField5.getText()) );
+        } catch (ParseException ex) {
+            Logger.getLogger(FUNPREFJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        beneficiary.setIdRgIssuingBody( ((ComboBoxItem)jComboBox9.getSelectedItem()).getId() );   
+        beneficiary.setIdProvinceRg(((ComboBoxItem)jComboBox10.getSelectedItem()).getId() );
+        
+        try {
+            beneficiary.setAdmissionDate( formatDate.parse( jFormattedTextField1.getText() ) );
+            beneficiary.setInactivationDate( formatDate.parse( jFormattedTextField2.getText() ) );
+            
+            if( !jFormattedTextField6.getText().isEmpty() ) {
+                beneficiary.setApplicationDate( formatDate.parse( jFormattedTextField6.getText() ) );
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(FUNPREFJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+        beneficiary.setContributionTime( Period.between(beneficiary.getAdmissionDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                    beneficiary.getInactivationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));        
+        
+        try {
+            beneficiary.setContributionTimeFUNPREF( Period.between(formatDate.parse("01/01/1994").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                    beneficiary.getInactivationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()) );
+        } catch (ParseException ex) {
+            Logger.getLogger(FUNPREFJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        beneficiary.setInactivityTime( Period.between(beneficiary.getInactivationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                (new Date()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()) );        
+        
+        beneficiary.setIdBenefitType( ((ComboBoxItem)jComboBox1.getSelectedItem()).getId() );
+        // calculation form
+        beneficiary.setIdStockingOrgan( ((ComboBoxItem)jComboBox4.getSelectedItem()).getId()  );
+        beneficiary.setOffice(jTextField4.getText());
+        
+        if( !jTextField47.getText().isEmpty() ) {
+            beneficiary.setInstituteEnrollment( Integer.parseInt( jTextField47.getText() ) );
+        }
+        
+        beneficiary.setPhysicalDocumentDrawer( Integer.parseInt( jTextField19.getText() ) );
+        beneficiary.setIndexPhysicalDocument( Integer.parseInt( jTextField39.getText() ) );
+        
+        
+        //beneficiary.setInstituteEnrollmen(EXIT_ON_CLOSE);
+        
+//        beneficiary.setRegistration( Integer.parseInt(jTextField12.getText()) );
+        
+
+        //beneficiary.setStockingOrgan(encodeStockingOrgan( jComboBox4.getSelectedItem().toString() ));                       
+        
+//        if(((String)jComboBox1.getSelectedItem()).compareTo("invalidez") == 0 ) {
+//            beneficiary.setInvalidityReason( jTextArea1.getText() );
+//            try {            
+//                beneficiary.setInvalidityAwardDate(formatDate.parse( jFormattedTextField7.getText() ) );
+//            } catch (ParseException ex) {
+//                Logger.getLogger(FUNPREFJFrame.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            beneficiary.setIdDeficiency( ((DeficiencyDAO)jComboBox17.getSelectedItem()).getId() );
+//        }
+        
+        beneficiary.setBankAgency( jTextField23.getText() );
+        beneficiary.setAccount( jTextField24.getText() );
+        
+        if( !jTextField25.getText().isEmpty() ) {
+            beneficiary.setEarningsInative(Double.parseDouble( jTextField25.getText() ));
+        }
+        
+        beneficiary.setOldPromotion(jCheckBox2.isSelected());        
+        
+        if( beneficiary.isOldPromotion() ) {
+            beneficiary.setOldPromotionValue( Double.parseDouble( jTextField26.getText() ) );
+        }
+        
+        beneficiary.setChalkPowder( jCheckBox3.isSelected() );        
+        
+        if(beneficiary.isChalkPowder()) {
+//            beneficiary.setChalkPowderPercentual( encodeChalkPowderPercentual( jComboBox8.getSelectedItem().toString() ) );
+//            beneficiary.setChalkPowderValue( Double.parseDouble( jTextField29.getText() ) );            
+        }
+        
+        beneficiary.setMoreOneYear( jCheckBox4.isSelected() );        
+        
+        if( beneficiary.isMoreOneYear() ) {
+//            beneficiary.setMoreOneYearPercentual( encodePercentual( jTextField27.getText() ) );  
+//            beneficiary.setMoreOneYearValue( Double.parseDouble(jTextField34.getText()) );            
+        }
+        
+        beneficiary.setMoreFiveYear( jCheckBox5.isSelected() );
+        
+        if( beneficiary.isMoreFiveYear() ) {  
+//            beneficiary.setMoreFiveYearPercentual( encodePercentual( jTextField28.getText() ) );  
+//            beneficiary.setMoreFiveYearValue( Double.parseDouble(jTextField30.getText()) );             
+        }     
+        
+        if( !jTextField32.getText().isEmpty() ) {
+//            beneficiary.setIncomeTaxRate( encodePercentual(jTextField32.getText()) );
+        }
+        
+        if( !jTextField33.getText().isEmpty() ) {
+            beneficiary.setIncomeTaxValue( Double.parseDouble(jTextField33.getText()) );
+        }
+
+        beneficiary.setPayrollLoan( jCheckBox6.isSelected() );        
+        
+        if(beneficiary.isPayrollLoan()) {
+            beneficiary.setPayrollLoanValue( Double.parseDouble(jTextField31.getText()) );
+        }
+        
+        if( !jTextField35.getText().isEmpty() ) {
+            beneficiary.setGrossValue( Double.parseDouble( jTextField35.getText() ) );
+        }
+        
+        if( !jTextField36.getText().isEmpty() ) {
+            beneficiary.setDiscounts( Double.parseDouble( jTextField36.getText() ) );
+        }
+        
+        if( !jTextField37.getText().isEmpty() ) {
+            beneficiary.setNetValue( Double.parseDouble( jTextField37.getText() ) );
+        }
+
+
+        beneficiary.setPhysicalDocumentDrawer( Short.parseShort( jTextField19.getText() ) ); 
+        beneficiary.setIndexPhysicalDocument( Integer.parseInt(jTextField39.getText()) );
+        
+        if( ((ComboBoxItem)jComboBox1.getSelectedItem()).getId() == 2 ) { // se for pensionista
+            beneficiary.setInstituteEnrollment( Integer.parseInt( jTextField48.getText() ) );
+        }        
+        
+        beneficiary.setUpdateDate(new Date());
+        beneficiary.setIdUserUpdate(beneficiaryController.getFunprefController().getCurrentUserID());
+        
+        beneficiary.setObservations( jTextArea2.getText());
+        
+        return beneficiary;
+    }
+    
+    private Beneficiary.Sex encodeSex(String sexString) {
+        Beneficiary.Sex sex;
+        
+        if( sexString.compareTo("masculino") == 0 ) {
+            sex = Beneficiary.Sex.MALE;
+        }
+        
+        else {
+            sex = Beneficiary.Sex.FEMALE;
+        }   
+        
+        return sex;
+    }     
 }

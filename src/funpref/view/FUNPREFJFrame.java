@@ -77,7 +77,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         initImageIcon();
         setLocationRelativeTo( null );        
         
-        currentUserID = 0; //TODO: stub, add local variable in constructor
+        currentUserID = 6; //TODO: stub, add local variable in constructor
         this.funprefController.setCurrentUserID(currentUserID);
     }
     

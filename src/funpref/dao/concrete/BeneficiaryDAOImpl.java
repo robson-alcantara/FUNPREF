@@ -30,13 +30,14 @@ import java.util.logging.Logger;
 public class BeneficiaryDAOImpl implements BeneficiaryDAO {
 
     private final SimpleDateFormat formatDate;
+    private int lastInsertDependentId;
     
     public BeneficiaryDAOImpl() {
         formatDate = new SimpleDateFormat("dd/MM/yyyy");
     }
 
     @Override
-    public boolean insertBeneficiary(Beneficiary beneficiary) {
+    public boolean insert(Beneficiary beneficiary) {
         String query = "INSERT INTO funpref.beneficiary\n" +
             "(enrollment, ordinance, cpf, name, sex, birth_date, ref_id_cadastral_status, update_number, "
                 + "ref_id_user_registration, ref_id_user_create, ref_id_user_update, nationality, "
@@ -55,6 +56,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
                 + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
                 + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";        
         
+        String sqlLastInsertId = "SELECT LAST_INSERT_ID()";
         boolean result = true;
         Integer columnReference = null;
         
@@ -64,16 +66,29 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             populatePreparedStatementFromResultSet(preparedStatement, beneficiary, columnReference, true );
             
             preparedStatement.executeUpdate();            
+            
+            Statement stmt = DAOFactoryImpl.getConnection().createStatement();
+            
+            ResultSet rs = stmt.executeQuery(sqlLastInsertId);
+
+            if( rs.next() ) {
+                lastInsertDependentId = rs.getInt(1);
+            }
+            
+            else {
+                result = false;
+            }                        
+            
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             result = false;
-        }   
+        }        
         
         return result;
     }
 
     @Override
-    public boolean deleteBeneficiary(Beneficiary beneficiary) {
+    public boolean delete(Beneficiary beneficiary) {
         
         boolean result = true;
          
@@ -88,7 +103,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
     }
 
     @Override
-    public boolean updateBeneficiary(Beneficiary beneficiary) {
+    public boolean update(Beneficiary beneficiary) {
         
         String query = "UPDATE funpref.beneficiary\n" +
             "SET enrollment=?, ordinance=?, cpf=?, name=?, sex=?, birth_date=?, ref_id_cadastral_status=?, "
@@ -366,8 +381,16 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
 
             preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getBirthDate().getTime() ) );
             preparedStatement.setInt(column++, beneficiary.getIdCadastralStatus()); 
-            preparedStatement.setNull(column++, Types.INTEGER); // update number            
-            preparedStatement.setInt(column++, beneficiary.getIdUserRegistration()); // user registration
+            preparedStatement.setNull(column++, Types.INTEGER); // update number   
+            
+            if( beneficiary.getIdUserRegistration() > 0 ) {
+                preparedStatement.setInt(column++, beneficiary.getIdUserRegistration()); // user registration
+            }
+            
+            else {
+                preparedStatement.setNull(column++, Types.INTEGER);                
+            }
+            
             preparedStatement.setInt(column++, beneficiary.getIdUserCreate()); // user create
             preparedStatement.setInt(column++, beneficiary.getIdUserUpdate()); // user update
 
@@ -612,4 +635,9 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }    
+
+    @Override
+    public int getId() {
+        return lastInsertDependentId;
+    }
 }
