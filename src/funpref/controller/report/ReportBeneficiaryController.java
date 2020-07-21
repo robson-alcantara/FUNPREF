@@ -120,14 +120,14 @@ public class ReportBeneficiaryController {
             cell = new Cell();
             cell.add( new Paragraph( "\n" ).setFont(font).setFontSize(smallFontSize) );
             cell.add( new Paragraph( formatDate.format( beneficiary.getBirthDate() ) ).setFont(font).setFontSize(defaultFontSize) );
-            cell.add( new Paragraph( "" + funprefController.decodeCity(beneficiary.getIdCityPlaceOfBirth(),beneficiary.getIdProvincePlaceOfBirth()) +
-                    "-" + funprefController.decodeProvince(beneficiary.getIdProvincePlaceOfBirth()) +
-                    ", " + beneficiary.getNationality() ).setFont(font).setFontSize(defaultFontSize) );
-            cell.add( new Paragraph( beneficiary.getMotherName() ).setFont(font).setFontSize(defaultFontSize) );
-            cell.add( new Paragraph( beneficiary.getFatherName() ).setFont(font).setFontSize(defaultFontSize) );
-            cell.add( new Paragraph( "" + funprefController.decodeDegreeEducation(beneficiary.getIdDegreeOfEducation()) ).setFont(font).setFontSize(defaultFontSize) );
-            cell.add( new Paragraph( "" + funprefController.decodeMaritalStatus(beneficiary.getIdMaritalStatus()) ).setFont(font).setFontSize(defaultFontSize) );
-            cell.add( new Paragraph( "" + funprefController.decodeDeficiency(beneficiary.getIdDeficiency()) ).setFont(font).setFontSize(defaultFontSize) );
+//            cell.add( new Paragraph( "" + funprefController.decodeCity(beneficiary.getIdCityPlaceOfBirth(),beneficiary.getIdProvincePlaceOfBirth()) +
+//                    "-" + funprefController.decodeProvince(beneficiary.getIdProvincePlaceOfBirth()) +
+//                    ", " + beneficiary.getNationality() ).setFont(font).setFontSize(defaultFontSize) );
+//            cell.add( new Paragraph( beneficiary.getMotherName() ).setFont(font).setFontSize(defaultFontSize) );
+//            cell.add( new Paragraph( beneficiary.getFatherName() ).setFont(font).setFontSize(defaultFontSize) );
+//            cell.add( new Paragraph( "" + funprefController.decodeDegreeEducation(beneficiary.getIdDegreeOfEducation()) ).setFont(font).setFontSize(defaultFontSize) );
+//            cell.add( new Paragraph( "" + funprefController.decodeMaritalStatus(beneficiary.getIdMaritalStatus()) ).setFont(font).setFontSize(defaultFontSize) );
+//            cell.add( new Paragraph( "" + funprefController.decodeDeficiency(beneficiary.getIdDeficiency()) ).setFont(font).setFontSize(defaultFontSize) );
             cell.setBorder(Border.NO_BORDER);
             table4.addCell(cell);
 
