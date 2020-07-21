@@ -55,14 +55,14 @@ public class BeneficiaryController {
         this.crudWrite = crudWrite;
     }    
 
-    public ArrayList<Beneficiary> findByExamplePart(int beneficiaryID, String nameSubstring ) {
+    public ArrayList<Beneficiary> findByExamplePart(int beneficiaryID, String nameSubstring, boolean updatingSourceBeneficiary, int currentBeneficiaryID ) {
         
         ArrayList<Beneficiary> beneficiaries;
         Beneficiary beneficiary = new Beneficiary();
         
         beneficiary.setId(beneficiaryID);
         beneficiary.setName(nameSubstring);
-        beneficiaries = new ArrayList<Beneficiary> (beneficiaryDAO.findByExamplePart(beneficiary) );
+        beneficiaries = new ArrayList<Beneficiary> (beneficiaryDAO.findByExamplePart(beneficiary, updatingSourceBeneficiary, currentBeneficiaryID) );
         
         return beneficiaries;        
     }    
@@ -142,5 +142,10 @@ public class BeneficiaryController {
         }
         
         return validSave;
+    }
+
+    public void setAndFillSourceBeneficiary(Beneficiary beneficiary) {        
+        beneficiaryJInternalFrame.getjTextField48().setText("" + beneficiary.getRegistration());
+        beneficiaryJInternalFrame.getjTextField49().setText(beneficiary.getName());
     }
 }

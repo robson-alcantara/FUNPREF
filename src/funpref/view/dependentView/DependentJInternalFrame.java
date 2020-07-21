@@ -364,13 +364,14 @@ public class DependentJInternalFrame extends javax.swing.JInternalFrame {
         jTextField21.setEditable(editable);    
         jTextField14.setEditable(editable);
         jComboBox18.setEnabled(editable);
+        jButton12.setVisible(editable);
     }
 
     private void save() {
         
         Dependent dependent = new Dependent();
         
-        if( !jTextField38.getText().isEmpty() ) { // atualização
+        if( Integer.parseInt(jTextField38.getText()) > 0 ) { // atualização
             dependent.setId( Integer.parseInt( jTextField38.getText() ) );
         }
         

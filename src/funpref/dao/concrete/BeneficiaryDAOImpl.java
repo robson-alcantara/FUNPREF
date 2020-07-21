@@ -31,6 +31,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
 
     private final SimpleDateFormat formatDate;
     private int lastInsertDependentId;
+    private int columnGlobal;
     
     public BeneficiaryDAOImpl() {
         formatDate = new SimpleDateFormat("dd/MM/yyyy");
@@ -58,12 +59,11 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         
         String sqlLastInsertId = "SELECT LAST_INSERT_ID()";
         boolean result = true;
-        Integer columnReference = null;
         
         try {                
             PreparedStatement preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(query);
             
-            populatePreparedStatementFromResultSet(preparedStatement, beneficiary, columnReference, true );
+            populatePreparedStatementFromResultSet(preparedStatement, beneficiary, true );            
             
             preparedStatement.executeUpdate();            
             
@@ -124,14 +124,13 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             "WHERE id_beneficiary=?";
         
         boolean result = true;
-        Integer columnReference = null;
         
         try {                
             PreparedStatement preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(query);
             
-            populatePreparedStatementFromResultSet( preparedStatement, beneficiary, columnReference, false );            
+            populatePreparedStatementFromResultSet( preparedStatement, beneficiary, false );            
 
-            preparedStatement.setInt(columnReference++, beneficiary.getId());            
+            preparedStatement.setInt(columnGlobal++, beneficiary.getId());            
             preparedStatement.executeUpdate();            
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -237,7 +236,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
     }
     
     @Override
-    public List<Beneficiary> findByExamplePart(Beneficiary filterBeneficiary) {
+    public List<Beneficiary> findByExamplePart(Beneficiary filterBeneficiary, boolean updatingSourceBeneficiary, int currentBeneficiaryID) {
         
         if (filterBeneficiary == null) {
             throw new IllegalArgumentException();
@@ -247,12 +246,18 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         PreparedStatement preparedStatement;        
         int column;
         
-        try {
-            preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(
-                    "select * from funpref.beneficiary "
+        String query = "select * from funpref.beneficiary "
                     + " where (id_beneficiary = ? or ? = -2147483648)"
-                    + " and ( name like ? )"
-                    + " order by id_beneficiary");
+                    + " and ( name like ? )";
+        
+        if( updatingSourceBeneficiary ) {
+            query += " and death_date is not null and id_beneficiary <> " + currentBeneficiaryID;
+        }        
+        
+        query += " order by id_beneficiary";
+        
+        try {
+            preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(query);
             if (filterBeneficiary.getId() == -1) {
                 preparedStatement.setInt(1, Integer.MIN_VALUE);
                 preparedStatement.setInt(2, Integer.MIN_VALUE);
@@ -351,159 +356,159 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         return description;
     }    
 
-    private void populatePreparedStatementFromResultSet(PreparedStatement preparedStatement, Beneficiary beneficiary, Integer columnReference, boolean populateCreateDate) {
+    private void populatePreparedStatementFromResultSet(PreparedStatement preparedStatement, Beneficiary beneficiary, boolean populateCreateDate) {
         
-        int column = 1;
+        columnGlobal = 1;
+        //columnReference = new Integer(column);
         
         try {
-            preparedStatement.setInt(column++, beneficiary.getRegistration());
-            preparedStatement.setString(column++, beneficiary.getOrdinance());
-            preparedStatement.setString(column++, beneficiary.getCpf());            
-            preparedStatement.setString(column++, beneficiary.getName());
+            preparedStatement.setInt(columnGlobal++, beneficiary.getRegistration());
+            preparedStatement.setString(columnGlobal++, beneficiary.getOrdinance());
+            preparedStatement.setString(columnGlobal++, beneficiary.getCpf());            
+            preparedStatement.setString(columnGlobal++, beneficiary.getName());
 
             if( null == beneficiary.getSex() ) {
-                preparedStatement.setString(column, null);
+                preparedStatement.setString(columnGlobal, null);
             }
 
             else switch (beneficiary.getSex()) {
                 case MALE:
-                    preparedStatement.setString(column, "m");
+                    preparedStatement.setString(columnGlobal, "m");
                     break;                
                 case FEMALE:
-                    preparedStatement.setString(column, "f");
+                    preparedStatement.setString(columnGlobal, "f");
                     break;
                 default:
-                    preparedStatement.setString(column, null);
+                    preparedStatement.setString(columnGlobal, null);
                     break;
             }
             
-            column++;
+            columnGlobal++;
 
-            preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getBirthDate().getTime() ) );
-            preparedStatement.setInt(column++, beneficiary.getIdCadastralStatus()); 
-            preparedStatement.setNull(column++, Types.INTEGER); // update number   
+            preparedStatement.setDate(columnGlobal++, new java.sql.Date( beneficiary.getBirthDate().getTime() ) );
+            preparedStatement.setInt(columnGlobal++, beneficiary.getIdCadastralStatus()); 
+            preparedStatement.setNull(columnGlobal++, Types.INTEGER); // update number   
             
             if( beneficiary.getIdUserRegistration() > 0 ) {
-                preparedStatement.setInt(column++, beneficiary.getIdUserRegistration()); // user registration
+                preparedStatement.setInt(columnGlobal++, beneficiary.getIdUserRegistration()); // user registration
             }
             
             else {
-                preparedStatement.setNull(column++, Types.INTEGER);                
+                preparedStatement.setNull(columnGlobal++, Types.INTEGER);                
             }
             
-            preparedStatement.setInt(column++, beneficiary.getIdUserCreate()); // user create
-            preparedStatement.setInt(column++, beneficiary.getIdUserUpdate()); // user update
+            preparedStatement.setInt(columnGlobal++, beneficiary.getIdUserCreate()); // user create
+            preparedStatement.setInt(columnGlobal++, beneficiary.getIdUserUpdate()); // user update
 
-            preparedStatement.setString(column++, beneficiary.getNationality());
-            preparedStatement.setInt(column++, beneficiary.getIdCityPlaceOfBirth()); 
+            preparedStatement.setString(columnGlobal++, beneficiary.getNationality());
+            preparedStatement.setInt(columnGlobal++, beneficiary.getIdCityPlaceOfBirth()); 
 
             if( beneficiary.getDeathDate() != null ) {
-                preparedStatement.setDate(column, new java.sql.Date( beneficiary.getDeathDate().getTime() ) );
+                preparedStatement.setDate(columnGlobal, new java.sql.Date( beneficiary.getDeathDate().getTime() ) );
             }
 
             else {
-                preparedStatement.setNull(column, Types.DATE);
+                preparedStatement.setNull(columnGlobal, Types.DATE);
             }
 
-            column++;
+            columnGlobal++;
 
-            preparedStatement.setString(column++, beneficiary.getAddress());
-            preparedStatement.setInt(column++, beneficiary.getIdCityAddress());
-            preparedStatement.setString(column++, beneficiary.getZipCode());
-            preparedStatement.setString(column++, beneficiary.getPhone1());
-            preparedStatement.setString(column++, beneficiary.getPhone2());
-            preparedStatement.setString(column++, beneficiary.getEmail());
-            preparedStatement.setInt(column++, beneficiary.getIdDegreeOfEducation() );
-            preparedStatement.setInt(column++, beneficiary.getIdMaritalStatus());
-            preparedStatement.setInt(column++, beneficiary.getIdDeficiency());
-            preparedStatement.setString(column++, beneficiary.getInvalidityReason());
+            preparedStatement.setString(columnGlobal++, beneficiary.getAddress());
+            preparedStatement.setInt(columnGlobal++, beneficiary.getIdCityAddress());
+            preparedStatement.setString(columnGlobal++, beneficiary.getZipCode());
+            preparedStatement.setString(columnGlobal++, beneficiary.getPhone1());
+            preparedStatement.setString(columnGlobal++, beneficiary.getPhone2());
+            preparedStatement.setString(columnGlobal++, beneficiary.getEmail());
+            preparedStatement.setInt(columnGlobal++, beneficiary.getIdDegreeOfEducation() );
+            preparedStatement.setInt(columnGlobal++, beneficiary.getIdMaritalStatus());
+            preparedStatement.setInt(columnGlobal++, beneficiary.getIdDeficiency());
+            preparedStatement.setString(columnGlobal++, beneficiary.getInvalidityReason());
 
             if( beneficiary.getInvalidityAwardDate() != null ) {
-                preparedStatement.setDate(column, new java.sql.Date( beneficiary.getInvalidityAwardDate().getTime() ) );
+                preparedStatement.setDate(columnGlobal, new java.sql.Date( beneficiary.getInvalidityAwardDate().getTime() ) );
             }
 
             else {
-                preparedStatement.setNull(column, Types.DATE);
+                preparedStatement.setNull(columnGlobal, Types.DATE);
             }
 
-            column++;
+            columnGlobal++;
 
-            preparedStatement.setString(column++, beneficiary.getMotherCpf());
-            preparedStatement.setString(column++, beneficiary.getMotherName());
-            preparedStatement.setString(column++, beneficiary.getFatherCpf());
-            preparedStatement.setString(column++, beneficiary.getFatherName());
-            preparedStatement.setString(column++, beneficiary.getPisPasep());
-            preparedStatement.setString(column++, beneficiary.getVotersTitle());
-            preparedStatement.setInt(column++, beneficiary.getElectoralZone());
-            preparedStatement.setInt(column++, beneficiary.getElectoralSection());
-            preparedStatement.setInt(column++, beneficiary.getIdProvinceElectoralZone());
-            preparedStatement.setString(column++, beneficiary.getRg());
-            preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getRgEmissionDate().getTime() )  );
-            preparedStatement.setInt(column++, beneficiary.getIdRgIssuingBody());
-            preparedStatement.setInt(column++, beneficiary.getIdProvinceRg());
-            preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getAdmissionDate().getTime() ) );
+            preparedStatement.setString(columnGlobal++, beneficiary.getMotherCpf());
+            preparedStatement.setString(columnGlobal++, beneficiary.getMotherName());
+            preparedStatement.setString(columnGlobal++, beneficiary.getFatherCpf());
+            preparedStatement.setString(columnGlobal++, beneficiary.getFatherName());
+            preparedStatement.setString(columnGlobal++, beneficiary.getPisPasep());
+            preparedStatement.setString(columnGlobal++, beneficiary.getVotersTitle());
+            preparedStatement.setInt(columnGlobal++, beneficiary.getElectoralZone());
+            preparedStatement.setInt(columnGlobal++, beneficiary.getElectoralSection());
+            preparedStatement.setInt(columnGlobal++, beneficiary.getIdProvinceElectoralZone());
+            preparedStatement.setString(columnGlobal++, beneficiary.getRg());
+            preparedStatement.setDate(columnGlobal++, new java.sql.Date( beneficiary.getRgEmissionDate().getTime() )  );
+            preparedStatement.setInt(columnGlobal++, beneficiary.getIdRgIssuingBody());
+            preparedStatement.setInt(columnGlobal++, beneficiary.getIdProvinceRg());
+            preparedStatement.setDate(columnGlobal++, new java.sql.Date( beneficiary.getAdmissionDate().getTime() ) );
 
             if( beneficiary.getApplicationDate() != null ) {
-                preparedStatement.setDate(column, new java.sql.Date( beneficiary.getApplicationDate().getTime() ) );
+                preparedStatement.setDate(columnGlobal, new java.sql.Date( beneficiary.getApplicationDate().getTime() ) );
             }
 
             else {
-                preparedStatement.setNull(column, Types.DATE);
+                preparedStatement.setNull(columnGlobal, Types.DATE);
             }
 
-            column++;
+            columnGlobal++;
 
-            preparedStatement.setDate(column++, new java.sql.Date( beneficiary.getInactivationDate().getTime() ) );
-            preparedStatement.setInt(column++, beneficiary.getIdBenefitType());
-            preparedStatement.setInt(column++, beneficiary.getIdCalculationForm());
-            preparedStatement.setInt(column++, beneficiary.getIdStockingOrgan());
-            preparedStatement.setString(column++, beneficiary.getOffice() );
-            preparedStatement.setNull(column++, Types.INTEGER); // previous time
+            preparedStatement.setDate(columnGlobal++, new java.sql.Date( beneficiary.getInactivationDate().getTime() ) );
+            preparedStatement.setInt(columnGlobal++, beneficiary.getIdBenefitType());
+            preparedStatement.setInt(columnGlobal++, beneficiary.getIdCalculationForm());
+            preparedStatement.setInt(columnGlobal++, beneficiary.getIdStockingOrgan());
+            preparedStatement.setString(columnGlobal++, beneficiary.getOffice() );
+            preparedStatement.setNull(columnGlobal++, Types.INTEGER); // previous time
 
             if( beneficiary.getInstituteEnrollment() >= 0 ) {
-                preparedStatement.setInt(column, beneficiary.getInstituteEnrollment());                
+                preparedStatement.setInt(columnGlobal, beneficiary.getInstituteEnrollment());                
             }
 
             else {
-                preparedStatement.setNull(column, Types.INTEGER);                
+                preparedStatement.setNull(columnGlobal, Types.INTEGER);                
             }
 
-            column++;
+            columnGlobal++;
 
-            preparedStatement.setInt(column++, beneficiary.getPhysicalDocumentDrawer());
-            preparedStatement.setInt(column++, beneficiary.getIndexPhysicalDocument());
-            preparedStatement.setString(column++, beneficiary.getObservations());
-            preparedStatement.setString(column++, beneficiary.getBankAgency());
-            preparedStatement.setString(column++, beneficiary.getAccount());            
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(52, beneficiary.getEarningsInative());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(53, beneficiary.getOldPromotionValue());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(54, beneficiary.getChalkPowderPercentual());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(55, beneficiary.getChalkPowderValue());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(56, beneficiary.getMoreOneYearPercentual());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(57, beneficiary.getMoreOneYearValue());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(58, beneficiary.getMoreFiveYearPercentual());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(59, beneficiary.getMoreFiveYearValue());            
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(60, beneficiary.getIncomeTaxRate());            
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(61, beneficiary.getIncomeTaxValue());
-            preparedStatement.setNull(column++, Types.DOUBLE); //preparedStatement.setDouble(62, beneficiary.getPayrollLoanValue());
-            preparedStatement.setNull(column++, Types.DOUBLE); // payroll_loans_gross_value
-            preparedStatement.setNull(column++, Types.DOUBLE); // payroll_loans_net_value
-            preparedStatement.setBoolean(column++, true);                      
+            preparedStatement.setInt(columnGlobal++, beneficiary.getPhysicalDocumentDrawer());
+            preparedStatement.setInt(columnGlobal++, beneficiary.getIndexPhysicalDocument());
+            preparedStatement.setString(columnGlobal++, beneficiary.getObservations());
+            preparedStatement.setString(columnGlobal++, beneficiary.getBankAgency());
+            preparedStatement.setString(columnGlobal++, beneficiary.getAccount());            
+            preparedStatement.setNull(columnGlobal++, Types.DOUBLE); //preparedStatement.setDouble(52, beneficiary.getEarningsInative());
+            preparedStatement.setNull(columnGlobal++, Types.DOUBLE); //preparedStatement.setDouble(53, beneficiary.getOldPromotionValue());
+            preparedStatement.setNull(columnGlobal++, Types.DOUBLE); //preparedStatement.setDouble(54, beneficiary.getChalkPowderPercentual());
+            preparedStatement.setNull(columnGlobal++, Types.DOUBLE); //preparedStatement.setDouble(55, beneficiary.getChalkPowderValue());
+            preparedStatement.setNull(columnGlobal++, Types.DOUBLE); //preparedStatement.setDouble(56, beneficiary.getMoreOneYearPercentual());
+            preparedStatement.setNull(columnGlobal++, Types.DOUBLE); //preparedStatement.setDouble(57, beneficiary.getMoreOneYearValue());
+            preparedStatement.setNull(columnGlobal++, Types.DOUBLE); //preparedStatement.setDouble(58, beneficiary.getMoreFiveYearPercentual());
+            preparedStatement.setNull(columnGlobal++, Types.DOUBLE); //preparedStatement.setDouble(59, beneficiary.getMoreFiveYearValue());            
+            preparedStatement.setNull(columnGlobal++, Types.DOUBLE); //preparedStatement.setDouble(60, beneficiary.getIncomeTaxRate());            
+            preparedStatement.setNull(columnGlobal++, Types.DOUBLE); //preparedStatement.setDouble(61, beneficiary.getIncomeTaxValue());
+            preparedStatement.setNull(columnGlobal++, Types.DOUBLE); //preparedStatement.setDouble(62, beneficiary.getPayrollLoanValue());
+            preparedStatement.setNull(columnGlobal++, Types.DOUBLE); // payroll_loans_gross_value
+            preparedStatement.setNull(columnGlobal++, Types.DOUBLE); // payroll_loans_net_value
+            preparedStatement.setBoolean(columnGlobal++, true);                      
 
             if( beneficiary.getRegisterDate() != null ) {
-                preparedStatement.setTimestamp(column++, new Timestamp( beneficiary.getRegisterDate().getTime() ) );
+                preparedStatement.setTimestamp(columnGlobal++, new Timestamp( beneficiary.getRegisterDate().getTime() ) );
             }
 
             else {
-                preparedStatement.setNull(column++, Types.TIMESTAMP);
+                preparedStatement.setNull(columnGlobal++, Types.TIMESTAMP);
             }
 
             if (populateCreateDate) {
-                preparedStatement.setTimestamp(column++, new Timestamp(beneficiary.getCreateDate().getTime() ));
+                preparedStatement.setTimestamp(columnGlobal++, new Timestamp(beneficiary.getCreateDate().getTime() ));
             }
             
-            preparedStatement.setTimestamp(column++, new Timestamp( beneficiary.getUpdateDate().getTime() ));                        
-            columnReference = column;
+            preparedStatement.setTimestamp(columnGlobal++, new Timestamp( beneficiary.getUpdateDate().getTime() ));                        
         
         } catch (SQLException ex) {
             Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);

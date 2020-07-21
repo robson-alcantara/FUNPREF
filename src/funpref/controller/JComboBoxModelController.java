@@ -29,7 +29,8 @@ public class JComboBoxModelController {
     private ArrayList<ComboBoxItem> comboBoxItemsStockingOrgan;
     private ArrayList<ComboBoxItem> comboBoxItemsDeficiency;
     private ArrayList<ComboBoxItem> comboBoxItemsDegreeOfEducation;
-    private ArrayList<ComboBoxItem> comboBoxItemsCities;
+    private ArrayList<ComboBoxItem> comboBoxItemsCitiesAddress;
+    private ArrayList<ComboBoxItem> comboBoxItemsCitiesPlaceOfBirth;
     private ArrayList<ComboBoxItem> comboBoxItemsKinship;
 
     JComboBoxModelController(FUNPREFController funprefController) {
@@ -109,10 +110,16 @@ public class JComboBoxModelController {
         return new DefaultComboBoxModel( new Vector( comboBoxItems ) );        
     }
     
-    public ComboBoxModel<Object> getCitiesModel(int idProvince) {
-        comboBoxItemsCities = jComboBoxItensDAO.findCities(idProvince);
+    public ComboBoxModel<Object> getCitiesAddressModel(int idProvince) {
+        comboBoxItemsCitiesAddress = jComboBoxItensDAO.findCities(idProvince);
         
-        return new DefaultComboBoxModel( new Vector( comboBoxItemsCities ) );        
+        return new DefaultComboBoxModel( new Vector( comboBoxItemsCitiesAddress ) );        
+    }    
+    
+    public ComboBoxModel<Object> getCitiesPlaceOfBirthModel(int idProvince) {
+        comboBoxItemsCitiesPlaceOfBirth = jComboBoxItensDAO.findCities(idProvince);
+        
+        return new DefaultComboBoxModel( new Vector( comboBoxItemsCitiesPlaceOfBirth ) );        
     }    
 
     public ComboBoxItem getComboBoxItem(int id, String table) {
@@ -139,10 +146,7 @@ public class JComboBoxModelController {
                 break;                      
             case "degree_of_education":
                 comboBoxItems = comboBoxItemsDegreeOfEducation;
-                break;                                      
-            case "city":
-                comboBoxItems = comboBoxItemsCities;
-                break;                                                      
+                break;                                                                               
             case "kinship":
                 comboBoxItems = comboBoxItemsKinship;
                 break;                                                                      
@@ -151,6 +155,14 @@ public class JComboBoxModelController {
         }
         
         return comboBoxItems.get( findComboBoxItemIndex( id, comboBoxItems ) );
+    }    
+    
+    public ComboBoxItem getComboBoxCityAddressItem(int id) {        
+        return comboBoxItemsCitiesAddress.get( findComboBoxItemIndex( id, comboBoxItemsCitiesAddress ) );
+    }    
+    
+    public ComboBoxItem getComboBoxCityPlaceOfBirthItem(int id) {        
+        return comboBoxItemsCitiesPlaceOfBirth.get( findComboBoxItemIndex( id, comboBoxItemsCitiesPlaceOfBirth ) );
     }    
 
     private int findComboBoxItemIndex(int id, ArrayList<ComboBoxItem> comboBoxItems) {

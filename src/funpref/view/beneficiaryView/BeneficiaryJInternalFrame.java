@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 /**
  *
@@ -66,6 +67,14 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
 
     public void setCurrentBeneficiary(Beneficiary currentBeneficiary) {
         this.currentBeneficiary = currentBeneficiary;
+    }
+
+    public JTextField getjTextField48() {
+        return jTextField48;
+    }
+
+    public JTextField getjTextField49() {
+        return jTextField49;
     }
 
     
@@ -521,7 +530,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
                                 .addGap(25, 25, 25)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7)
-                                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel26))
                                 .addGap(34, 34, 34)
@@ -1335,7 +1344,38 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        if((((ComboBoxItem)jComboBox1.getSelectedItem()).toString()).equals("invalidez")) {  
+            jTextArea1.setEditable(true);
+            jFormattedTextField7.setEditable(true);
+            jComboBox17.setEnabled(true);
+        }
+        
+        else {
+            if( !jTextArea1.getText().isEmpty() ) {
+                JOptionPane.showMessageDialog(this, "Com a mudança do 'tipo de benefício', o 'motivo da invalidez' será descartado se as mudanças forem salvas.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
 
+            if( !jFormattedTextField7.getText().isEmpty() ) {
+                JOptionPane.showMessageDialog(this, "Com a mudança do 'tipo de benefício', a 'data do laudo de invalidez' será descartada se as mudanças forem salvas.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }    
+            
+            if( jComboBox17.getSelectedIndex() > 0 ) {
+                JOptionPane.showMessageDialog(this, "Com a mudança do 'tipo de benefício', a 'deficiência' será descartada se as mudanças forem salvas.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+            
+            jTextArea1.setEditable(false);
+            jFormattedTextField7.setEditable(false); 
+            jComboBox17.setEnabled(false);
+        }
+        
+        if( ((((ComboBoxItem)jComboBox1.getSelectedItem()).toString()).equals("pensionista") ) ||
+                (((ComboBoxItem)jComboBox1.getSelectedItem()).toString()).equals("pensão temporária") ) {  
+            jButton13.setEnabled(true);
+        }
+        
+        else {
+            jButton13.setEnabled(false);
+        }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
@@ -1364,11 +1404,11 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
             choices[0]); // Initial choice
 
         if( input.equals("ficha do censo") ) {
-//            printBeneficiaryCensusVoucher( false );
+            beneficiaryController.getFunprefController().getReportController().printBeneficiaryCensusVoucher(currentBeneficiary, false);
         }
 
         else if( input.equals("ficha do censo com data de atualização") ) {
-//            printBeneficiaryCensusVoucher( true );
+            beneficiaryController.getFunprefController().getReportController().printBeneficiaryCensusVoucher(currentBeneficiary, true);
         }
 
         else {
@@ -1396,6 +1436,13 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                beneficiaryController.getFunprefController().getSearchBeneficiaryController().show(true);
+            } catch (Exception ex) {
+                
+            }
+        });       
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
@@ -1423,7 +1470,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
 
     private void jComboBox12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox12ActionPerformed
         if( jComboBox12.getSelectedItem() != null ) {
-            jComboBox13.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getCitiesModel( ((ComboBoxItem) jComboBox12.getSelectedItem()).getId() ) );
+            jComboBox13.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getCitiesPlaceOfBirthModel(((ComboBoxItem) jComboBox12.getSelectedItem()).getId() ) );
         }
     }//GEN-LAST:event_jComboBox12ActionPerformed
 
@@ -1433,7 +1480,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
 
     private void jComboBox15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox15ActionPerformed
         if( jComboBox15.getSelectedItem() != null ) {
-            jComboBox14.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getCitiesModel( ((ComboBoxItem) jComboBox15.getSelectedItem()).getId() ) );
+            jComboBox14.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getCitiesAddressModel( ((ComboBoxItem) jComboBox15.getSelectedItem()).getId() ) );
         }
     }//GEN-LAST:event_jComboBox15ActionPerformed
 
@@ -1840,20 +1887,20 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         
         if( currentBeneficiary.getIdProvincePlaceOfBirth() > 0 ) {
             jComboBox12.setSelectedItem(beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdProvincePlaceOfBirth(), "province") );
-            jComboBox13.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getCitiesModel(currentBeneficiary.getIdProvincePlaceOfBirth()) );
+            jComboBox13.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getCitiesPlaceOfBirthModel(currentBeneficiary.getIdProvincePlaceOfBirth()) );
         }
         
         if( currentBeneficiary.getIdCityPlaceOfBirth() > 0 ) {
-            jComboBox13.setSelectedItem(beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdCityPlaceOfBirth(), "city") );  
+            jComboBox13.setSelectedItem(beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxCityPlaceOfBirthItem(currentBeneficiary.getIdCityPlaceOfBirth()) );  
         }
         
         if( currentBeneficiary.getIdProvinceAddress() > 0 ) {
             jComboBox15.setSelectedItem(beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdProvinceAddress(), "province") );
-            jComboBox14.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getCitiesModel(currentBeneficiary.getIdProvinceAddress()) );
+            jComboBox14.setModel(beneficiaryController.getFunprefController().getjComboBoxModelController().getCitiesAddressModel(currentBeneficiary.getIdProvinceAddress()) );
         }        
         
         if( currentBeneficiary.getIdCityAddress() > 0 ) {
-            jComboBox14.setSelectedItem(beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxItem(currentBeneficiary.getIdCityAddress(), "city") );  
+            jComboBox14.setSelectedItem(beneficiaryController.getFunprefController().getjComboBoxModelController().getComboBoxCityAddressItem(currentBeneficiary.getIdCityAddress()) );  
         }
         
         jTextField13.setText("" + currentBeneficiary.getAddress());
@@ -1893,11 +1940,13 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         
         if( currentBeneficiary.getInstituteEnrollment() >= 0 ) {
             jTextField48.setText("" + currentBeneficiary.getInstituteEnrollment() );        
-        }
+            jTextField49.setText( beneficiaryController.getNameById(currentBeneficiary.getInstituteEnrollment() ) );
+        }       
         
-        jTextField49.setText( beneficiaryController.getNameById(currentBeneficiary.getInstituteEnrollment() ) );
         
-        if( ( currentBeneficiary.getIdBenefitType() == 2 ) && beneficiaryController.isCrudWrite() ) {
+        if( (( currentBeneficiary.getIdBenefitType() == 2 ) || // pensionista
+                (  currentBeneficiary.getIdBenefitType() == 7  )) // pensionista temporário
+                && beneficiaryController.isCrudWrite() ) {
             jButton13.setEnabled(true);                 
         }        
         
@@ -1935,7 +1984,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         
         jTextField5.setEditable(editable);
         
-        jButton13.setEnabled(editable);
+        jButton13.setEnabled(false);
         
         jFormattedTextField5.setEditable(editable);
         jComboBox9.setEnabled(editable);
@@ -2100,7 +2149,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         jFormattedTextField7.setText("");
         jComboBox17.setSelectedIndex(0);
         
-//        clearTable(dependentsJTable);
+        clearTable(dependentsJTable);
         
         jTextField23.setText("");
         jTextField24.setText("");

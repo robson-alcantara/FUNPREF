@@ -30,9 +30,9 @@ public class SearchBeneficiaryController {
     
     
 
-    public void show() {
+    public void show( boolean updatingSourceBeneficiary ) {
         try {
-            searchJInternalFrame = SearchBeneficiaryJInternalFrame.getSearchBeneficiaryJInternalFrame( this, false);
+            searchJInternalFrame = SearchBeneficiaryJInternalFrame.getSearchBeneficiaryJInternalFrame( this, updatingSourceBeneficiary);
             funprefController.getFunprefJFrame().getJDesktopPane().add(searchJInternalFrame);
             searchJInternalFrame.setLocation(funprefController.getFunprefJFrame().getJDesktopPane().getLocation().x + ( ( funprefController.getFunprefJFrame().getJDesktopPane().getWidth() - searchJInternalFrame.getWidth() ) / 2 ),
                     funprefController.getFunprefJFrame().getJDesktopPane().getLocation().y + 10);

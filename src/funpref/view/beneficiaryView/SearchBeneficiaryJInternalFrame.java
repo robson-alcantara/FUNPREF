@@ -214,7 +214,13 @@ public class SearchBeneficiaryJInternalFrame extends javax.swing.JInternalFrame 
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        findedBeneficiaries = searchBeneficiaryController.getFunprefController().getBeneficiaryController().findByExamplePart(-1, jTextField1.getText() );
+        int currentBeneficiaryID = -1;
+        
+        if( searchBeneficiaryController.getFunprefController().getBeneficiaryController().getCurrentBeneficiary() != null ) {
+            currentBeneficiaryID = searchBeneficiaryController.getFunprefController().getBeneficiaryController().getCurrentBeneficiary().getId();                    
+        }
+        
+        findedBeneficiaries = searchBeneficiaryController.getFunprefController().getBeneficiaryController().findByExamplePart(-1, jTextField1.getText(), updatingSourceBeneficiary, currentBeneficiaryID );
         fillSearchJTable( findedBeneficiaries );
     }//GEN-LAST:event_jTextField1ActionPerformed
 
@@ -250,12 +256,9 @@ public class SearchBeneficiaryJInternalFrame extends javax.swing.JInternalFrame 
                         //beneficiaryCRUDJInternalFrame.setVisible(true);
                     }
 
-                    else {
-//                        int beneficiaryId = (int)jTable1.getValueAt(jTable1.getSelectedRow(),0);
-//                        int instituteEnrollment = funprefController.getBeneficiaryEnrollmentById( beneficiaryId );
-//                        jTextField48.setText( "" + instituteEnrollment );
-//                        jTextField49.setText( funprefController.getBeneficiaryNameByEnrollment( instituteEnrollment ) );
-//                        updatingSourceBeneficiary = false;
+                    else {                        
+                        searchBeneficiaryController.getFunprefController().getBeneficiaryController().setAndFillSourceBeneficiary( findedBeneficiaries.get( jTable1.getSelectedRow() ) );
+                        updatingSourceBeneficiary = false;
 
                     }
 

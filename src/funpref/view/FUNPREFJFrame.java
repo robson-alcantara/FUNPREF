@@ -382,7 +382,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         java.awt.EventQueue.invokeLater(() -> {
             try {
-                funprefController.getSearchBeneficiaryController().show();
+                funprefController.getSearchBeneficiaryController().show( false );
             } catch (Exception ex) {
                 
             }
@@ -402,7 +402,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         java.awt.EventQueue.invokeLater(() -> {
             try {
-                funprefController.getSearchBeneficiaryController().show();
+                funprefController.getSearchBeneficiaryController().show( false );
             } catch (Exception ex) {
                 
             }
@@ -413,7 +413,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> {
             try {
                 funprefController.getBeneficiaryController().setCrudWrite(true);
-                funprefController.getSearchBeneficiaryController().show();
+                funprefController.getSearchBeneficiaryController().show( false );
             } catch (Exception ex) {
                 
             }

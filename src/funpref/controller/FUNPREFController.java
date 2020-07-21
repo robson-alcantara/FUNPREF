@@ -5,6 +5,7 @@
  */
 package funpref.controller;
 
+import funpref.controller.report.ReportController;
 import funpref.view.FUNPREFJFrame;
 import java.time.Period;
 
@@ -18,6 +19,7 @@ public class FUNPREFController {
     private final BeneficiaryController beneficiaryController;
     private final DependentController dependentController;
     private final SearchBeneficiaryController searchBeneficiaryController;
+    private final ReportController reportController;
     private JComboBoxModelController jComboBoxModelController;
     
     int currentUserID;
@@ -27,11 +29,12 @@ public class FUNPREFController {
         dependentController = new DependentController(this);
         searchBeneficiaryController = new SearchBeneficiaryController( this );
         jComboBoxModelController = new JComboBoxModelController(this);
+        reportController = new ReportController(this);
     }
 
     public void run() {
-
-        /* Set the Nimbus look and feel */
+        
+        /* Set the GTK+ or Windows Look and Feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -39,7 +42,7 @@ public class FUNPREFController {
         try {
             
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ( "GTK+".equals(info.getName()) || "Windows".equals(info.getName()) ) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -94,6 +97,10 @@ public class FUNPREFController {
 
     public void setjComboBoxModelController(JComboBoxModelController jComboBoxModelController) {
         this.jComboBoxModelController = jComboBoxModelController;
+    }
+
+    public ReportController getReportController() {
+        return reportController;
     }    
     
     public String decodePeriod(Period period) {
