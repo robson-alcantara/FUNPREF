@@ -41,11 +41,22 @@ public class FUNPREFController {
          */
         try {
             
+            boolean hasWindowsUIManager = false;
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ( "GTK+".equals(info.getName()) || "Windows".equals(info.getName()) ) {
+                if ( info.getName().contains("Windows") ) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    hasWindowsUIManager = true;
                     break;
                 }
+            }
+            
+            if( !hasWindowsUIManager ) {
+                for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                    if ( "GTK+".equals(info.getName()) ) {
+                        javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                        break;
+                    }
+                }                
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(FUNPREFController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);

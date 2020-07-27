@@ -18,6 +18,8 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -234,6 +236,8 @@ public class DependentDAOImpl implements DependentDAO {
                 dependent.setIdUserUpdate(resultSet.getInt(column++));
                 dependent.setCreateDate(resultSet.getTimestamp(column++));
                 dependent.setUpdateDate(resultSet.getTimestamp(column++));
+                dependent.setKinship(loadKinship(dependent.getIdKinship()));
+                dependent.setDeficiency(loadDeficiency(dependent.getIdDeficiency()));
 
                 result.add(dependent);
             }
@@ -264,4 +268,70 @@ public class DependentDAOImpl implements DependentDAO {
         
         return description;
     }    
+
+    private String loadKinship(int idKinship) {
+        String kinship = null;
+        
+        try {
+            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM kinship WHERE id_kinship = " + idKinship );
+
+            if (resultSet.next()) {                
+                kinship = resultSet.getString(3);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        
+        return kinship;
+    }
+    
+    private String loadDeficiency(int idDeficiency) {
+        String deficiency = null;
+        
+        try {
+            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM deficiency WHERE id_deficiency = " + idDeficiency );
+
+            if (resultSet.next()) {                
+                deficiency = resultSet.getString(3);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        
+        return deficiency;
+    }    
+    
+    public ArrayList<ArrayList<Object>> getReportDependentData() {
+        ArrayList<ArrayList<Object>> data = new ArrayList<ArrayList<Object>>();
+        ArrayList<Object> dependentData;
+        
+        String sql = "SELECT funpref.dependent.name, funpref.dependent.cpf, funpref.dependent.phone, "
+                + "funpref.beneficiary.name, funpref.kinship.description\n "
+                + "FROM funpref.beneficiary\n "
+                + "inner join funpref.dependent on funpref.dependent.ref_id_beneficiary = funpref.beneficiary.id_beneficiary\n "
+                + "inner join funpref.kinship on funpref.kinship.id_kinship = funpref.dependent.ref_id_kinship\n "
+                + "order by funpref.beneficiary.name, funpref.dependent.name";
+        
+        try {                
+            Statement stmt = DAOFactoryImpl.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while( rs.next() ) {  
+                dependentData = new ArrayList<Object>();
+                dependentData.add( rs.getString(1) );
+                dependentData.add( rs.getString(2) );
+                dependentData.add( rs.getString(3) );
+                dependentData.add( rs.getString(4) );
+                dependentData.add( rs.getString(5) );
+                data.add(dependentData);
+            }
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }        
+        
+        return data;
+    }        
 }

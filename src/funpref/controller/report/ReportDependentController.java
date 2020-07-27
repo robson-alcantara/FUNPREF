@@ -26,15 +26,15 @@ import java.util.logging.Logger;
  *
  * @author secretaria
  */
-public class ReportBeneficiariesController {
+public class ReportDependentController {
     private FUNPREFController funprefController;
-
-    ReportBeneficiariesController(FUNPREFController funprefController) {
+    
+    public ReportDependentController(FUNPREFController funprefController) {
         this.funprefController = funprefController;
     }
 
     Document generateData(Document document) {
-        ArrayList< ArrayList<Object>> data = null;
+        ArrayList< ArrayList<Object>> data;
         Cell cell;
         PdfFont font;
         String text;
@@ -42,46 +42,33 @@ public class ReportBeneficiariesController {
         try {
             font = PdfFontFactory.createFont(FontConstants.HELVETICA);
             
-            data = funprefController.getBeneficiaryController().getReportBeneficiaryData(false,false);
+            data = funprefController.getDependentController().getReportDependentData();
 
-            document.add( new Paragraph("Lista de beneficiários").setTextAlignment(TextAlignment.CENTER));
+            document.add( new Paragraph("Lista de dependentes").setTextAlignment(TextAlignment.CENTER));
             document.add( new Paragraph(""));
 
-            Table table = new Table(UnitValue.createPercentArray(new float[]{5,5,10,20,26,8,8,8})).useAllAvailableWidth().setFixedLayout().setWidth(UnitValue.createPercentValue(100));
+            Table table = new Table(UnitValue.createPercentArray(new float[]{35,10,10,35,10})).useAllAvailableWidth().setFixedLayout().setWidth(UnitValue.createPercentValue(100));
             
             // header
             cell = new Cell();
-            cell.add( new Paragraph( "matrícula" ).setFont(font).setBold().setFontSize(6).setVerticalAlignment(VerticalAlignment.MIDDLE) );
+            cell.add( new Paragraph( "nome do dependente" ).setFont(font).setBold().setFontSize(6).setVerticalAlignment(VerticalAlignment.MIDDLE) );
             table.addCell(cell);
             
             cell = new Cell();
-            cell.add( new Paragraph( "portaria" ).setFont(font).setBold().setFontSize(6).setVerticalAlignment(VerticalAlignment.MIDDLE) );
-            table.addCell(cell);          
-            
-            cell = new Cell();
             cell.add( new Paragraph( "cpf" ).setFont(font).setBold().setFontSize(6).setVerticalAlignment(VerticalAlignment.MIDDLE) );
-            table.addCell(cell);            
-            
-            cell = new Cell();
-            cell.add( new Paragraph( "nome" ).setFont(font).setBold().setFontSize(6).setVerticalAlignment(VerticalAlignment.MIDDLE) );
             table.addCell(cell);          
             
             cell = new Cell();
-            cell.add( new Paragraph( "endereço" ).setFont(font).setBold().setFontSize(6).setVerticalAlignment(VerticalAlignment.MIDDLE) );
-            table.addCell(cell);                     
-            
-            cell = new Cell();
-            cell.add( new Paragraph( "fone 1" ).setFont(font).setBold().setFontSize(6).setVerticalAlignment(VerticalAlignment.MIDDLE) );
+            cell.add( new Paragraph( "fone" ).setFont(font).setBold().setFontSize(6).setVerticalAlignment(VerticalAlignment.MIDDLE) );
             table.addCell(cell);            
             
             cell = new Cell();
-            cell.add( new Paragraph( "fone 2" ).setFont(font).setBold().setFontSize(6).setVerticalAlignment(VerticalAlignment.MIDDLE) );
-            table.addCell(cell);   
+            cell.add( new Paragraph( "nome do beneficiario" ).setFont(font).setBold().setFontSize(6).setVerticalAlignment(VerticalAlignment.MIDDLE) );
+            table.addCell(cell);          
             
             cell = new Cell();
-            cell.add( new Paragraph( "situação do censo" ).setFont(font).setBold().setFontSize(6).setVerticalAlignment(VerticalAlignment.MIDDLE) );
-            table.addCell(cell);             
-            
+            cell.add( new Paragraph( "parentesco" ).setFont(font).setBold().setFontSize(6).setVerticalAlignment(VerticalAlignment.MIDDLE) );
+            table.addCell(cell);            
 
             for( int i = 0; i < data.size(); i++ ) {
                 for( int j = 0; j < data.get(i).size(); j++ ) {
@@ -99,11 +86,8 @@ public class ReportBeneficiariesController {
             
             document.add(table.setHorizontalAlignment(HorizontalAlignment.CENTER));  
             
-            document.add( new Paragraph(""));
-            document.add( new Paragraph(""));
-            
         } catch (IOException ex) {
-            Logger.getLogger(ReportBeneficiariesController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReportDependentController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         

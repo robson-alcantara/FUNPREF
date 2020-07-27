@@ -28,6 +28,8 @@ public class Dependent {
     private Date updateDate;
     private Date createDate;
     private int idBeneficiary;
+    private String kinship;
+    private String deficiency;
     
     public Dependent() {
         this.id = -1;
@@ -143,5 +145,21 @@ public class Dependent {
 
     public void setIdBeneficiary(int idBeneficiary) {
         this.idBeneficiary = idBeneficiary;
+    }    
+
+    public String getKinship() {
+        return kinship;
+    }
+
+    public void setKinship(String kinship) {
+        this.kinship = kinship;
+    }
+
+    public String getDeficiency() {
+        return deficiency;
+    }
+
+    public void setDeficiency(String deficiency) {
+        this.deficiency = deficiency;
     }    
 }

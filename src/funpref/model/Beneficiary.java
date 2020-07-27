@@ -98,6 +98,16 @@ public class Beneficiary implements Serializable {
     private Date registerDate;
     private Date updateDate;
     private Date createDate;
+    private String cityNameAddress;
+    private String cityNamePlaceOfBirth;
+    private String provinceInitialsAddress;
+    private String provinceInitialsPlaceOfBirth;
+    private String provinceInitialsRg;
+    private String provinceInitialsElectoralZone;
+    private String educationDegree;
+    private String maritalStatus;
+    private String deficiency;
+    private String rgIssuingBody;
     
     public Beneficiary() {
         id = -1;
@@ -751,6 +761,83 @@ public class Beneficiary implements Serializable {
         this.createDate = createDate;
     }
 
-    
-    
+    public String getCityNameAddress() {
+        return cityNameAddress;
+    }
+
+    public void setCityNameAddress(String cityNameAddress) {
+        this.cityNameAddress = cityNameAddress;
+    }
+
+    public String getCityNamePlaceOfBirth() {
+        return cityNamePlaceOfBirth;
+    }
+
+    public void setCityNamePlaceOfBirth(String cityNamePlaceOfBirth) {
+        this.cityNamePlaceOfBirth = cityNamePlaceOfBirth;
+    }
+
+    public String getProvinceInitialsAddress() {
+        return provinceInitialsAddress;
+    }
+
+    public void setProvinceInitialsAddress(String provinceInitialsAddress) {
+        this.provinceInitialsAddress = provinceInitialsAddress;
+    }
+
+    public String getProvinceInitialsPlaceOfBirth() {
+        return provinceInitialsPlaceOfBirth;
+    }
+
+    public void setProvinceInitialsPlaceOfBirth(String provinceInitialsPlaceOfBirth) {
+        this.provinceInitialsPlaceOfBirth = provinceInitialsPlaceOfBirth;
+    }
+
+    public String getProvinceInitialsRg() {
+        return provinceInitialsRg;
+    }
+
+    public void setProvinceInitialsRg(String provinceInitialsRg) {
+        this.provinceInitialsRg = provinceInitialsRg;
+    }
+
+    public String getProvinceInitialsElectoralZone() {
+        return provinceInitialsElectoralZone;
+    }
+
+    public void setProvinceInitialsElectoralZone(String provinceInitialsElectoralZone) {
+        this.provinceInitialsElectoralZone = provinceInitialsElectoralZone;
+    }
+
+    public String getEducationDegree() {
+        return educationDegree;
+    }
+
+    public void setEducationDegree(String educationDegree) {
+        this.educationDegree = educationDegree;
+    }
+
+    public String getMaritalStatus() {
+        return maritalStatus;
+    }
+
+    public void setMaritalStatus(String maritalStatus) {
+        this.maritalStatus = maritalStatus;
+    }
+
+    public String getDeficiency() {
+        return deficiency;
+    }
+
+    public void setDeficiency(String deficiency) {
+        this.deficiency = deficiency;
+    }
+
+    public String getRgIssuingBody() {
+        return rgIssuingBody;
+    }
+
+    public void setRgIssuingBody(String rgIssuingBody) {
+        this.rgIssuingBody = rgIssuingBody;
+    }    
 }

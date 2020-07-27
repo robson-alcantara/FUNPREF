@@ -356,6 +356,78 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         return description;
     }    
 
+
+
+
+
+    @Override
+    public int getId() {
+        return lastInsertDependentId;
+    }
+    
+    @Override
+    public ArrayList<ArrayList<Object>> getReportBeneficiaryData( boolean retrieveDeceasedBeneficiaries, boolean retrievePendingBeneficiaries ) {
+        ArrayList<ArrayList<Object>> data = new ArrayList<ArrayList<Object>>();
+        ArrayList<Object> beneficiaryData;
+        
+        String sql = "SELECT enrollment as matricula, ordinance as portaria, cpf, name as nome, "
+                + "address as endereco, phone1 as fone1, phone2 as fone2, funpref.cadastral_status.status\n "                
+                + "FROM funpref.beneficiary\n "
+                + "inner join funpref.cadastral_status on funpref.cadastral_status.id_cadastral_status = funpref.beneficiary.ref_id_cadastral_status\n";
+        
+        if( retrieveDeceasedBeneficiaries ) {
+            sql += "where death_date is not null\n";
+        }
+        
+        else if( retrievePendingBeneficiaries ) {
+            sql += "where funpref.cadastral_status.id_cadastral_status <> 2\n ";
+        }
+        
+        sql = "order by name";
+        
+        try {                
+            Statement stmt = DAOFactoryImpl.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while( rs.next() ) {  
+                beneficiaryData = new ArrayList<Object>();
+                beneficiaryData.add( rs.getInt(1) );
+                beneficiaryData.add( rs.getString(2) );
+                beneficiaryData.add( rs.getString(3) );
+                beneficiaryData.add( rs.getString(4) );
+                beneficiaryData.add( rs.getString(5) );
+                beneficiaryData.add( rs.getString(6) );
+                beneficiaryData.add( rs.getString(7) );
+                beneficiaryData.add( rs.getString(8) );
+                data.add(beneficiaryData);
+            }
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }        
+        
+        return data;
+    }    
+    
+    @Override
+    public int restartCadastralStatus() {
+        
+        String sql = "UPDATE funpref.beneficiary\n" +
+            "SET ref_id_cadastral_status=1";
+        int row = -1;
+       
+        try {                
+            PreparedStatement preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(sql);
+            
+            row = preparedStatement.executeUpdate();            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        return row;         
+
+    }    
+    
     private void populatePreparedStatementFromResultSet(PreparedStatement preparedStatement, Beneficiary beneficiary, boolean populateCreateDate) {
         
         columnGlobal = 1;
@@ -513,8 +585,8 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         } catch (SQLException ex) {
             Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }        
-    }
-
+    }    
+    
     private void populateBeneficiaryFromResultSet(Beneficiary beneficiary, ResultSet resultSet) {
         
         int column = 1;
@@ -616,8 +688,6 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             beneficiary.setCreateDate(resultSet.getTimestamp(column++));
             beneficiary.setUpdateDate(resultSet.getTimestamp(column++));
 
-            //beneficiary.setDependents( loadDependents( beneficiary.getId() ) );
-
             if( ( beneficiary.getAdmissionDate() != null ) && ( beneficiary.getInactivationDate() != null ) ) {
                 beneficiary.setContributionTime( Period.between( new java.util.Date(beneficiary.getAdmissionDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
                         new java.util.Date(beneficiary.getInactivationDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
@@ -634,15 +704,124 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
 
             if( beneficiary.getInactivationDate() != null ) {
                 beneficiary.setInactivityTime( Period.between(new java.util.Date(beneficiary.getInactivationDate().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                        (new Date()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()) );
+                        (new Date()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()) );                
             }
+            
+            beneficiary.setCityNameAddress( loadCityName( beneficiary.getIdCityAddress() ) );
+            beneficiary.setCityNamePlaceOfBirth(loadCityName( beneficiary.getIdCityPlaceOfBirth()) );
+            beneficiary.setProvinceInitialsAddress( loadProvinceInitials( beneficiary.getIdProvinceAddress() ) );
+            beneficiary.setProvinceInitialsPlaceOfBirth(loadProvinceInitials( beneficiary.getIdProvincePlaceOfBirth()) );
+            beneficiary.setProvinceInitialsRg(loadProvinceInitials( beneficiary.getIdProvinceRg()) );
+            beneficiary.setProvinceInitialsElectoralZone(loadProvinceInitials( beneficiary.getIdProvinceElectoralZone()) );
+            beneficiary.setEducationDegree( loadEducationalDegree( beneficiary.getIdDegreeOfEducation()) );
+            beneficiary.setMaritalStatus(loadMaritalStatus( beneficiary.getIdMaritalStatus()) );
+            beneficiary.setDeficiency(loadDeficiency( beneficiary.getIdDeficiency()) );
+            beneficiary.setRgIssuingBody(loadRgIssuingBody(beneficiary.getIdRgIssuingBody()));
         } catch (SQLException ex) {
             Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }    
+    }        
 
-    @Override
-    public int getId() {
-        return lastInsertDependentId;
+    private String loadCityName(int idCity) {
+        
+        String cityName = null;
+        
+        try {
+            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM city WHERE id_city = " + idCity );
+
+            if (resultSet.next()) {                
+                cityName = resultSet.getString(2);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        
+        return cityName;
     }
+
+    private String loadProvinceInitials(int idProvince ) {
+        String provinceInitials = null;
+        
+        try {
+            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM province WHERE id_province = " + idProvince );
+
+            if (resultSet.next()) {                
+                provinceInitials = resultSet.getString(2);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        
+        return provinceInitials;
+    }
+
+    private String loadEducationalDegree(int idDegreeOfEducation) {
+        String educationalDegree = null;
+        
+        try {
+            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM degree_of_education WHERE id_degree_of_education = " + idDegreeOfEducation );
+
+            if (resultSet.next()) {                
+                educationalDegree = resultSet.getString(3);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        
+        return educationalDegree;
+    }
+
+    private String loadMaritalStatus(int idMaritalStatus) {
+        String maritalStatus = null;
+        
+        try {
+            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM marital_status WHERE id_marital_status = " + idMaritalStatus );
+
+            if (resultSet.next()) {                
+                maritalStatus = resultSet.getString(3);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        
+        return maritalStatus;
+    }
+
+    private String loadDeficiency(int idDeficiency) {
+        String deficiency = null;
+        
+        try {
+            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM deficiency WHERE id_deficiency = " + idDeficiency );
+
+            if (resultSet.next()) {                
+                deficiency = resultSet.getString(3);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        
+        return deficiency;
+    }
+
+    private String loadRgIssuingBody(int idRgIssuingBody) {
+        String rgIssuingBody = null;
+        
+        try {
+            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM issuing_body WHERE id_issuing_body = " + idRgIssuingBody );
+
+            if (resultSet.next()) {                
+                rgIssuingBody = resultSet.getString(2);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        
+        return rgIssuingBody;
+    }    
 }

@@ -72,6 +72,14 @@ public class BeneficiaryController {
         beneficiary.setDependents( new ArrayList<Dependent> (funprefController.getDependentController().findAllByBeneficiaryID(beneficiaryID) ) );
         return beneficiary;
     }
+    
+    public ArrayList<Object> findAll() {
+        return new ArrayList<Object>( beneficiaryDAO.findAll() );        
+    }
+    
+    public ArrayList<ArrayList<Object>> getReportBeneficiaryData( boolean retrieveDeceasedBeneficiaries, boolean retrievePendingBeneficiaries ) {        
+        return beneficiaryDAO.getReportBeneficiaryData(retrieveDeceasedBeneficiaries, retrievePendingBeneficiaries);
+    }
 
     public void fillAndShowBeneficiaryJInternalFrame() {
         try {
@@ -85,7 +93,7 @@ public class BeneficiaryController {
             
             funprefController.getFunprefJFrame().getJDesktopPane().add(beneficiaryJInternalFrame);
             beneficiaryJInternalFrame.setLocation(funprefController.getFunprefJFrame().getJDesktopPane().getLocation().x + ( ( funprefController.getFunprefJFrame().getJDesktopPane().getWidth() - beneficiaryJInternalFrame.getWidth() ) / 2 ),
-                    funprefController.getFunprefJFrame().getJDesktopPane().getLocation().y + 10);
+                    funprefController.getFunprefJFrame().getJDesktopPane().getLocation().y - 40 );
             beneficiaryJInternalFrame.toFront();
             beneficiaryJInternalFrame.setSelected(true);
             beneficiaryJInternalFrame.setClosable(true);
@@ -147,5 +155,9 @@ public class BeneficiaryController {
     public void setAndFillSourceBeneficiary(Beneficiary beneficiary) {        
         beneficiaryJInternalFrame.getjTextField48().setText("" + beneficiary.getRegistration());
         beneficiaryJInternalFrame.getjTextField49().setText(beneficiary.getName());
+    }
+
+    public int restartCadastralStatus() {
+        return beneficiaryDAO.restartCadastralStatus();
     }
 }

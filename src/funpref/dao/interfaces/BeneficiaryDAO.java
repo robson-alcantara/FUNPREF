@@ -6,6 +6,7 @@
 package funpref.dao.interfaces;
 
 import funpref.model.Beneficiary;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,4 +34,8 @@ public interface BeneficiaryDAO {
     public List<Beneficiary> findByExamplePart(Beneficiary beneficiary, boolean updatingSourceBeneficiary, int currentBeneficiaryID );    
 
     public int getId();
+    
+    public ArrayList<ArrayList<Object>> getReportBeneficiaryData( boolean retrieveDeceasedBeneficiaries, boolean retrievePendingBeneficiaries );
+    
+    public int restartCadastralStatus();
 }

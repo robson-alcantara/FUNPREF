@@ -149,6 +149,10 @@ public class DependentController {
         return validSave;
     }
 
+    public ArrayList<ArrayList<Object>> getReportDependentData() {
+        return dependentDAO.getReportDependentData();
+    }
+
     
     
 }

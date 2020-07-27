@@ -59,405 +59,30 @@ public class ReportController {
     private final SimpleDateFormat formatDate;    
     private FUNPREFController funprefController;
     private Document document;
-//    private ReportBeneficiaryController reportBeneficiaryController;
-//    private ReportBeneficiaryPendingController reportBeneficiaryPendingController;
-//    private ReportBeneficiaryDeceasedController reportBeneficiaryDeceasedController;
-//    private ReportDependentController reportDependentController;
+    private ReportBeneficiariesController reportBeneficiariesController;
+    private ReportBeneficiariesPendingController reportBeneficiariesPendingController;
+    private ReportBeneficiariesDeceasedController reportBeneficiariesDeceasedController;
+    private ReportDependentController reportDependentController;
     private ReportBeneficiaryController reportBeneficiaryController;
     private String outputFilePath;
     private PdfDocument pdfDocument;
-    
-    public ReportController() {
-        formatDate = new SimpleDateFormat("dd/MM/yyyy");
-//        reportBeneficiaryController = new ReportBeneficiaryController();
-//        reportDependentController = new ReportDependentController();
-//        reportBeneficiaryPendingController = new ReportBeneficiaryPendingController();
-//        reportBeneficiaryDeceasedController = new ReportBeneficiaryDeceasedController();
-    }
 
     public ReportController(FUNPREFController funprefController ) {
         this.funprefController = funprefController;
         formatDate = new SimpleDateFormat("dd/MM/yyyy");
         reportBeneficiaryController = new ReportBeneficiaryController( funprefController, this );
-    }
+        reportBeneficiariesController = new ReportBeneficiariesController(funprefController);
+        reportBeneficiariesPendingController = new ReportBeneficiariesPendingController(funprefController);
+        reportBeneficiariesDeceasedController = new ReportBeneficiariesDeceasedController(funprefController);
+        reportDependentController = new ReportDependentController(funprefController);
+    }    
     
-    public void printBeneficiaryCensusVoucher(Beneficiary beneficiary, boolean printRegisterDate ) {
-        try {        
-            Document document;
-            PdfDocument pdfDocument;
-            PdfWriter writer;
-            String outputFilePath = "report.pdf";
-            
-            PdfFont font = PdfFontFactory.createFont(FontConstants.HELVETICA);
-
-            writer = new PdfWriter(outputFilePath);
-
-            writer.setCompressionLevel(9);        
-            pdfDocument = new PdfDocument(writer);            
-            //pdfDocument.set
-            //pdfDocument.setDefaultPageSize(PageSize.A4.rotate());
-            document = new Document(pdfDocument);
-            document.setMargins(10.0f, 10.0f, 10.0f, 10.0f);
-            
-            int defaultFontSize = 9;
-            int smallFontSize = 7;
-
-            Table tableTop = new Table(UnitValue.createPercentArray(new float[]{35,45,20})).useAllAvailableWidth().setFixedLayout().setWidth(UnitValue.createPercentValue(100));
-            Image blazon = null;
-            Cell aCell;
-//            try {
-                blazon = new Image( ImageDataFactory.create("./src/resources/about_icon.png"));
-//            } catch (MalformedURLException ex) {
-//                Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-            
-            aCell = new Cell();
-            aCell.add( new Paragraph( "CENSO PREVIDENCIÁRIO" ).setFont(font).setFontSize(16) ).setVerticalAlignment(VerticalAlignment.MIDDLE);              
-            aCell.setBorder(Border.NO_BORDER);
-//            cell2.setBorderTop(new SolidBorder(0));
-//            cell2.setBorderBottom(new SolidBorder(0));        
-            tableTop.addCell(aCell);            
-            
-            aCell = new Cell();
-            aCell.add( new Paragraph( "FUNDO PREVIDENCIÁRIO DO MUNICÍPIO DE FLORES-PE" ).setFont(font).setFontSize(defaultFontSize) );
-            aCell.add( new Paragraph( "05.699.773/0001-21" ).setFont(font).setFontSize(defaultFontSize).setFontColor(Color.GRAY) );
-            aCell.setTextAlignment(TextAlignment.RIGHT);
-            aCell.setVerticalAlignment(VerticalAlignment.MIDDLE);
-            aCell.setBorder(Border.NO_BORDER);
-//            cell2.setBorderTop(new SolidBorder(0));
-//            cell2.setBorderBottom(new SolidBorder(0));        
-            tableTop.addCell(aCell);                        
-            
-            
-            blazon.scale(0.5f, 0.5f);
-            aCell = new Cell();
-            aCell.add(blazon);
-            aCell.setBorder(Border.NO_BORDER);
-//            aCell.setBorderTop(new SolidBorder(0));
-//            aCell.setBorderBottom(new SolidBorder(0));
-//            aCell.setBorderLeft(new SolidBorder(0));
-            tableTop.addCell(aCell);
-            
-
-//            Cell cell3 = new Cell();
-//            cell3.add("BOLETIM ESCOLAR");
-//            cell3.add("Ano letivo: 2019");
-//            cell3.setBorder(Border.NO_BORDER);
-//            cell3.setBorderTop(new SolidBorder(0));
-//            cell3.setBorderBottom(new SolidBorder(0));         
-//            cell3.setBorderRight(new SolidBorder(0));
-//            tableTop.addCell(cell3); 
-            document.add(tableTop.setHorizontalAlignment(HorizontalAlignment.CENTER));
-
-            Table table2 = new Table(UnitValue.createPercentArray(new float[]{80,20})).useAllAvailableWidth().setFixedLayout().setWidth(UnitValue.createPercentValue(100));
-            
-            aCell = new Cell();
-            aCell.add( new Paragraph( beneficiary.getName() ).setFont(font).setFontSize(10).setVerticalAlignment(VerticalAlignment.MIDDLE) );            
-            aCell.add( new Paragraph( printBenefitTypeText( beneficiary.getIdBenefitType() ) ).setFont(font).setFontSize(10).setVerticalAlignment(VerticalAlignment.MIDDLE) );            
-            aCell.setBorder(Border.NO_BORDER);
-//            cell2.setBorderTop(new SolidBorder(0));
-//            cell2.setBorderBottom(new SolidBorder(0));        
-            table2.addCell(aCell);     
-            
-            aCell = new Cell();
-            aCell.add( new Paragraph( "CPF" ).setFont(font).setFontSize(smallFontSize) );
-            aCell.add( new Paragraph( beneficiary.getCpf() ).setFont(font).setFontSize(smallFontSize).setHorizontalAlignment(HorizontalAlignment.CENTER) );
-            aCell.add( new Paragraph( "CONCESSÃO DO BENEFÍCIO" ).setFont(font).setFontSize(smallFontSize).setHorizontalAlignment(HorizontalAlignment.CENTER) );
-            aCell.add( new Paragraph( formatDate.format(beneficiary.getInactivationDate()) ).setFont(font).setFontSize(smallFontSize).setHorizontalAlignment(HorizontalAlignment.CENTER) );            
-            
-            if ( printRegisterDate && ( beneficiary.getRegisterDate() != null ) ) {
-                aCell.add( new Paragraph( "DATA DO RECENSEAMENTO" ).setFont(font).setFontSize(smallFontSize).setHorizontalAlignment(HorizontalAlignment.CENTER) );
-                aCell.add( new Paragraph( formatDate.format(beneficiary.getRegisterDate()) ).setFont(font).setFontSize(smallFontSize).setHorizontalAlignment(HorizontalAlignment.CENTER) );                                            
-            }
-            
-            aCell.setTextAlignment(TextAlignment.CENTER);
-            aCell.setBorder(Border.NO_BORDER);
-            table2.setBorderTop( new SolidBorder(0.3f) );
-            table2.setBorderBottom(new SolidBorder(0.3f) );       
-            table2.addCell(aCell);             
-            
-            
-       
-            document.add(table2.setHorizontalAlignment(HorizontalAlignment.CENTER));
-            
-            Table table3 = new Table(UnitValue.createPercentArray(new float[]{20,80})).useAllAvailableWidth().setFixedLayout().setWidth(UnitValue.createPercentValue(100));
-            
-            aCell = new Cell();
-            
-            
-            aCell.add( new Paragraph( "Informações da Ativa" ).setFont(font).setFontSize(smallFontSize) );
-            aCell.add( new Paragraph( "Data de admissão: " ).setFont(font).setFontSize(defaultFontSize) );
-            aCell.add( new Paragraph( "Cargo: " ).setFont(font).setFontSize(defaultFontSize) );
-            aCell.add( new Paragraph( "Tempo anterior: " ).setFont(font).setFontSize(defaultFontSize) );
-            aCell.setBorder(Border.NO_BORDER);
-            table3.addCell(aCell);             
-            
-            aCell = new Cell();
-            
-            if( ( beneficiary.getIdBenefitType() != 2 ) && ( beneficiary.getIdBenefitType() != 7 ) ) {
-                aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(smallFontSize) );            
-                aCell.add( new Paragraph( formatDate.format( beneficiary.getAdmissionDate() ) ).setFont(font).setFontSize(defaultFontSize) );
-                aCell.add( new Paragraph( beneficiary.getOffice() ).setFont(font).setFontSize(defaultFontSize) );
-                aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(defaultFontSize) );            
-            }
-            
-            aCell.setBorder(Border.NO_BORDER);            
-            table3.addCell(aCell); 
-            
-            table3.setBorderTop( new SolidBorder(0.3f) );
-            table3.setBorderBottom(new SolidBorder(0.3f) );
-            
-            document.add(table3.setHorizontalAlignment(HorizontalAlignment.CENTER));
-            
-            Table table4 = new Table(UnitValue.createPercentArray(new float[]{20,80})).useAllAvailableWidth().setFixedLayout().setWidth(UnitValue.createPercentValue(100));
-            
-            aCell = new Cell();
-            aCell.add( new Paragraph( "Dados Pessoais" ).setFont(font).setFontSize(smallFontSize) );
-            aCell.add( new Paragraph( "Data de nascimento: " ).setFont(font).setFontSize(defaultFontSize) );            
-            aCell.add( new Paragraph( "Naturalidade: " ).setFont(font).setFontSize(defaultFontSize) );            
-            aCell.add( new Paragraph( "Mãe: " ).setFont(font).setFontSize(defaultFontSize) );            
-            aCell.add( new Paragraph( "Pai: " ).setFont(font).setFontSize(defaultFontSize) );            
-            aCell.add( new Paragraph( "Grau de instrução: " ).setFont(font).setFontSize(defaultFontSize) );            
-            aCell.add( new Paragraph( "Estado civil: " ).setFont(font).setFontSize(defaultFontSize) );            
-            aCell.add( new Paragraph( "Estado físico: " ).setFont(font).setFontSize(defaultFontSize) );
-            aCell.setBorder(Border.NO_BORDER);
-            table4.addCell(aCell);             
-            
-            aCell = new Cell();
-            aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(smallFontSize) );            
-            aCell.add( new Paragraph( formatDate.format( beneficiary.getBirthDate() ) ).setFont(font).setFontSize(defaultFontSize) );
-//            aCell.add( new Paragraph( "" + funprefController.decodeCity(beneficiary.getIdCityPlaceOfBirth(),beneficiary.getIdProvincePlaceOfBirth()) +
-//                    "-" + funprefController.decodeProvince(beneficiary.getIdProvincePlaceOfBirth()) +
-//                    ", " + beneficiary.getNationality() ).setFont(font).setFontSize(defaultFontSize) );            
-//            aCell.add( new Paragraph( beneficiary.getMotherName() ).setFont(font).setFontSize(defaultFontSize) ); 
-//            aCell.add( new Paragraph( beneficiary.getFatherName() ).setFont(font).setFontSize(defaultFontSize) ); 
-//            aCell.add( new Paragraph( "" + funprefController.decodeDegreeEducation(beneficiary.getIdDegreeOfEducation()) ).setFont(font).setFontSize(defaultFontSize) ); 
-//            aCell.add( new Paragraph( "" + funprefController.decodeMaritalStatus(beneficiary.getIdMaritalStatus()) ).setFont(font).setFontSize(defaultFontSize) ); 
-//            aCell.add( new Paragraph( "" + funprefController.decodeDeficiency(beneficiary.getIdDeficiency()) ).setFont(font).setFontSize(defaultFontSize) );            
-            aCell.setBorder(Border.NO_BORDER);
-            table4.addCell(aCell);  
-            
-            table4.setBorderTop( new SolidBorder(0.3f) );
-            table4.setBorderBottom(new SolidBorder(0.3f) );            
-            
-            document.add(table4.setHorizontalAlignment(HorizontalAlignment.CENTER));            
-            
-            Table table5 = new Table(UnitValue.createPercentArray(new float[]{20,80})).useAllAvailableWidth().setFixedLayout().setWidth(UnitValue.createPercentValue(100));
-            
-            aCell = new Cell();
-            aCell.add( new Paragraph( "Documentos" ).setFont(font).setFontSize(smallFontSize) );  
-            aCell.add( new Paragraph( "Identidade: " ).setFont(font).setFontSize(defaultFontSize) );
-            aCell.add( new Paragraph( "Título de eleitor: " ).setFont(font).setFontSize(defaultFontSize) );
-            aCell.setBorder(Border.NO_BORDER);
-            table5.addCell(aCell);             
-            
-            aCell = new Cell();
-            aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(smallFontSize) );  
-            aCell.add( new Paragraph( beneficiary.getRg() + " " +
-//                    funprefController.decodeRgIssuingBody(beneficiary.getIdRgIssuingBody()) +
-//                    "-" + funprefController.decodeProvince(beneficiary.getIdProvinceRg()) +
-//                    " emitido em " + ( (beneficiary.getRgEmissionDate() != null)?formatDate.format(beneficiary.getRgEmissionDate()):"") ).setFont(font).setFontSize(defaultFontSize) );
-//            aCell.add( new Paragraph( "" + beneficiary.getVotersTitle() + " Zona: " + beneficiary.getElectoralZone() +
-//                    " Seção: " + beneficiary.getElectoralSection() +
-//                    " UF: " + funprefController.decodeProvince(beneficiary.getIdProvinceElectoralZone()) ).setFont(font).setFontSize(defaultFontSize) 
-                    ""));            
-            aCell.setBorder(Border.NO_BORDER);
-            table5.addCell(aCell);  
-            
-            table5.setBorderTop( new SolidBorder(0.3f) );
-            table5.setBorderBottom(new SolidBorder(0.3f) );            
-
-            document.add(table5.setHorizontalAlignment(HorizontalAlignment.CENTER));         
-            
-            Table table6 = new Table(UnitValue.createPercentArray(new float[]{20,80})).useAllAvailableWidth().setFixedLayout().setWidth(UnitValue.createPercentValue(100));
-            
-            aCell = new Cell();
-            aCell.add( new Paragraph( "Contatos" ).setFont(font).setFontSize(smallFontSize) );  
-            aCell.add( new Paragraph( "Endereço: " ).setFont(font).setFontSize(defaultFontSize) );
-            aCell.add( new Paragraph( "Telefone: " ).setFont(font).setFontSize(defaultFontSize) );
-            aCell.add( new Paragraph( "e-mail: " ).setFont(font).setFontSize(defaultFontSize) );
-            aCell.setBorder(Border.NO_BORDER);
-            table6.addCell(aCell);             
-            
-            aCell = new Cell();
-            aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(smallFontSize) );  
-//            aCell.add( new Paragraph( beneficiary.getAddress() + ", " +
-//                    funprefController.decodeCity( beneficiary.getIdCityAddress(), beneficiary.getIdProvinceAddress() ) + "-" +
-//                    funprefController.decodeProvince( beneficiary.getIdProvinceAddress() ) ).setFont(font).setFontSize(defaultFontSize) );            
-//            aCell.add( new Paragraph( ((beneficiary.getPhone1() != null)?beneficiary.getPhone1():"") + " " +
-//                    ((beneficiary.getPhone2() != null)?beneficiary.getPhone2():"") ).setFont(font).setFontSize(defaultFontSize) );            
-//            aCell.add( new Paragraph( ((beneficiary.getEmail() != null)?beneficiary.getEmail():"") ).setFont(font).setFontSize(defaultFontSize) );                        
-            aCell.setBorder(Border.NO_BORDER);
-            table6.addCell(aCell); 
-            
-            table6.setBorderTop( new SolidBorder(0.3f) );
-            table6.setBorderBottom(new SolidBorder(0.3f) );            
-
-            document.add(table6.setHorizontalAlignment(HorizontalAlignment.CENTER));              
-            
-            Table table7 = new Table(UnitValue.createPercentArray(new float[]{12,40,12,18,18})).useAllAvailableWidth().setFixedLayout().setWidth(UnitValue.createPercentValue(100));
-            
-            aCell = new Cell();
-            aCell.add( new Paragraph( "Dependentes" ).setFont(font).setFontSize(smallFontSize) );  
-            aCell.add( new Paragraph( "CPF" ).setFont(font).setFontSize(smallFontSize) );            
-            
-            for( int i = 0; i < beneficiary.getDependents().size(); i++ ) {
-                aCell.add( new Paragraph( beneficiary.getDependents().get(i).getCpf() ).setFont(font).setFontSize(defaultFontSize) );            
-            }
-            
-            aCell.setTextAlignment(TextAlignment.CENTER);
-            aCell.setBorder(Border.NO_BORDER);
-            table7.addCell(aCell);             
-            
-            aCell = new Cell();
-            aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(smallFontSize) );  
-            aCell.add( new Paragraph( "NOME" ).setFont(font).setFontSize(smallFontSize) );                        
-            
-            for( int i = 0; i < beneficiary.getDependents().size(); i++ ) {
-                aCell.add( new Paragraph( beneficiary.getDependents().get(i).getName()).setFont(font).setFontSize(defaultFontSize) );
-            }
-            
-            aCell.setTextAlignment(TextAlignment.CENTER);
-            aCell.setBorder(Border.NO_BORDER);
-            table7.addCell(aCell);                         
-            
-            aCell = new Cell();
-            aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(smallFontSize) );  
-            aCell.add( new Paragraph( "NASCIMENTO" ).setFont(font).setFontSize(smallFontSize) );                                    
-            
-            for( int i = 0; i < beneficiary.getDependents().size(); i++ ) {
-                aCell.add( new Paragraph( formatDate.format(beneficiary.getDependents().get(i).getBirthDate()) ).setFont(font).setFontSize(defaultFontSize) );
-            }
-            
-            aCell.setTextAlignment(TextAlignment.CENTER);
-            aCell.setBorder(Border.NO_BORDER);
-            table7.addCell(aCell);                                     
-            
-            aCell = new Cell();
-            aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(smallFontSize) );  
-            aCell.add( new Paragraph( "PARENTESCO" ).setFont(font).setFontSize(smallFontSize) );                                                
-            
-            for( int i = 0; i < beneficiary.getDependents().size(); i++ ) {
-//                aCell.add( new Paragraph( "" + funprefController.decodeKinship(beneficiary.getDependents().get(i).getIdKinship() ) ).setFont(font).setFontSize(defaultFontSize) );
-            }
-            
-            aCell.setTextAlignment(TextAlignment.CENTER);
-            aCell.setBorder(Border.NO_BORDER);
-            table7.addCell(aCell); 
-            
-            
-            aCell = new Cell();
-            aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(smallFontSize) );  
-            aCell.add( new Paragraph( "DEFICIÊNCIA" ).setFont(font).setFontSize(smallFontSize) );                                                            
-            
-            for( int i = 0; i < beneficiary.getDependents().size(); i++ ) {
-//                aCell.add( new Paragraph( "" + funprefController.decodeDeficiency(beneficiary.getDependents().get(i).getIdDeficiency() ) ).setFont(font).setFontSize(defaultFontSize) );
-            }
-            
-            aCell.setTextAlignment(TextAlignment.CENTER);
-            aCell.setBorder(Border.NO_BORDER);
-            table7.addCell(aCell);  
-            
-            table7.setBorderTop( new SolidBorder(0.3f) );
-            table7.setBorderBottom(new SolidBorder(0.3f) );            
-            
-            document.add(table7.setHorizontalAlignment(HorizontalAlignment.CENTER));           
-            
-            Table table8 = new Table(UnitValue.createPercentArray(new float[]{100})).useAllAvailableWidth().setFixedLayout().setWidth(UnitValue.createPercentValue(100));            
-            
-            aCell = new Cell();
-            aCell.setBorder(Border.NO_BORDER);
-            aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(smallFontSize) );  
-            aCell.add( new Paragraph( "Declaramos para os devidos fins que as informações acima são verdadeiras," ).setFont(font).setFontSize(smallFontSize) );  
-            aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(smallFontSize) );  
-            aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(smallFontSize) );  
-            aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(smallFontSize) );  
-            aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(smallFontSize) );              
-            table8.addCell(aCell);  
-            
-            document.add(table8.setHorizontalAlignment(HorizontalAlignment.CENTER));      
-            
-            Table table9 = new Table(UnitValue.createPercentArray(new float[]{50,50})).useAllAvailableWidth().setFixedLayout().setWidth(UnitValue.createPercentValue(100));            
-            
-//            aCell = new Cell();
-//            aCell.setBorder(Border.NO_BORDER);
-//            aCell.add( new Paragraph( "________________________________" ).setFont(font).setFontSize(defaultFontSize) );  
-//            aCell.add( new Paragraph( "Marcelino Xenófanes Diniz de Souza" ).setFont(font).setFontSize(defaultFontSize) );  
-//            aCell.add( new Paragraph( "Gerente de Previdência" ).setFont(font).setFontSize(smallFontSize) );  
-//            aCell.setTextAlignment(TextAlignment.CENTER);
-//            table9.addCell(aCell);
-            
-            aCell = new Cell();
-            aCell.setBorder(Border.NO_BORDER);
-            aCell.add( new Paragraph( "________________________________" ).setFont(font).setFontSize(defaultFontSize) );  
-//            aCell.add( new Paragraph( funprefController.getUser().getName() ).setFont(font).setFontSize(defaultFontSize) );  
-//            aCell.add( new Paragraph( funprefController.getUser().getOffice() ).setFont(font).setFontSize(smallFontSize) );              
-            aCell.setTextAlignment(TextAlignment.CENTER);
-            table9.addCell(aCell);
-            
-            aCell = new Cell();
-            aCell.setBorder(Border.NO_BORDER);
-//            aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(defaultFontSize) );  
-//            aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(defaultFontSize) );  
-            aCell.add( new Paragraph( "________________________________" ).setFont(font).setFontSize(defaultFontSize) );  
-            aCell.add( new Paragraph( beneficiary.getName() ).setFont(font).setFontSize(defaultFontSize) );              
-            aCell.add( new Paragraph( printBenefitTypeText( beneficiary.getIdBenefitType() ) ).setFont(font).setFontSize(smallFontSize) );              
-            aCell.setTextAlignment(TextAlignment.CENTER);
-            table9.addCell(aCell);            
-            
-            document.add(table9.setHorizontalAlignment(HorizontalAlignment.CENTER));      
-            
-//            Table table10 = new Table(UnitValue.createPercentArray(new float[]{100})).useAllAvailableWidth().setFixedLayout().setWidth(UnitValue.createPercentValue(100));                        
-//            
-//            aCell = new Cell();
-//            aCell.setBorder(Border.NO_BORDER);
-//            aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(defaultFontSize) );  
-//            aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(defaultFontSize) );  
-//            aCell.add( new Paragraph( "________________________________" ).setFont(font).setFontSize(defaultFontSize) );  
-//            aCell.add( new Paragraph( beneficiary.getName() ).setFont(font).setFontSize(defaultFontSize) );              
-//            aCell.add( new Paragraph( printBenefitTypeText( beneficiary.getIdBenefitType() ) ).setFont(font).setFontSize(smallFontSize) );              
-//            aCell.setTextAlignment(TextAlignment.CENTER);
-//            table10.addCell(aCell);
-//            
-//            document.add(table10.setHorizontalAlignment(HorizontalAlignment.CENTER));                  
-            
-            
-            document.close(); 
-            
-
-            Desktop.getDesktop().open(new File(outputFilePath));
-
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);        
-        } catch (IOException ex) {
-            Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
-        }                    
-    }
-
-    public String printBenefitTypeText(int idBenefitType) {
-        String benefityType = "";
-        
-        if( ( idBenefitType == 1 ) || ( idBenefitType == 3 ) || ( idBenefitType == 4 ) || ( idBenefitType == 5 ) || ( idBenefitType == 6 ) ) {
-            benefityType = "Servidor Inativo";
-        }
-        
-        else if ( idBenefitType == 2 )  {
-            benefityType = "Pensionista";
-        }
-        
-        else if ( idBenefitType == 7 )  {
-            benefityType = "Pensionista (temporário)";
-        }        
-        
-        return benefityType;
-    }
-    
-    void generateReportBeneficiary( boolean printRegisterDate ) {
+    public void generateReportBeneficiary( boolean printRegisterDate ) {
         try {        
             generateFileData();
             generateHeader();
             document = reportBeneficiaryController.generateData(document, printRegisterDate);
-            generateBottom();
+            document.close(); 
 
             Desktop.getDesktop().open(new File(outputFilePath));
         } catch (IOException ex) {
@@ -465,11 +90,11 @@ public class ReportController {
         }
     }    
 
-    void generateReportBeneficiaries() {
+    public void generateReportBeneficiaries() {
         try {        
-            generateFileData();
+            generateFileData(PageSize.A4.rotate());
             generateHeader();
-//            document = reportBeneficiaryController.generateData(document);
+            document = reportBeneficiariesController.generateData(document);
             generateBottom();
 
             Desktop.getDesktop().open(new File(outputFilePath));
@@ -478,11 +103,11 @@ public class ReportController {
         }
     }
     
-    void generateReportBeneficiariesPendings() {
+    public void generateReportBeneficiariesPendings() {
         try {        
-            generateFileData();
+            generateFileData(PageSize.A4.rotate());
             generateHeader();
-//            document = reportBeneficiaryPendingController.generateData(document);
+            document = reportBeneficiariesPendingController.generateData(document);
             generateBottom();
 
             Desktop.getDesktop().open(new File(outputFilePath));
@@ -491,11 +116,11 @@ public class ReportController {
         }
     }
 
-        void generateReportBeneficiariesDeceased() {
+    public void generateReportBeneficiariesDeceased() {
         try {        
-            generateFileData();
+            generateFileData(PageSize.A4.rotate());
             generateHeader();
-//            document = reportBeneficiaryDeceasedController.generateData(document);
+            document = reportBeneficiariesDeceasedController.generateData(document);
             generateBottom();
 
             Desktop.getDesktop().open(new File(outputFilePath));
@@ -504,11 +129,11 @@ public class ReportController {
         }
     }
     
-    void generateReportDependents() {
+    public void generateReportDependents() {
         try {        
-            generateFileData();
+            generateFileData(PageSize.A4.rotate());
             generateHeader();
-//            document = reportDependentController.generateData(document);
+            document = reportDependentController.generateData(document);
             generateBottom();
 
             Desktop.getDesktop().open(new File(outputFilePath));
@@ -516,10 +141,13 @@ public class ReportController {
             Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }    
+    
+    private void generateFileData() {        
+        generateFileData(PageSize.A4);        
+    }
 
-    private void generateFileData() {            
-        try {        
-            //PdfDocument pdfDocument;
+    private void generateFileData(PageSize pageSize) {            
+        try {                    
             PdfWriter writer;
             outputFilePath = "report.pdf";
 
@@ -527,7 +155,7 @@ public class ReportController {
 
             writer.setCompressionLevel(9);        
             pdfDocument = new PdfDocument(writer);                        
-            pdfDocument.setDefaultPageSize(PageSize.A4.rotate());
+            pdfDocument.setDefaultPageSize(pageSize);
             document = new Document(pdfDocument);
             document.setMargins(110.0f, 25.0f, 25.0f, 25.0f);            
 
@@ -541,62 +169,8 @@ public class ReportController {
 
 
     private void generateHeader() {
-        //            int defaultFontSize = 9;            ;
-        
-        //PdfFont font = PdfFontFactory.createFont(FontConstants.HELVETICA);
-
-//            Table tableTop = new Table(UnitValue.createPercentArray(new float[]{35,45,20})).useAllAvailableWidth().setFixedLayout().setWidth(UnitValue.createPercentValue(100));
-//            Image blazon = null;
-//            Cell aCell;
-//            try {
-//                blazon = new Image( ImageDataFactory.create("./src/resources/about_icon.png"));
-//            } catch (MalformedURLException ex) {
-//                Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//
-//            aCell = new Cell();
-//            aCell.add( new Paragraph( "CENSO PREVIDENCIÁRIO" ).setFont(font).setFontSize(16) ).setVerticalAlignment(VerticalAlignment.MIDDLE);              
-//            aCell.setBorder(Border.NO_BORDER);
-//    //            cell2.setBorderTop(new SolidBorder(0));
-//    //            cell2.setBorderBottom(new SolidBorder(0));
-//            tableTop.addCell(aCell);            
-//
-//            aCell = new Cell();
-//            aCell.add( new Paragraph( "FUNDO PREVIDENCIÁRIO DO MUNICÍPIO DE FLORES-PE" ).setFont(font).setFontSize(defaultFontSize) );
-//            aCell.add( new Paragraph( "05.699.773/0001-21" ).setFont(font).setFontSize(defaultFontSize).setFontColor(Color.GRAY) );
-//            aCell.setTextAlignment(TextAlignment.RIGHT);
-//            aCell.setVerticalAlignment(VerticalAlignment.MIDDLE);
-//            aCell.setBorder(Border.NO_BORDER);
-//    //            cell2.setBorderTop(new SolidBorder(0));
-//    //            cell2.setBorderBottom(new SolidBorder(0));
-//            tableTop.addCell(aCell);                        
-//
-//
-//            blazon.scale(0.5f, 0.5f);
-//            aCell = new Cell();
-//            aCell.add(blazon);
-//            aCell.setBorder(Border.NO_BORDER);
-//    //            aCell.setBorderTop(new SolidBorder(0));
-//    //            aCell.setBorderBottom(new SolidBorder(0));
-//    //            aCell.setBorderLeft(new SolidBorder(0));
-//            tableTop.addCell(aCell);
-            
-//            paragraph = new Paragraph();
-//            paragraph.add(tableTop);
-//            
-//            for (int i = 1; i <= pdfDocument.getNumberOfPages(); i++) {
-//                Rectangle pageSize = pdfDocument.getPage(i).getPageSize();
-//                float x = pageSize.getWidth() / 2;
-//                float y = pageSize.getTop() - 20;
-//                document.showTextAligned(tableTop, x, y, i, TextAlignment.LEFT, VerticalAlignment.BOTTOM, 0);
-//            }       
-
-//pdfDocument.addEventHandler(PdfDocumentEvent.START_PAGE, new TableHeaderEventHandler(tableTop));
         TableHeaderEventHandler handler = new TableHeaderEventHandler(document);
         pdfDocument.addEventHandler(PdfDocumentEvent.END_PAGE, handler);
-
-//document.add(tableTop.setHorizontalAlignment(HorizontalAlignment.CENTER));
-
     }
 
     private void generateBottom() {
@@ -629,27 +203,23 @@ public class ReportController {
         }            
     }
     
-//    private static class TableHeaderEventHandler implements IEventHandler {
-//        private Table table;
-//
-//        public TableHeaderEventHandler(Table table) {
-//            this.table = table;
-//        }
-//
-//        @Override
-//        public void handleEvent(Event currentEvent) {
-//            PdfDocumentEvent docEvent = (PdfDocumentEvent) currentEvent;
-//            PdfDocument pdfDoc = docEvent.getDocument();
-//            PdfPage page = docEvent.getPage();
-//            PdfCanvas canvas = new PdfCanvas(page.newContentStreamBefore(), page.getResources(), pdfDoc);
-//
-//            new Canvas(canvas, pdfDoc, new Rectangle(36, 20, page.getPageSize().getWidth() - 72, 50))
-//                    .add(table)
-//                    .close();
-//        }
-//
-//
-//    }    
+    public String printBenefitTypeText(int idBenefitType) {
+        String benefityType = "";
+        
+        if( ( idBenefitType == 1 ) || ( idBenefitType == 3 ) || ( idBenefitType == 4 ) || ( idBenefitType == 5 ) || ( idBenefitType == 6 ) ) {
+            benefityType = "Servidor Inativo";
+        }
+        
+        else if ( idBenefitType == 2 )  {
+            benefityType = "Pensionista";
+        }
+        
+        else if ( idBenefitType == 7 )  {
+            benefityType = "Pensionista (temporário)";
+        }        
+        
+        return benefityType;
+    }
 
 private static class TableHeaderEventHandler implements IEventHandler {
         private Table table;

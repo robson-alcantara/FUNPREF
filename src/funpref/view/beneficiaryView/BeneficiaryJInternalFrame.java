@@ -1404,11 +1404,11 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
             choices[0]); // Initial choice
 
         if( input.equals("ficha do censo") ) {
-            beneficiaryController.getFunprefController().getReportController().printBeneficiaryCensusVoucher(currentBeneficiary, false);
+            beneficiaryController.getFunprefController().getReportController().generateReportBeneficiary(false);
         }
 
         else if( input.equals("ficha do censo com data de atualização") ) {
-            beneficiaryController.getFunprefController().getReportController().printBeneficiaryCensusVoucher(currentBeneficiary, true);
+            beneficiaryController.getFunprefController().getReportController().generateReportBeneficiary(true);
         }
 
         else {

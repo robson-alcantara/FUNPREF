@@ -26,15 +26,15 @@ import java.util.logging.Logger;
  *
  * @author secretaria
  */
-public class ReportBeneficiariesController {
+public class ReportBeneficiariesDeceasedController {
     private FUNPREFController funprefController;
-
-    ReportBeneficiariesController(FUNPREFController funprefController) {
+    
+    public ReportBeneficiariesDeceasedController(FUNPREFController funprefController) {
         this.funprefController = funprefController;
     }
 
     Document generateData(Document document) {
-        ArrayList< ArrayList<Object>> data = null;
+        ArrayList< ArrayList<Object>> data;
         Cell cell;
         PdfFont font;
         String text;
@@ -42,9 +42,9 @@ public class ReportBeneficiariesController {
         try {
             font = PdfFontFactory.createFont(FontConstants.HELVETICA);
             
-            data = funprefController.getBeneficiaryController().getReportBeneficiaryData(false,false);
+            data = funprefController.getBeneficiaryController().getReportBeneficiaryData(true,false);
 
-            document.add( new Paragraph("Lista de beneficiários").setTextAlignment(TextAlignment.CENTER));
+            document.add( new Paragraph("Lista de beneficiários falecidos").setTextAlignment(TextAlignment.CENTER));
             document.add( new Paragraph(""));
 
             Table table = new Table(UnitValue.createPercentArray(new float[]{5,5,10,20,26,8,8,8})).useAllAvailableWidth().setFixedLayout().setWidth(UnitValue.createPercentValue(100));
@@ -79,7 +79,7 @@ public class ReportBeneficiariesController {
             table.addCell(cell);   
             
             cell = new Cell();
-            cell.add( new Paragraph( "situação do censo" ).setFont(font).setBold().setFontSize(6).setVerticalAlignment(VerticalAlignment.MIDDLE) );
+            cell.add( new Paragraph( "data de óbito" ).setFont(font).setBold().setFontSize(6).setVerticalAlignment(VerticalAlignment.MIDDLE) );
             table.addCell(cell);             
             
 
@@ -97,13 +97,11 @@ public class ReportBeneficiariesController {
                 }
             } 
             
-            document.add(table.setHorizontalAlignment(HorizontalAlignment.CENTER));  
-            
-            document.add( new Paragraph(""));
-            document.add( new Paragraph(""));
+            document.add(table.setHorizontalAlignment(HorizontalAlignment.CENTER));            
+
             
         } catch (IOException ex) {
-            Logger.getLogger(ReportBeneficiariesController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReportBeneficiariesDeceasedController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         

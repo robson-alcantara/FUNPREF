@@ -41,6 +41,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import javax.imageio.ImageIO;
 import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -513,40 +514,41 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButtonMenuItem1ActionPerformed
 
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
-//        funprefController.generateReportBeneficiary();
+        funprefController.getReportController().generateReportBeneficiaries();
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
-//        funprefController.generateReportDependent();
+        funprefController.getReportController().generateReportDependents();
     }//GEN-LAST:event_jMenuItem13ActionPerformed
 
     private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
-//        funprefController.generateReportBeneficiaryPending();
+        funprefController.getReportController().generateReportBeneficiariesPendings();
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
     private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
-//        funprefController.generateReportBeneficiaryDeceased();
+        funprefController.getReportController().generateReportBeneficiariesDeceased();
     }//GEN-LAST:event_jMenuItem15ActionPerformed
 
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
-//        int optionResult = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja iniciar um recenseamento?", "FUNPREF", JOptionPane.YES_NO_OPTION);
-//        int returnValue;
-//
-//        if( optionResult == 0 ) {
-//            
-//            if( funprefController.revalidateLogin() ) {
-//                
-//                returnValue = funprefController.restartCadastralStatus();
-//
-//                if( returnValue > 0 ) {
-//                    JOptionPane.showMessageDialog(rootPane, "Recenseamento reiniciado", "Informação", JOptionPane.INFORMATION_MESSAGE);                
-//                }
-//
-//                else {                
-//                    JOptionPane.showMessageDialog(rootPane, "Falha ao iniciar Recenseamento", "Erro", JOptionPane.ERROR_MESSAGE);                
-//                }
-//            }
-//        }
+        int optionResult = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja iniciar um recenseamento?", "FUNPREF", JOptionPane.YES_NO_OPTION);
+        int returnValue;
+
+        if( optionResult == 0 ) {
+            
+            //TODO: reativar código após reativar login
+            //if( funprefController.revalidateLogin() ) {
+                
+                returnValue = funprefController.getBeneficiaryController().restartCadastralStatus();
+
+                if( returnValue > 0 ) {
+                    JOptionPane.showMessageDialog(rootPane, "Recenseamento reiniciado", "Informação", JOptionPane.INFORMATION_MESSAGE);                
+                }
+
+                else {                
+                    JOptionPane.showMessageDialog(rootPane, "Falha ao iniciar Recenseamento", "Erro", JOptionPane.ERROR_MESSAGE);                
+                }
+            //}
+        }
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
 //    /**

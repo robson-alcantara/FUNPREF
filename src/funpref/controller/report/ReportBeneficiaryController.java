@@ -69,10 +69,10 @@ public class ReportBeneficiaryController {
 
             cell.setTextAlignment(TextAlignment.CENTER);
             cell.setBorder(Border.NO_BORDER);
+            table2.addCell(cell);
+            
             table2.setBorderTop( new SolidBorder(0.3f) );
             table2.setBorderBottom(new SolidBorder(0.3f) );
-            table2.addCell(cell);
-
 
             document.add(table2.setHorizontalAlignment(HorizontalAlignment.CENTER));
 
@@ -120,19 +120,19 @@ public class ReportBeneficiaryController {
             cell = new Cell();
             cell.add( new Paragraph( "\n" ).setFont(font).setFontSize(smallFontSize) );
             cell.add( new Paragraph( formatDate.format( beneficiary.getBirthDate() ) ).setFont(font).setFontSize(defaultFontSize) );
-//            cell.add( new Paragraph( "" + funprefController.decodeCity(beneficiary.getIdCityPlaceOfBirth(),beneficiary.getIdProvincePlaceOfBirth()) +
-//                    "-" + funprefController.decodeProvince(beneficiary.getIdProvincePlaceOfBirth()) +
-//                    ", " + beneficiary.getNationality() ).setFont(font).setFontSize(defaultFontSize) );
-//            cell.add( new Paragraph( beneficiary.getMotherName() ).setFont(font).setFontSize(defaultFontSize) );
-//            cell.add( new Paragraph( beneficiary.getFatherName() ).setFont(font).setFontSize(defaultFontSize) );
-//            cell.add( new Paragraph( "" + funprefController.decodeDegreeEducation(beneficiary.getIdDegreeOfEducation()) ).setFont(font).setFontSize(defaultFontSize) );
-//            cell.add( new Paragraph( "" + funprefController.decodeMaritalStatus(beneficiary.getIdMaritalStatus()) ).setFont(font).setFontSize(defaultFontSize) );
-//            cell.add( new Paragraph( "" + funprefController.decodeDeficiency(beneficiary.getIdDeficiency()) ).setFont(font).setFontSize(defaultFontSize) );
+            cell.add( new Paragraph( "" + beneficiary.getCityNamePlaceOfBirth() +
+                    "-" + beneficiary.getProvinceInitialsPlaceOfBirth() +
+                    ", " + beneficiary.getNationality() ).setFont(font).setFontSize(defaultFontSize) );
+            cell.add( new Paragraph( beneficiary.getMotherName() ).setFont(font).setFontSize(defaultFontSize) );
+            cell.add( new Paragraph( beneficiary.getFatherName() ).setFont(font).setFontSize(defaultFontSize) );
+            cell.add( new Paragraph( "" + beneficiary.getEducationDegree() ).setFont(font).setFontSize(defaultFontSize) );
+            cell.add( new Paragraph( "" + beneficiary.getMaritalStatus()).setFont(font).setFontSize(defaultFontSize) );
+            cell.add( new Paragraph( "" + beneficiary.getDeficiency()).setFont(font).setFontSize(defaultFontSize) );
             cell.setBorder(Border.NO_BORDER);
             table4.addCell(cell);
 
-            table4.setBorderTop( new SolidBorder(0.3f) );
-            table4.setBorderBottom(new SolidBorder(0.3f) );
+//            table4.setBorderTop( new SolidBorder(0.3f) );
+//            table4.setBorderBottom(new SolidBorder(0.3f) );
 
             document.add(table4.setHorizontalAlignment(HorizontalAlignment.CENTER));
 
@@ -148,13 +148,12 @@ public class ReportBeneficiaryController {
             cell = new Cell();
             cell.add( new Paragraph( "\n" ).setFont(font).setFontSize(smallFontSize) );
             cell.add( new Paragraph( beneficiary.getRg() + " " +
-            //                    funprefController.decodeRgIssuingBody(beneficiary.getIdRgIssuingBody()) +
-            //                    "-" + funprefController.decodeProvince(beneficiary.getIdProvinceRg()) +
-            //                    " emitido em " + ( (beneficiary.getRgEmissionDate() != null)?formatDate.format(beneficiary.getRgEmissionDate()):"") ).setFont(font).setFontSize(defaultFontSize) );
-            //            aCell.add( new Paragraph( "" + beneficiary.getVotersTitle() + " Zona: " + beneficiary.getElectoralZone() +
-            //                    " Seção: " + beneficiary.getElectoralSection() +
-            //                    " UF: " + funprefController.decodeProvince(beneficiary.getIdProvinceElectoralZone()) ).setFont(font).setFontSize(defaultFontSize)
-                    ""));
+                                beneficiary.getRgIssuingBody() +
+                                "-" + beneficiary.getProvinceInitialsRg() +
+                                " emitido em " + ( (beneficiary.getRgEmissionDate() != null)?formatDate.format(beneficiary.getRgEmissionDate()):"") ).setFont(font).setFontSize(defaultFontSize) );
+            cell.add( new Paragraph( "" + beneficiary.getVotersTitle() + " Zona: " + beneficiary.getElectoralZone() +
+                                " Seção: " + beneficiary.getElectoralSection() +
+                                " UF: " + beneficiary.getProvinceInitialsElectoralZone() ) ).setFont(font).setFontSize(defaultFontSize);
             cell.setBorder(Border.NO_BORDER);
             table5.addCell(cell);            
 
@@ -175,12 +174,12 @@ public class ReportBeneficiaryController {
 
             cell = new Cell();
             cell.add( new Paragraph( "\n" ).setFont(font).setFontSize(smallFontSize) );
-            //            aCell.add( new Paragraph( beneficiary.getAddress() + ", " +
-            //                    funprefController.decodeCity( beneficiary.getIdCityAddress(), beneficiary.getIdProvinceAddress() ) + "-" +
-            //                    funprefController.decodeProvince( beneficiary.getIdProvinceAddress() ) ).setFont(font).setFontSize(defaultFontSize) );            
-            //            aCell.add( new Paragraph( ((beneficiary.getPhone1() != null)?beneficiary.getPhone1():"") + " " +
-            //                    ((beneficiary.getPhone2() != null)?beneficiary.getPhone2():"") ).setFont(font).setFontSize(defaultFontSize) );
-            //            aCell.add( new Paragraph( ((beneficiary.getEmail() != null)?beneficiary.getEmail():"") ).setFont(font).setFontSize(defaultFontSize) );
+            cell.add( new Paragraph( beneficiary.getAddress() + ", " +
+                    beneficiary.getCityNameAddress() + "-" +
+                    beneficiary.getProvinceInitialsAddress() ).setFont(font).setFontSize(defaultFontSize) );            
+            cell.add( new Paragraph( ((beneficiary.getPhone1() != null)?beneficiary.getPhone1():"") + " " +
+                    ((beneficiary.getPhone2() != null)?beneficiary.getPhone2():"") ).setFont(font).setFontSize(defaultFontSize) );
+            cell.add( new Paragraph( ((beneficiary.getEmail() != null)?beneficiary.getEmail():"") ).setFont(font).setFontSize(defaultFontSize) );
             cell.setBorder(Border.NO_BORDER);
             table6.addCell(cell);            
 
@@ -232,7 +231,7 @@ public class ReportBeneficiaryController {
             cell.add( new Paragraph( "PARENTESCO" ).setFont(font).setFontSize(smallFontSize) );
 
             for( int i = 0; i < beneficiary.getDependents().size(); i++ ) {
-            //                aCell.add( new Paragraph( "" + funprefController.decodeKinship(beneficiary.getDependents().get(i).getIdKinship() ) ).setFont(font).setFontSize(defaultFontSize) );
+                cell.add( new Paragraph( beneficiary.getDependents().get(i).getKinship() ).setFont(font).setFontSize(defaultFontSize) );
             }
 
             cell.setTextAlignment(TextAlignment.CENTER);
@@ -245,14 +244,14 @@ public class ReportBeneficiaryController {
             cell.add( new Paragraph( "DEFICIÊNCIA" ).setFont(font).setFontSize(smallFontSize) );
 
             for( int i = 0; i < beneficiary.getDependents().size(); i++ ) {
-            //                aCell.add( new Paragraph( "" + funprefController.decodeDeficiency(beneficiary.getDependents().get(i).getIdDeficiency() ) ).setFont(font).setFontSize(defaultFontSize) );
+                cell.add( new Paragraph( beneficiary.getDependents().get(i).getDeficiency() ).setFont(font).setFontSize(defaultFontSize) );
             }
 
             cell.setTextAlignment(TextAlignment.CENTER);
             cell.setBorder(Border.NO_BORDER);
             table7.addCell(cell);
 
-            table7.setBorderTop( new SolidBorder(0.3f) );
+            //table7.setBorderTop( new SolidBorder(0.3f) );
             table7.setBorderBottom(new SolidBorder(0.3f) );
 
             document.add(table7.setHorizontalAlignment(HorizontalAlignment.CENTER));
@@ -273,14 +272,6 @@ public class ReportBeneficiaryController {
 
             Table table9 = new Table(UnitValue.createPercentArray(new float[]{50,50})).useAllAvailableWidth().setFixedLayout().setWidth(UnitValue.createPercentValue(100));
 
-            //            aCell = new Cell();
-            //            aCell.setBorder(Border.NO_BORDER);
-            //            aCell.add( new Paragraph( "________________________________" ).setFont(font).setFontSize(defaultFontSize) );
-            //            aCell.add( new Paragraph( "Marcelino Xenófanes Diniz de Souza" ).setFont(font).setFontSize(defaultFontSize) );
-            //            aCell.add( new Paragraph( "Gerente de Previdência" ).setFont(font).setFontSize(smallFontSize) );  
-            //            aCell.setTextAlignment(TextAlignment.CENTER);
-            //            table9.addCell(aCell);
-
             cell = new Cell();
             cell.setBorder(Border.NO_BORDER);
             cell.add( new Paragraph( "________________________________" ).setFont(font).setFontSize(defaultFontSize) );
@@ -291,8 +282,6 @@ public class ReportBeneficiaryController {
 
             cell = new Cell();
             cell.setBorder(Border.NO_BORDER);
-            //            aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(defaultFontSize) );
-            //            aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(defaultFontSize) );
             cell.add( new Paragraph( "________________________________" ).setFont(font).setFontSize(defaultFontSize) );
             cell.add( new Paragraph( beneficiary.getName() ).setFont(font).setFontSize(defaultFontSize) );
             cell.add( new Paragraph( reportController.printBenefitTypeText( beneficiary.getIdBenefitType() ) ).setFont(font).setFontSize(smallFontSize) );
@@ -301,19 +290,7 @@ public class ReportBeneficiaryController {
 
             document.add(table9.setHorizontalAlignment(HorizontalAlignment.CENTER));
 
-            //            Table table10 = new Table(UnitValue.createPercentArray(new float[]{100})).useAllAvailableWidth().setFixedLayout().setWidth(UnitValue.createPercentValue(100));
-            //            
-            //            aCell = new Cell();
-            //            aCell.setBorder(Border.NO_BORDER);
-            //            aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(defaultFontSize) );
-            //            aCell.add( new Paragraph( "\n" ).setFont(font).setFontSize(defaultFontSize) );
-            //            aCell.add( new Paragraph( "________________________________" ).setFont(font).setFontSize(defaultFontSize) );
-            //            aCell.add( new Paragraph( beneficiary.getName() ).setFont(font).setFontSize(defaultFontSize) );
-            //            aCell.add( new Paragraph( printBenefitTypeText( beneficiary.getIdBenefitType() ) ).setFont(font).setFontSize(smallFontSize) );              
-            //            aCell.setTextAlignment(TextAlignment.CENTER);
-            //            table10.addCell(aCell);
-            //            
-            //            document.add(table10.setHorizontalAlignment(HorizontalAlignment.CENTER));                  
+
         } catch (IOException ex) {
             Logger.getLogger(ReportBeneficiaryController.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -26,15 +26,15 @@ import java.util.logging.Logger;
  *
  * @author secretaria
  */
-public class ReportBeneficiariesController {
+public class ReportBeneficiariesPendingController {
     private FUNPREFController funprefController;
 
-    ReportBeneficiariesController(FUNPREFController funprefController) {
+    ReportBeneficiariesPendingController(FUNPREFController funprefController) {
         this.funprefController = funprefController;
     }
 
     Document generateData(Document document) {
-        ArrayList< ArrayList<Object>> data = null;
+        ArrayList< ArrayList<Object>> data;
         Cell cell;
         PdfFont font;
         String text;
@@ -42,9 +42,9 @@ public class ReportBeneficiariesController {
         try {
             font = PdfFontFactory.createFont(FontConstants.HELVETICA);
             
-            data = funprefController.getBeneficiaryController().getReportBeneficiaryData(false,false);
+            data = funprefController.getBeneficiaryController().getReportBeneficiaryData(false,true);
 
-            document.add( new Paragraph("Lista de beneficiários").setTextAlignment(TextAlignment.CENTER));
+            document.add( new Paragraph("Lista de beneficiários pendentes").setTextAlignment(TextAlignment.CENTER));
             document.add( new Paragraph(""));
 
             Table table = new Table(UnitValue.createPercentArray(new float[]{5,5,10,20,26,8,8,8})).useAllAvailableWidth().setFixedLayout().setWidth(UnitValue.createPercentValue(100));
@@ -99,11 +99,8 @@ public class ReportBeneficiariesController {
             
             document.add(table.setHorizontalAlignment(HorizontalAlignment.CENTER));  
             
-            document.add( new Paragraph(""));
-            document.add( new Paragraph(""));
-            
         } catch (IOException ex) {
-            Logger.getLogger(ReportBeneficiariesController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReportBeneficiariesPendingController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         

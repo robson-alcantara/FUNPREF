@@ -6,6 +6,7 @@
 package funpref.dao.interfaces;
 
 import funpref.model.Dependent;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,5 +24,7 @@ public interface DependentDAO {
     public List<Dependent> findAllByBeneficiaryID(int beneficiaryID);
     
     public String getKinshipByID(int kinshipID);    
+    
+    public ArrayList<ArrayList<Object>> getReportDependentData();
     
 }
