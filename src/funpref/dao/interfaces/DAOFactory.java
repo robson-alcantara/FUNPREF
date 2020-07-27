@@ -6,5 +6,7 @@ public interface DAOFactory {
 
     public DependentDAO getDependentDAO();
     
+    public UserDAO getUserDAO();
+    
     public JComboBoxItensDAO getJComboBoxItensDAO();
 }

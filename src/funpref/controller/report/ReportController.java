@@ -161,9 +161,7 @@ public class ReportController {
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);        
-        } catch (IOException ex) {
-            Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
-        }             
+        }       
             
     }
 
@@ -189,8 +187,8 @@ public class ReportController {
             aCell = new Cell();
             aCell.setBorder(Border.NO_BORDER);
             aCell.add( new Paragraph( "________________________________" ).setFont(font).setFontSize(defaultFontSize) );  
-//            aCell.add( new Paragraph( funprefController.getUser().getName() ).setFont(font).setFontSize(defaultFontSize) );  
-//            aCell.add( new Paragraph( funprefController.getUser().getOffice() ).setFont(font).setFontSize(smallFontSize) );              
+            aCell.add( new Paragraph( funprefController.getUser().getName() ).setFont(font).setFontSize(defaultFontSize) );  
+            aCell.add( new Paragraph( funprefController.getUser().getOffice() ).setFont(font).setFontSize(smallFontSize) );              
             aCell.setTextAlignment(TextAlignment.CENTER);
             table.addCell(aCell);
            

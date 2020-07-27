@@ -275,8 +275,8 @@ public class ReportBeneficiaryController {
             cell = new Cell();
             cell.setBorder(Border.NO_BORDER);
             cell.add( new Paragraph( "________________________________" ).setFont(font).setFontSize(defaultFontSize) );
-            //            aCell.add( new Paragraph( funprefController.getUser().getName() ).setFont(font).setFontSize(defaultFontSize) );
-            //            aCell.add( new Paragraph( funprefController.getUser().getOffice() ).setFont(font).setFontSize(smallFontSize) );
+            cell.add( new Paragraph( funprefController.getUser().getName() ).setFont(font).setFontSize(defaultFontSize) );
+            cell.add( new Paragraph( funprefController.getUser().getOffice() ).setFont(font).setFontSize(smallFontSize) );
             cell.setTextAlignment(TextAlignment.CENTER);
             table9.addCell(cell);
 

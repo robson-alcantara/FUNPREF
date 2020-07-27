@@ -6,6 +6,7 @@
 package funpref.controller;
 
 import funpref.controller.report.ReportController;
+import funpref.model.User;
 import funpref.view.FUNPREFJFrame;
 import java.time.Period;
 
@@ -20,9 +21,13 @@ public class FUNPREFController {
     private final DependentController dependentController;
     private final SearchBeneficiaryController searchBeneficiaryController;
     private final ReportController reportController;
-    private JComboBoxModelController jComboBoxModelController;
+    private final JComboBoxModelController jComboBoxModelController;
+    private final UserController userController;
     
-    int currentUserID;
+    
+    private int currentUserID;
+    private User user;
+    
     
     public FUNPREFController() {
         beneficiaryController = new BeneficiaryController( this );
@@ -30,6 +35,7 @@ public class FUNPREFController {
         searchBeneficiaryController = new SearchBeneficiaryController( this );
         jComboBoxModelController = new JComboBoxModelController(this);
         reportController = new ReportController(this);
+        userController = new UserController(this);
     }
 
     public void run() {
@@ -88,6 +94,8 @@ public class FUNPREFController {
 
     public void setCurrentUserID(int currentUserID) {
         this.currentUserID = currentUserID;
+        //TODO: temporário, remover
+        user = userController.findByID(currentUserID);
     }    
 
     public BeneficiaryController getBeneficiaryController() {
@@ -106,13 +114,19 @@ public class FUNPREFController {
         return jComboBoxModelController;
     }
 
-    public void setjComboBoxModelController(JComboBoxModelController jComboBoxModelController) {
-        this.jComboBoxModelController = jComboBoxModelController;
-    }
-
     public ReportController getReportController() {
         return reportController;
     }    
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
+    
     
     public String decodePeriod(Period period) {
         

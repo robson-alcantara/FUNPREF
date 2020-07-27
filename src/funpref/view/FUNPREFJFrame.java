@@ -185,6 +185,8 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jDesktopPane.setBackground(new java.awt.Color(255, 255, 255));
+
         jMenu1.setText("Arquivo");
 
         jMenuItem3.setText("Adicionar beneficiário");
