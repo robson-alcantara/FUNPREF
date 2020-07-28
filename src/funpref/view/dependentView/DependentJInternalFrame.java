@@ -6,6 +6,7 @@
 package funpref.view.dependentView;
 
 import funpref.controller.DependentController;
+import funpref.controller.LogController;
 import funpref.model.Beneficiary;
 import funpref.model.Dependent;
 import funpref.model.combobox.ComboBoxItem;
@@ -388,6 +389,7 @@ public class DependentJInternalFrame extends javax.swing.JInternalFrame {
             dependent.setBirthDate( formatDate.parse( jFormattedTextField8.getText() ) );
         } catch (ParseException ex) {
             Logger.getLogger(DependentJInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(DependentJInternalFrame.class.getName(), ex);                
         }
         dependent.setAge( Period.between(dependent.getBirthDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
                     (new Date()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));      

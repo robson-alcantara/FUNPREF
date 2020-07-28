@@ -5,6 +5,7 @@
  */
 package funpref.dao.concrete;
 
+import funpref.controller.LogController;
 import funpref.dao.interfaces.JComboBoxItensDAO;
 import funpref.model.combobox.ComboBoxItem;
 import java.sql.ResultSet;
@@ -47,6 +48,7 @@ public class JComboBoxItensDAOImpl implements JComboBoxItensDAO {
                 comboBoxItens.add(comboBoxItem);
             }
         } catch (SQLException ex) {
+            LogController.reportException(DependentDAOImpl.class.getName(), ex);
             return null;
         }        
         
@@ -69,6 +71,7 @@ public class JComboBoxItensDAOImpl implements JComboBoxItensDAO {
                 comboBoxItens.add(comboBoxItem);
             }
         } catch (SQLException ex) {
+            LogController.reportException(DependentDAOImpl.class.getName(), ex);
             return null;
         }        
         

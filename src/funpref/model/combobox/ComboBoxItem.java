@@ -7,7 +7,7 @@ package funpref.model.combobox;
 
 /**
  *
- * @author robson
+ * @author Robson Santana
  */
 public class ComboBoxItem {
     

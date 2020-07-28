@@ -5,6 +5,7 @@
  */
 package funpref.dao.concrete;
 
+import funpref.controller.LogController;
 import funpref.dao.interfaces.DependentDAO;
 import funpref.model.Beneficiary;
 import funpref.model.Dependent;
@@ -114,6 +115,7 @@ public class DependentDAOImpl implements DependentDAO {
             
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+            LogController.reportException(DependentDAOImpl.class.getName(), ex);
             result = false;
         }
         
@@ -182,6 +184,7 @@ public class DependentDAOImpl implements DependentDAO {
             row = preparedStatement.executeUpdate();            
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+            LogController.reportException(DependentDAOImpl.class.getName(), ex);
             result = false;
         }
         
@@ -242,6 +245,7 @@ public class DependentDAOImpl implements DependentDAO {
                 result.add(dependent);
             }
         } catch (SQLException ex) {
+            LogController.reportException(DependentDAOImpl.class.getName(), ex);
             return null;
         }
         return result;
@@ -262,9 +266,10 @@ public class DependentDAOImpl implements DependentDAO {
                 description = resultSet.getString(1);
             }
 
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }        
+        } catch (SQLException ex) {            
+            System.out.println(ex.getMessage());
+            LogController.reportException(DependentDAOImpl.class.getName(), ex);
+        }        
         
         return description;
     }    
@@ -281,6 +286,7 @@ public class DependentDAOImpl implements DependentDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(DependentDAOImpl.class.getName(), ex);
         }        
         
         return kinship;
@@ -298,6 +304,7 @@ public class DependentDAOImpl implements DependentDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(DependentDAOImpl.class.getName(), ex);
         }        
         
         return deficiency;
@@ -330,6 +337,7 @@ public class DependentDAOImpl implements DependentDAO {
             
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+            LogController.reportException(DependentDAOImpl.class.getName(), ex);
         }        
         
         return data;

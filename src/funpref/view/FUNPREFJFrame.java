@@ -32,6 +32,7 @@ package funpref.view;
 //import funpref.model.dao.StockingOrganDAO;
 //import funpref.model.dao.UserDAO;
 import funpref.controller.FUNPREFController;
+import funpref.controller.LogController;
 import funpref.model.Beneficiary;
 import java.awt.image.BufferedImage;
 import java.util.logging.Level;
@@ -90,6 +91,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
             this.setIconImage(bufferedImage);  
         } catch (IOException ex) {
             Logger.getLogger(FUNPREFJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(FUNPREFJFrame.class.getName(), ex);
         }
     }     
     
@@ -387,7 +389,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
             try {
                 funprefController.getSearchBeneficiaryController().show( false );
             } catch (Exception ex) {
-                
+                LogController.reportException(FUNPREFJFrame.class.getName(), ex);                
             }
         });
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -407,7 +409,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
             try {
                 funprefController.getSearchBeneficiaryController().show( false );
             } catch (Exception ex) {
-                
+                LogController.reportException(FUNPREFJFrame.class.getName(), ex);                
             }
         });
     }//GEN-LAST:event_jMenuItem4ActionPerformed
@@ -418,7 +420,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
                 funprefController.getBeneficiaryController().setCrudWrite(true);
                 funprefController.getSearchBeneficiaryController().show( false );
             } catch (Exception ex) {
-                
+                LogController.reportException(FUNPREFJFrame.class.getName(), ex);                
             }
         });
     }//GEN-LAST:event_jMenuItem6ActionPerformed

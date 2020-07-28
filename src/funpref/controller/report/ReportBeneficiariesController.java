@@ -17,6 +17,7 @@ import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.UnitValue;
 import com.itextpdf.layout.property.VerticalAlignment;
 import funpref.controller.FUNPREFController;
+import funpref.controller.LogController;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -104,6 +105,7 @@ public class ReportBeneficiariesController {
             
         } catch (IOException ex) {
             Logger.getLogger(ReportBeneficiariesController.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(ReportBeneficiariesController.class.getName(), ex);
         }
 
         

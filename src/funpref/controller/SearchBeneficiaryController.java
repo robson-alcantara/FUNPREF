@@ -43,6 +43,7 @@ public class SearchBeneficiaryController {
             searchJInternalFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         } catch (PropertyVetoException ex) {
             Logger.getLogger(SearchBeneficiaryController.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(SearchBeneficiaryController.class.getName(), ex);
         }
     }    
 }

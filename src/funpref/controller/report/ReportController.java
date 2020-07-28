@@ -6,7 +6,6 @@
 package funpref.controller.report;
 
 import com.itextpdf.io.font.FontConstants;
-import com.itextpdf.io.font.TrueTypeFont;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.color.Color;
 import com.itextpdf.kernel.events.Event;
@@ -23,15 +22,12 @@ import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.border.Border;
-import com.itextpdf.layout.border.SolidBorder;
 import com.itextpdf.layout.element.Cell;
-import com.itextpdf.layout.element.IBlockElement;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.UnitValue;
 import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
 import com.itextpdf.layout.renderer.TableRenderer;
@@ -40,7 +36,7 @@ import com.itextpdf.layout.layout.LayoutArea;
 import com.itextpdf.layout.layout.LayoutContext;
 import com.itextpdf.layout.layout.LayoutResult;
 import funpref.controller.FUNPREFController;
-import funpref.model.Beneficiary;
+import funpref.controller.LogController;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -55,8 +51,7 @@ import java.util.logging.Logger;
  * @author secretaria
  */
 public class ReportController {
-    
-    private final SimpleDateFormat formatDate;    
+      
     private FUNPREFController funprefController;
     private Document document;
     private ReportBeneficiariesController reportBeneficiariesController;
@@ -68,8 +63,7 @@ public class ReportController {
     private PdfDocument pdfDocument;
 
     public ReportController(FUNPREFController funprefController ) {
-        this.funprefController = funprefController;
-        formatDate = new SimpleDateFormat("dd/MM/yyyy");
+        this.funprefController = funprefController;        
         reportBeneficiaryController = new ReportBeneficiaryController( funprefController, this );
         reportBeneficiariesController = new ReportBeneficiariesController(funprefController);
         reportBeneficiariesPendingController = new ReportBeneficiariesPendingController(funprefController);
@@ -87,6 +81,7 @@ public class ReportController {
             Desktop.getDesktop().open(new File(outputFilePath));
         } catch (IOException ex) {
             Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(ReportController.class.getName(), ex);
         }
     }    
 
@@ -100,6 +95,7 @@ public class ReportController {
             Desktop.getDesktop().open(new File(outputFilePath));
         } catch (IOException ex) {
             Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(ReportController.class.getName(), ex);
         }
     }
     
@@ -113,6 +109,7 @@ public class ReportController {
             Desktop.getDesktop().open(new File(outputFilePath));
         } catch (IOException ex) {
             Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(ReportController.class.getName(), ex);
         }
     }
 
@@ -126,6 +123,7 @@ public class ReportController {
             Desktop.getDesktop().open(new File(outputFilePath));
         } catch (IOException ex) {
             Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(ReportController.class.getName(), ex);
         }
     }
     
@@ -139,6 +137,7 @@ public class ReportController {
             Desktop.getDesktop().open(new File(outputFilePath));
         } catch (IOException ex) {
             Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(ReportController.class.getName(), ex);
         }
     }    
     
@@ -161,6 +160,7 @@ public class ReportController {
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);        
+            LogController.reportException(ReportController.class.getName(), ex);
         }       
             
     }
@@ -198,6 +198,7 @@ public class ReportController {
             document.close(); 
         } catch (IOException ex) {
             Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(ReportController.class.getName(), ex);
         }            
     }
     
@@ -270,6 +271,7 @@ private static class TableHeaderEventHandler implements IEventHandler {
                     blazon = new Image( ImageDataFactory.create("./src/resources/about_icon.png"));
                 } catch (MalformedURLException ex) {
                     Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
+                    LogController.reportException(ReportController.class.getName(), ex);
                 }
 
                 aCell = new Cell();
@@ -300,6 +302,7 @@ private static class TableHeaderEventHandler implements IEventHandler {
                 table.addCell(aCell);   
             } catch (IOException ex) {
                 Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
+                LogController.reportException(ReportController.class.getName(), ex);
             }            
         }
     }

@@ -66,12 +66,16 @@ public class FUNPREFController {
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(FUNPREFController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            LogController.reportException(FUNPREFController.class.getName(), ex);
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(FUNPREFController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            LogController.reportException(FUNPREFController.class.getName(), ex);
         } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(FUNPREFController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            LogController.reportException(FUNPREFController.class.getName(), ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FUNPREFController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            LogController.reportException(FUNPREFController.class.getName(), ex);
         }      
         
         if( validLogin() ) {
@@ -124,9 +128,7 @@ public class FUNPREFController {
 
     public void setUser(User user) {
         this.user = user;
-    }
-    
-    
+    }  
     
     public String decodePeriod(Period period) {
         

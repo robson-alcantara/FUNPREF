@@ -6,6 +6,7 @@
 package funpref.view.beneficiaryView;
 
 import funpref.controller.BeneficiaryController;
+import funpref.controller.LogController;
 import funpref.model.Beneficiary;
 import funpref.model.Dependent;
 import funpref.model.combobox.ComboBoxItem;
@@ -1440,7 +1441,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
             try {
                 beneficiaryController.getFunprefController().getSearchBeneficiaryController().show(true);
             } catch (Exception ex) {
-                
+                LogController.reportException(BeneficiaryJInternalFrame.class.getName(), ex);                
             }
         });       
     }//GEN-LAST:event_jButton13ActionPerformed
@@ -2664,6 +2665,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
             beneficiary.setBirthDate( formatDate.parse( jFormattedTextField3.getText() ) );
         } catch (ParseException ex) {
             Logger.getLogger(FUNPREFJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(BeneficiaryJInternalFrame.class.getName(), ex);                
         }
         
         if( beneficiary.getIdCadastralStatus() != 2 ) {
@@ -2696,6 +2698,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
                 beneficiary.setDeathDate( formatDate.parse(jFormattedTextField4.getText()) );
             } catch (ParseException ex) {
                 Logger.getLogger(FUNPREFJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                LogController.reportException(BeneficiaryJInternalFrame.class.getName(), ex);                
             }
         }
         
@@ -2722,6 +2725,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
                 beneficiary.setInvalidityAwardDate( formatDate.parse(jFormattedTextField7.getText()) );
             } catch (ParseException ex) {
                 Logger.getLogger(FUNPREFJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                LogController.reportException(BeneficiaryJInternalFrame.class.getName(), ex);                
             }            
         }
         
@@ -2752,6 +2756,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
             beneficiary.setRgEmissionDate( formatDate.parse(jFormattedTextField5.getText()) );
         } catch (ParseException ex) {
             Logger.getLogger(FUNPREFJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(BeneficiaryJInternalFrame.class.getName(), ex);                
         }
         
         beneficiary.setIdRgIssuingBody( ((ComboBoxItem)jComboBox9.getSelectedItem()).getId() );   
@@ -2766,6 +2771,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
             }
         } catch (ParseException ex) {
             Logger.getLogger(FUNPREFJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(BeneficiaryJInternalFrame.class.getName(), ex);                
         }
     
         beneficiary.setContributionTime( Period.between(beneficiary.getAdmissionDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
@@ -2776,6 +2782,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
                     beneficiary.getInactivationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()) );
         } catch (ParseException ex) {
             Logger.getLogger(FUNPREFJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(BeneficiaryJInternalFrame.class.getName(), ex);                
         }
         
         beneficiary.setInactivityTime( Period.between(beneficiary.getInactivationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),

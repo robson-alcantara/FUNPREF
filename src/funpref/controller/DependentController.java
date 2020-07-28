@@ -68,6 +68,7 @@ public class DependentController {
             dependentJInternalFrame.setVisible(true);        
         } catch (PropertyVetoException ex) {
             Logger.getLogger(DependentController.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(DependentController.class.getName(), ex);
         }
     }
 

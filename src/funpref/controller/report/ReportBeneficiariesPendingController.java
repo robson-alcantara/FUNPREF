@@ -17,6 +17,7 @@ import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.UnitValue;
 import com.itextpdf.layout.property.VerticalAlignment;
 import funpref.controller.FUNPREFController;
+import funpref.controller.LogController;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -101,11 +102,9 @@ public class ReportBeneficiariesPendingController {
             
         } catch (IOException ex) {
             Logger.getLogger(ReportBeneficiariesPendingController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+            LogController.reportException(ReportBeneficiariesPendingController.class.getName(), ex);
+        }        
         
-        
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return document;
     }
 

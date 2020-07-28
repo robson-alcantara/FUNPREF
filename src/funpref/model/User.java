@@ -7,7 +7,7 @@ package funpref.model;
 
 /**
  *
- * @author secretaria
+ * @author Robson Santana
  */
 public class User {
     

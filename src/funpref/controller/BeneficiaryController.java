@@ -100,6 +100,7 @@ public class BeneficiaryController {
             beneficiaryJInternalFrame.setVisible(true);
         } catch (PropertyVetoException ex) {
             Logger.getLogger(BeneficiaryController.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(BeneficiaryController.class.getName(), ex);
         }
     }
 

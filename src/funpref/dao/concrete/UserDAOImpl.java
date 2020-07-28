@@ -5,6 +5,7 @@
  */
 package funpref.dao.concrete;
 
+import funpref.controller.LogController;
 import funpref.dao.interfaces.UserDAO;
 import funpref.model.User;
 import java.sql.ResultSet;
@@ -34,6 +35,7 @@ public class UserDAOImpl implements UserDAO{
             }
         } catch (SQLException ex) {
             Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(DependentDAOImpl.class.getName(), ex);
         }        
         
         return user;        

@@ -7,7 +7,6 @@ package funpref.controller;
 
 import funpref.dao.concrete.DAOFactoryImpl;
 import funpref.dao.interfaces.JComboBoxItensDAO;
-import funpref.model.Beneficiary;
 import funpref.model.combobox.ComboBoxItem;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -20,7 +19,7 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class JComboBoxModelController {
     
-    private FUNPREFController funprefController;
+    private final FUNPREFController funprefController;
     private final JComboBoxItensDAO jComboBoxItensDAO;
     private ArrayList<ComboBoxItem> comboBoxItemsMaritalStatus;
     private ArrayList<ComboBoxItem> comboBoxItemsIssuingBody;

@@ -19,6 +19,7 @@ import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.UnitValue;
 import com.itextpdf.layout.property.VerticalAlignment;
 import funpref.controller.FUNPREFController;
+import funpref.controller.LogController;
 import funpref.model.Beneficiary;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -293,6 +294,7 @@ public class ReportBeneficiaryController {
 
         } catch (IOException ex) {
             Logger.getLogger(ReportBeneficiaryController.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(ReportBeneficiaryController.class.getName(), ex);
         }
         
         return document;

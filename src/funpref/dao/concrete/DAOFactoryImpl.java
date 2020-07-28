@@ -1,5 +1,6 @@
 package funpref.dao.concrete;
 
+import funpref.controller.LogController;
 import funpref.dao.interfaces.BeneficiaryDAO;
 import funpref.dao.interfaces.DAOFactory;
 import funpref.dao.interfaces.DependentDAO;
@@ -48,6 +49,7 @@ public final class DAOFactoryImpl implements DAOFactory{
                 connection = DriverManager.getConnection(url, name, password);
                 
             } catch (SQLException ex) {
+                LogController.reportException(DataBaseConnection.class.getName(), ex);
                 throw ex;
             }
         }
@@ -60,6 +62,7 @@ public final class DAOFactoryImpl implements DAOFactory{
                             DataBaseConnection = new DataBaseConnection();
                         } catch (Exception e) {
                             e.printStackTrace(System.out);
+                            LogController.reportException(DataBaseConnection.class.getName(), e);                            
                             return null;
                         }
                     }
@@ -73,6 +76,7 @@ public final class DAOFactoryImpl implements DAOFactory{
                 try {
                     connection.close();
                 } catch (Exception ex) {
+                    LogController.reportException(DataBaseConnection.class.getName(), ex);
                 }
             }
         }

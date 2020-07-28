@@ -5,6 +5,7 @@
  */
 package funpref.dao.concrete;
 
+import funpref.controller.LogController;
 import funpref.dao.interfaces.BeneficiaryDAO;
 import funpref.model.Beneficiary;
 import java.sql.PreparedStatement;
@@ -81,6 +82,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+            LogController.reportException(BeneficiaryDAOImpl.class.getName(), ex);
             result = false;
         }        
         
@@ -97,6 +99,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             statement.executeUpdate("delete from beneficiary where id_beneficiary = " + beneficiary.getId() );
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
+            LogController.reportException(BeneficiaryDAOImpl.class.getName(), ex);
             result = false;
         }
         return result;
@@ -134,6 +137,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             preparedStatement.executeUpdate();            
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+            LogController.reportException(BeneficiaryDAOImpl.class.getName(), ex);
             result = false;
         }
         
@@ -158,6 +162,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             }
 
             } catch (SQLException ex) {
+                LogController.reportException(BeneficiaryDAOImpl.class.getName(), ex);
                 System.out.println(ex.getMessage());
             }        
         
@@ -182,6 +187,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
                 result.add(beneficiary);
             }
         } catch (SQLException ex) {
+            LogController.reportException(BeneficiaryDAOImpl.class.getName(), ex);
             return null;
         }
         return result;
@@ -230,6 +236,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
+            LogController.reportException(BeneficiaryDAOImpl.class.getName(), ex);
             result = null;
         }
         return result;
@@ -290,6 +297,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
+            LogController.reportException(BeneficiaryDAOImpl.class.getName(), ex);
             result = null;
         }
         return result;
@@ -355,11 +363,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         
         return description;
     }    
-
-
-
-
-
+    
     @Override
     public int getId() {
         return lastInsertDependentId;
@@ -422,6 +426,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             row = preparedStatement.executeUpdate();            
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+            LogController.reportException(BeneficiaryDAOImpl.class.getName(), ex);
         }
         
         return row;         
@@ -584,6 +589,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         
         } catch (SQLException ex) {
             Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(BeneficiaryDAOImpl.class.getName(), ex);
         }        
     }    
     
@@ -719,6 +725,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             beneficiary.setRgIssuingBody(loadRgIssuingBody(beneficiary.getIdRgIssuingBody()));
         } catch (SQLException ex) {
             Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(BeneficiaryDAOImpl.class.getName(), ex);
         }
     }        
 
@@ -735,6 +742,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(BeneficiaryDAOImpl.class.getName(), ex);
         }        
         
         return cityName;
@@ -752,6 +760,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(BeneficiaryDAOImpl.class.getName(), ex);
         }        
         
         return provinceInitials;
@@ -769,6 +778,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(BeneficiaryDAOImpl.class.getName(), ex);
         }        
         
         return educationalDegree;
@@ -786,6 +796,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(BeneficiaryDAOImpl.class.getName(), ex);
         }        
         
         return maritalStatus;
@@ -803,6 +814,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(BeneficiaryDAOImpl.class.getName(), ex);
         }        
         
         return deficiency;
@@ -820,6 +832,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(BeneficiaryDAOImpl.class.getName(), ex);
         }        
         
         return rgIssuingBody;
