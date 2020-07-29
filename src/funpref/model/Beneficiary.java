@@ -5,16 +5,17 @@
  */
 package funpref.model;
 
+import java.io.Serializable;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
 
 /**
  *
- * @author Robson
+ * @author robson
  */
-public class Beneficiary {
-
+public class Beneficiary implements Serializable {
+    
     public enum Sex{ MALE, FEMALE, NULL };    
     
     private int id;
@@ -75,7 +76,6 @@ public class Beneficiary {
     private double incomeTaxValue;
     private boolean payrollLoan;
     private double payrollLoanValue;
-    private ArrayList<PayrollLoan> payrollLoans;
     private double grossValue;
     private double discounts;
     private double netValue;
@@ -98,17 +98,28 @@ public class Beneficiary {
     private Date registerDate;
     private Date updateDate;
     private Date createDate;
-    
+    private String cityNameAddress;
+    private String cityNamePlaceOfBirth;
+    private String provinceInitialsAddress;
+    private String provinceInitialsPlaceOfBirth;
+    private String provinceInitialsRg;
+    private String provinceInitialsElectoralZone;
+    private String educationDegree;
+    private String maritalStatus;
+    private String deficiency;
+    private String rgIssuingBody;
     
     public Beneficiary() {
         id = -1;
         dependents = new ArrayList<Dependent>();
         idProvinceAddress = -1;
+        idCityAddress = -1;
         idProvinceElectoralZone = -1;
         idProvincePlaceOfBirth = -1;
+        idCityPlaceOfBirth = -1;
         idProvinceRg = -1;
         instituteEnrollment = -1;
-    }
+    }    
 
     public int getId() {
         return id;
@@ -117,7 +128,15 @@ public class Beneficiary {
     public void setId(int id) {
         this.id = id;
     }
-    
+
+    public int getRegistration() {
+        return registration;
+    }
+
+    public void setRegistration(int registration) {
+        this.registration = registration;
+    }
+
     public String getOrdinance() {
         return ordinance;
     }
@@ -134,14 +153,6 @@ public class Beneficiary {
         this.cpf = cpf;
     }
 
-    public int getIdMaritalStatus() {
-        return idMaritalStatus;
-    }
-
-    public void setIdMaritalStatus(int idMaritalStatus) {
-        this.idMaritalStatus = idMaritalStatus;
-    }
-    
     public String getName() {
         return name;
     }
@@ -173,7 +184,15 @@ public class Beneficiary {
     public void setIdCadastralStatus(int idCadastralStatus) {
         this.idCadastralStatus = idCadastralStatus;
     }
-    
+
+    public int getIdMaritalStatus() {
+        return idMaritalStatus;
+    }
+
+    public void setIdMaritalStatus(int idMaritalStatus) {
+        this.idMaritalStatus = idMaritalStatus;
+    }
+
     public boolean isDeceased() {
         return deceased;
     }
@@ -196,6 +215,38 @@ public class Beneficiary {
 
     public void setNationality(String nationality) {
         this.nationality = nationality;
+    }
+
+    public int getIdCityPlaceOfBirth() {
+        return idCityPlaceOfBirth;
+    }
+
+    public void setIdCityPlaceOfBirth(int idCityPlaceOfBirth) {
+        this.idCityPlaceOfBirth = idCityPlaceOfBirth;
+    }
+
+    public int getIdProvincePlaceOfBirth() {
+        return idProvincePlaceOfBirth;
+    }
+
+    public void setIdProvincePlaceOfBirth(int idProvincePlaceOfBirth) {
+        this.idProvincePlaceOfBirth = idProvincePlaceOfBirth;
+    }
+
+    public int getIdDegreeOfEducation() {
+        return idDegreeOfEducation;
+    }
+
+    public void setIdDegreeOfEducation(int idDegreeOfEducation) {
+        this.idDegreeOfEducation = idDegreeOfEducation;
+    }
+
+    public int getIdDeficiency() {
+        return idDeficiency;
+    }
+
+    public void setIdDeficiency(int idDeficiency) {
+        this.idDeficiency = idDeficiency;
     }
 
     public String getRg() {
@@ -222,6 +273,14 @@ public class Beneficiary {
         this.idRgIssuingBody = idRgIssuingBody;
     }
 
+    public int getIdProvinceRg() {
+        return idProvinceRg;
+    }
+
+    public void setIdProvinceRg(int idProvinceRg) {
+        this.idProvinceRg = idProvinceRg;
+    }
+
     public String getMotherName() {
         return motherName;
     }
@@ -238,20 +297,44 @@ public class Beneficiary {
         this.fatherName = fatherName;
     }
 
+    public String getMotherCpf() {
+        return motherCpf;
+    }
+
+    public void setMotherCpf(String motherCpf) {
+        this.motherCpf = motherCpf;
+    }
+
+    public String getFatherCpf() {
+        return fatherCpf;
+    }
+
+    public void setFatherCpf(String fatherCpf) {
+        this.fatherCpf = fatherCpf;
+    }
+
+    public String getPisPasep() {
+        return pisPasep;
+    }
+
+    public void setPisPasep(String pisPasep) {
+        this.pisPasep = pisPasep;
+    }
+
     public int getIdBenefitType() {
         return idBenefitType;
     }
 
-    public void setIdBenefitType(int idRule) {
-        this.idBenefitType = idRule;
+    public void setIdBenefitType(int idBenefitType) {
+        this.idBenefitType = idBenefitType;
     }
 
     public int getIdCalculationForm() {
         return idCalculationForm;
     }
 
-    public void setIdCalculationForm(int idForm) {
-        this.idCalculationForm = idForm;
+    public void setIdCalculationForm(int idCalculationForm) {
+        this.idCalculationForm = idCalculationForm;
     }
 
     public Date getAdmissionDate() {
@@ -302,14 +385,6 @@ public class Beneficiary {
         this.inactivityTime = inactivityTime;
     }
 
-    public int getRegistration() {
-        return registration;
-    }
-
-    public void setRegistration(int registration) {
-        this.registration = registration;
-    }
-
     public String getOffice() {
         return office;
     }
@@ -324,6 +399,14 @@ public class Beneficiary {
 
     public void setIdStockingOrgan(int idStockingOrgan) {
         this.idStockingOrgan = idStockingOrgan;
+    }
+
+    public int getInstituteEnrollment() {
+        return instituteEnrollment;
+    }
+
+    public void setInstituteEnrollment(int instituteEnrollment) {
+        this.instituteEnrollment = instituteEnrollment;
     }
 
     public String getInvalidityReason() {
@@ -350,6 +433,14 @@ public class Beneficiary {
         this.dependents = dependents;
     }
 
+    public String getObservations() {
+        return observations;
+    }
+
+    public void setObservations(String observations) {
+        this.observations = observations;
+    }
+
     public String getBankAgency() {
         return bankAgency;
     }
@@ -357,14 +448,6 @@ public class Beneficiary {
     public void setBankAgency(String bankAgency) {
         this.bankAgency = bankAgency;
     }
-
-    public String getObservations() {
-        return observations;
-    }
-
-    public void setObservations(String observations) {
-        this.observations = observations;
-    }   
 
     public String getAccount() {
         return account;
@@ -502,14 +585,6 @@ public class Beneficiary {
         this.payrollLoanValue = payrollLoanValue;
     }
 
-    public ArrayList<PayrollLoan> getPayrollLoans() {
-        return payrollLoans;
-    }
-
-    public void setPayrollLoans(ArrayList<PayrollLoan> payrollLoans) {
-        this.payrollLoans = payrollLoans;
-    }
-
     public double getGrossValue() {
         return grossValue;
     }
@@ -548,6 +623,14 @@ public class Beneficiary {
 
     public void setIdCityAddress(int idCityAddress) {
         this.idCityAddress = idCityAddress;
+    }
+
+    public int getIdProvinceAddress() {
+        return idProvinceAddress;
+    }
+
+    public void setIdProvinceAddress(int idProvinceAddress) {
+        this.idProvinceAddress = idProvinceAddress;
     }
 
     public String getZipCode() {
@@ -598,54 +681,6 @@ public class Beneficiary {
         this.indexPhysicalDocument = indexPhysicalDocument;
     }
 
-    public int getIdCityPlaceOfBirth() {
-        return idCityPlaceOfBirth;
-    }
-
-    public void setIdCityPlaceOfBirth(int idCityPlaceOfBirth) {
-        this.idCityPlaceOfBirth = idCityPlaceOfBirth;
-    }
-
-    public int getIdDegreeOfEducation() {
-        return idDegreeOfEducation;
-    }
-
-    public void setIdDegreeOfEducation(int idDegreeOfEducation) {
-        this.idDegreeOfEducation = idDegreeOfEducation;
-    }
-
-    public int getIdDeficiency() {
-        return idDeficiency;
-    }
-
-    public void setIdDeficiency(int idDeficiency) {
-        this.idDeficiency = idDeficiency;
-    }   
-
-    public String getMotherCpf() {
-        return motherCpf;
-    }
-
-    public void setMotherCpf(String motherCpf) {
-        this.motherCpf = motherCpf;
-    }
-
-    public String getFatherCpf() {
-        return fatherCpf;
-    }
-
-    public void setFatherCpf(String fatherCpf) {
-        this.fatherCpf = fatherCpf;
-    }
-
-    public String getPisPasep() {
-        return pisPasep;
-    }
-
-    public void setPisPasep(String pisPasep) {
-        this.pisPasep = pisPasep;
-    }
-
     public String getVotersTitle() {
         return votersTitle;
     }
@@ -678,38 +713,6 @@ public class Beneficiary {
         this.idProvinceElectoralZone = idProvinceElectoralZone;
     }
 
-    public int getIdProvinceRg() {
-        return idProvinceRg;
-    }
-
-    public void setIdProvinceRg(int idProvinceRg) {
-        this.idProvinceRg = idProvinceRg;
-    }
-
-    public int getInstituteEnrollment() {
-        return instituteEnrollment;
-    }
-
-    public void setInstituteEnrollment(int instituteEnrollment) {
-        this.instituteEnrollment = instituteEnrollment;
-    }
-
-    public int getIdProvincePlaceOfBirth() {
-        return idProvincePlaceOfBirth;
-    }
-
-    public void setIdProvincePlaceOfBirth(int idProvincePlaceOfBirth) {
-        this.idProvincePlaceOfBirth = idProvincePlaceOfBirth;
-    }
-
-    public int getIdProvinceAddress() {
-        return idProvinceAddress;
-    }
-
-    public void setIdProvinceAddress(int idProvinceAddress) {
-        this.idProvinceAddress = idProvinceAddress;
-    }    
-
     public int getIdUserRegistration() {
         return idUserRegistration;
     }
@@ -732,7 +735,7 @@ public class Beneficiary {
 
     public void setIdUserUpdate(int idUserUpdate) {
         this.idUserUpdate = idUserUpdate;
-    }    
+    }
 
     public Date getRegisterDate() {
         return registerDate;
@@ -749,12 +752,92 @@ public class Beneficiary {
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
-    
+
     public Date getCreateDate() {
         return createDate;
     }
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public String getCityNameAddress() {
+        return cityNameAddress;
+    }
+
+    public void setCityNameAddress(String cityNameAddress) {
+        this.cityNameAddress = cityNameAddress;
+    }
+
+    public String getCityNamePlaceOfBirth() {
+        return cityNamePlaceOfBirth;
+    }
+
+    public void setCityNamePlaceOfBirth(String cityNamePlaceOfBirth) {
+        this.cityNamePlaceOfBirth = cityNamePlaceOfBirth;
+    }
+
+    public String getProvinceInitialsAddress() {
+        return provinceInitialsAddress;
+    }
+
+    public void setProvinceInitialsAddress(String provinceInitialsAddress) {
+        this.provinceInitialsAddress = provinceInitialsAddress;
+    }
+
+    public String getProvinceInitialsPlaceOfBirth() {
+        return provinceInitialsPlaceOfBirth;
+    }
+
+    public void setProvinceInitialsPlaceOfBirth(String provinceInitialsPlaceOfBirth) {
+        this.provinceInitialsPlaceOfBirth = provinceInitialsPlaceOfBirth;
+    }
+
+    public String getProvinceInitialsRg() {
+        return provinceInitialsRg;
+    }
+
+    public void setProvinceInitialsRg(String provinceInitialsRg) {
+        this.provinceInitialsRg = provinceInitialsRg;
+    }
+
+    public String getProvinceInitialsElectoralZone() {
+        return provinceInitialsElectoralZone;
+    }
+
+    public void setProvinceInitialsElectoralZone(String provinceInitialsElectoralZone) {
+        this.provinceInitialsElectoralZone = provinceInitialsElectoralZone;
+    }
+
+    public String getEducationDegree() {
+        return educationDegree;
+    }
+
+    public void setEducationDegree(String educationDegree) {
+        this.educationDegree = educationDegree;
+    }
+
+    public String getMaritalStatus() {
+        return maritalStatus;
+    }
+
+    public void setMaritalStatus(String maritalStatus) {
+        this.maritalStatus = maritalStatus;
+    }
+
+    public String getDeficiency() {
+        return deficiency;
+    }
+
+    public void setDeficiency(String deficiency) {
+        this.deficiency = deficiency;
+    }
+
+    public String getRgIssuingBody() {
+        return rgIssuingBody;
+    }
+
+    public void setRgIssuingBody(String rgIssuingBody) {
+        this.rgIssuingBody = rgIssuingBody;
     }    
 }

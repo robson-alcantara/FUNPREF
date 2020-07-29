@@ -5,7 +5,7 @@
  */
 package funpref.view;
 
-import funpref.model.dao.UserDAO;
+import funpref.model.User;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import javax.swing.JFrame;
@@ -22,8 +22,8 @@ import javax.swing.SwingConstants;
  */
 public class LoginScreen {
     
-    public UserDAO login(JFrame frame) {
-        UserDAO loginInformation = new UserDAO();
+    public User login(JFrame frame) {
+        User loginInformation = new User();
 
         JPanel panel = new JPanel(new BorderLayout(5, 5));
 
