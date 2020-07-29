@@ -387,7 +387,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             sql += "where funpref.cadastral_status.id_cadastral_status <> 2\n ";
         }
         
-        sql = "order by name";
+        sql += "order by name";
         
         try {                
             Statement stmt = DAOFactoryImpl.getConnection().createStatement();

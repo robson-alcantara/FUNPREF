@@ -16,6 +16,8 @@ public class User {
     private long cpf;
     private String name;
     private String office;
+    private String password;    
+    private int loginScreenResult; // TODO: remover
 
     public String getLogin() {
         return login;
@@ -56,4 +58,21 @@ public class User {
     public void setId(int id) {
         this.id = id;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    // TODO: remover
+    public int getLoginScreenResult() {
+        return loginScreenResult;
+    }
+
+    public void setLoginScreenResult(int loginScreenResult) {
+        this.loginScreenResult = loginScreenResult;
+    }    
 }

@@ -51,12 +51,11 @@ import javax.swing.JOptionPane;
 public class FUNPREFJFrame extends javax.swing.JFrame {
 
     private boolean updatingSourceBeneficiary;
+    private AboutJInternalFrame aboutJInternalFrame;
 
     public enum DependentCRUD { CREATE, READ, UPDATE, DELETE };
     public enum BeneficiaryCRUD { NEW, EDIT, READ };
     
-//    private AboutJFrame aboutJFrame;
-//    FUNPREFController funprefController;
     private final SimpleDateFormat formatDate;    
     
     private DependentCRUD dependentCRUDMode;    
@@ -64,7 +63,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     
 //    private Beneficiary currentBeneficiary;
     
-    private final int currentUserID;    
+    private int currentUserID;    
         
     private final FUNPREFController funprefController;
 
@@ -79,8 +78,8 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         initImageIcon();
         setLocationRelativeTo( null );        
         
-        currentUserID = 6; //TODO: stub, add local variable in constructor
-        this.funprefController.setCurrentUserID(currentUserID);
+        //currentUserID = 6; //TODO: stub, add local variable in constructor
+        //this.funprefController.setCurrentUserID(currentUserID);
     }
     
     private void initImageIcon() {        
@@ -372,8 +371,20 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-//        aboutJFrame = new AboutJFrame();
-//        aboutJFrame.setVisible(true);
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                aboutJInternalFrame = new AboutJInternalFrame();                
+                funprefController.getFunprefJFrame().getJDesktopPane().add(aboutJInternalFrame);
+                aboutJInternalFrame.setLocation(funprefController.getFunprefJFrame().getJDesktopPane().getLocation().x + ( ( funprefController.getFunprefJFrame().getJDesktopPane().getWidth() - aboutJInternalFrame.getWidth() ) / 2 ),
+                        funprefController.getFunprefJFrame().getJDesktopPane().getLocation().y + 10);
+                aboutJInternalFrame.toFront();
+                aboutJInternalFrame.setSelected(true);
+                aboutJInternalFrame.setClosable(true);
+                aboutJInternalFrame.setVisible(true);                
+            } catch (Exception ex) {
+                LogController.reportException(FUNPREFJFrame.class.getName(), ex);                
+            }
+        });
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void closeWindow(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_closeWindow

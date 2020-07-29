@@ -8,7 +8,10 @@ package funpref.controller;
 import funpref.controller.report.ReportController;
 import funpref.model.User;
 import funpref.view.FUNPREFJFrame;
+import funpref.view.LoginScreen;
 import java.time.Period;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -76,7 +79,9 @@ public class FUNPREFController {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FUNPREFController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             LogController.reportException(FUNPREFController.class.getName(), ex);
-        }      
+        } 
+        
+        runLogin();
         
         if( validLogin() ) {
             funprefJFrame = new FUNPREFJFrame( this );            
@@ -165,4 +170,36 @@ public class FUNPREFController {
         
         return periodString;
     }        
+
+    private void runLogin() {
+        LoginScreen loginScreen = new LoginScreen();                    
+
+        boolean validLogin = false;            
+
+        do {
+            user = loginScreen.login(funprefJFrame);
+            if( !user.getLogin().isEmpty() ) {
+                validLogin = userController.validateLogin(user);                    
+
+                if( validLogin ) {
+                    funprefJFrame = new FUNPREFJFrame( this );     
+                    funprefJFrame.setVisible(true);
+                }
+
+                else {
+                    JOptionPane.showMessageDialog(null, "'login' ou 'senha' inválido(a)", "FUNPREF", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
+            else {
+                if( user.getLoginScreenResult() == 0 ) {
+                    JOptionPane.showMessageDialog(null, "'login' vazio", "FUNPREF", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } while( (!validLogin) && (user.getLoginScreenResult() == 0) );
+
+//        if( !validLogin ) {
+//            funprefJFrame.dispose();
+//        }
+    }
 }
