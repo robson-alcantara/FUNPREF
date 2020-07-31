@@ -8,10 +8,6 @@ package funpref.controller;
 import funpref.controller.report.ReportController;
 import funpref.model.User;
 import funpref.view.FUNPREFJFrame;
-import funpref.view.LoginScreen;
-import java.time.Period;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,11 +22,9 @@ public class FUNPREFController {
     private final ReportController reportController;
     private final JComboBoxModelController jComboBoxModelController;
     private final UserController userController;
-    
-    
+        
     private int currentUserID;
-    private User user;
-    
+    private User user;    
     
     public FUNPREFController() {
         beneficiaryController = new BeneficiaryController( this );
@@ -81,17 +75,12 @@ public class FUNPREFController {
             LogController.reportException(FUNPREFController.class.getName(), ex);
         } 
         
-        runLogin();
-        
-        if( validLogin() ) {
+        if( userController.validLogin() ) {
+            user = userController.getUser();
             funprefJFrame = new FUNPREFJFrame( this );            
-            funprefJFrame.setVisible(true);
-        }        
-    }
-    
-    private boolean validLogin() {
-        return true;
-    }    
+            funprefJFrame.setVisible(true);                        
+        }
+    }   
 
     public FUNPREFJFrame getFunprefJFrame() {
         return funprefJFrame;
@@ -103,8 +92,6 @@ public class FUNPREFController {
 
     public void setCurrentUserID(int currentUserID) {
         this.currentUserID = currentUserID;
-        //TODO: temporário, remover
-        user = userController.findByID(currentUserID);
     }    
 
     public BeneficiaryController getBeneficiaryController() {
@@ -133,73 +120,5 @@ public class FUNPREFController {
 
     public void setUser(User user) {
         this.user = user;
-    }  
-    
-    public String decodePeriod(Period period) {
-        
-        String periodString = "";
-        
-        if( period.getYears() > 0 ) {
-            periodString += "" + period.getYears() + " anos";
-        }
-        
-        if( period.getMonths() > 0 ) {
-            
-            if( !periodString.isEmpty() ) {
-                
-                if( ( period.getYears() > 0 ) && ( period.getDays() == 0 ) ) {
-                    periodString += " e ";
-                }
-                
-                else {                
-                    periodString += ", ";
-                }
-            }
-            
-            periodString += "" + period.getMonths() + " meses";
-        }    
-        
-        if( period.getDays() > 0 ) {
-            
-            if( !periodString.isEmpty() ) {
-                periodString += " e ";
-            }
-            
-            periodString += "" + period.getDays() + " dias";
-        }         
-        
-        return periodString;
-    }        
-
-    private void runLogin() {
-        LoginScreen loginScreen = new LoginScreen();                    
-
-        boolean validLogin = false;            
-
-        do {
-            user = loginScreen.login(funprefJFrame);
-            if( !user.getLogin().isEmpty() ) {
-                validLogin = userController.validateLogin(user);                    
-
-                if( validLogin ) {
-                    funprefJFrame = new FUNPREFJFrame( this );     
-                    funprefJFrame.setVisible(true);
-                }
-
-                else {
-                    JOptionPane.showMessageDialog(null, "'login' ou 'senha' inválido(a)", "FUNPREF", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-
-            else {
-                if( user.getLoginScreenResult() == 0 ) {
-                    JOptionPane.showMessageDialog(null, "'login' vazio", "FUNPREF", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } while( (!validLogin) && (user.getLoginScreenResult() == 0) );
-
-//        if( !validLogin ) {
-//            funprefJFrame.dispose();
-//        }
     }
 }

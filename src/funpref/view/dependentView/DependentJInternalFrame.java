@@ -7,6 +7,7 @@ package funpref.view.dependentView;
 
 import funpref.controller.DependentController;
 import funpref.controller.LogController;
+import funpref.controller.Utils;
 import funpref.model.Beneficiary;
 import funpref.model.Dependent;
 import funpref.model.combobox.ComboBoxItem;
@@ -325,7 +326,7 @@ public class DependentJInternalFrame extends javax.swing.JInternalFrame {
         
         if( dependent.getBirthDate() != null ) {
             jFormattedTextField8.setText( formatDate.format( dependent.getBirthDate() ) );
-            jTextField22.setText( dependentController.getFunprefController().decodePeriod( dependent.getAge() ) );        
+            jTextField22.setText( Utils.decodePeriod( dependent.getAge() ) );        
         }        
         
         jTextField21.setText(dependent.getPhone()); 

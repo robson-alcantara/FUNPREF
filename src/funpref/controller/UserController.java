@@ -8,12 +8,14 @@ package funpref.controller;
 import funpref.dao.concrete.DAOFactoryImpl;
 import funpref.dao.interfaces.UserDAO;
 import funpref.model.User;
+import funpref.view.LoginScreen;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,11 +25,20 @@ public class UserController {
     
     private final FUNPREFController funprefController;
     private UserDAO userDAO;
+    private User user;
     
     public UserController(FUNPREFController funprefController) {
         this.funprefController = funprefController;
         userDAO = new DAOFactoryImpl().getUserDAO();
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }    
     
     public User findByID( int userID ) {
         return userDAO.findByID(userID);        
@@ -37,7 +48,7 @@ public class UserController {
 
         String salt = null;
         String cryptedPassword = null;
-        String cryptedTempPassword = null;
+//        String cryptedTempPassword = null;
         boolean validLoginAndPassword = false;
         boolean validLogin = false;
         
@@ -156,5 +167,29 @@ public class UserController {
         
         return new String( hexString );
     }
-    
+
+    boolean validLogin() {
+        LoginScreen loginScreen = new LoginScreen();                    
+
+        boolean validLogin = false;            
+
+        do {
+            user = loginScreen.login(funprefController.getFunprefJFrame());
+            if( !user.getLogin().isEmpty() ) {
+                validLogin = validateLogin(user);
+
+                if( !validLogin ) {
+                    JOptionPane.showMessageDialog(null, "'login' ou 'senha' inválido(a)", "FUNPREF", JOptionPane.ERROR_MESSAGE);                    
+                }
+            }
+
+            else {
+                if( user.getLoginScreenResult() == 0 ) {
+                    JOptionPane.showMessageDialog(null, "'login' vazio", "FUNPREF", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } while( (!validLogin) && (user.getLoginScreenResult() == 0) );
+        
+        return validLogin;
+    }    
 }

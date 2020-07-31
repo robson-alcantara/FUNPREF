@@ -3,16 +3,38 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/robson/NetBeansProjects/FUNPREF/changelog.txt</file>
-            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/dao/interfaces/BeneficiaryDAO.java</file>
-            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/AutoRunFromConsole.java</file>
-            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/model/Dependent.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/view/LoginScreen.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/model/combobox/ComboBoxItem.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/view/dependentView/DependentJInternalFrame.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/view/AboutJInternalFrame.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/dao/concrete/JComboBoxItensDAOImpl.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/controller/DependentController.java</file>
             <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/view/FUNPREFJFrame.java</file>
-            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/dao/concrete/DAOFactoryImpl.java</file>
             <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/controller/FUNPREFController.java</file>
-            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/model/Beneficiary.java</file>
-            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/view/beneficiaryView/SearchJInternalFrame.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/model/User.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/view/beneficiaryView/BeneficiaryJInternalFrame.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/controller/report/ReportBeneficiariesController.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/dao/interfaces/BeneficiaryDAO.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/controller/report/ReportBeneficiariesDeceasedController.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/controller/report/ReportBeneficiaryController.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/controller/JComboBoxModelController.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/Main.java</file>
             <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/controller/BeneficiaryController.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/model/Beneficiary.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/dao/concrete/UserDAOImpl.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/controller/report/ReportDependentController.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/controller/LogController.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/controller/SearchBeneficiaryController.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/dao/interfaces/UserDAO.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/dao/concrete/DAOFactoryImpl.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/controller/report/ReportController.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/dao/interfaces/DependentDAO.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/controller/UserController.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/controller/report/ReportBeneficiariesPendingController.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/model/Dependent.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/dao/interfaces/DAOFactory.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/view/beneficiaryView/SearchBeneficiaryJInternalFrame.java</file>
+            <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/dao/concrete/DependentDAOImpl.java</file>
             <file>file:/home/robson/NetBeansProjects/FUNPREF/src/funpref/dao/concrete/BeneficiaryDAOImpl.java</file>
         </group>
     </open-files>

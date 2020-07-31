@@ -7,6 +7,7 @@ package funpref.view.beneficiaryView;
 
 import funpref.controller.BeneficiaryController;
 import funpref.controller.LogController;
+import funpref.controller.Utils;
 import funpref.model.Beneficiary;
 import funpref.model.Dependent;
 import funpref.model.combobox.ComboBoxItem;
@@ -1779,15 +1780,15 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         }
         
         if( currentBeneficiary.getContributionTime() != null ) {
-            jTextField9.setText( beneficiaryController.getFunprefController().decodePeriod(currentBeneficiary.getContributionTime() ) );
+            jTextField9.setText( Utils.decodePeriod(currentBeneficiary.getContributionTime() ) );
         }
         
         if( ( currentBeneficiary.getContributionTimeFUNPREF() != null ) && ( !currentBeneficiary.getContributionTimeFUNPREF().isNegative() ) ) {
-            jTextField10.setText(beneficiaryController.getFunprefController().decodePeriod(currentBeneficiary.getContributionTimeFUNPREF() ) );
+            jTextField10.setText(Utils.decodePeriod(currentBeneficiary.getContributionTimeFUNPREF() ) );
         }
         
         if( currentBeneficiary.getInactivityTime() != null ) {
-            jTextField11.setText(beneficiaryController.getFunprefController().decodePeriod(currentBeneficiary.getInactivityTime() ) );          
+            jTextField11.setText(Utils.decodePeriod(currentBeneficiary.getInactivityTime() ) );          
         }
         
         jTextField47.setText("" + currentBeneficiary.getInstituteEnrollment() );
