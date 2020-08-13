@@ -35,18 +35,27 @@ public final class DAOFactoryImpl implements DAOFactory{
         return new UserDAOImpl();
     }
     
+    public static String getUser() {
+        return DataBaseConnection.getUser();
+    }
+
+    public static String getPassword() {
+        return DataBaseConnection.getPassword();
+    }    
+    
     private static class DataBaseConnection {
 
         private static volatile DataBaseConnection DataBaseConnection;
         private static Connection connection;
+        private final static String user = "funpref";
+        private final static String password = "fund0pr3v1";
 
         private DataBaseConnection() throws Exception {
             String url = "jdbc:mysql://localhost/funpref?useUnicode=true&characterEncoding=utf-8";
-            String name = "funpref";
-            String password = "fund0pr3v1";
+            
             try {
                 Class.forName("com.mysql.jdbc.Driver");
-                connection = DriverManager.getConnection(url, name, password);
+                connection = DriverManager.getConnection(url, user, password);
                 
             } catch (SQLException ex) {
                 LogController.reportException(DataBaseConnection.class.getName(), ex);
@@ -80,6 +89,16 @@ public final class DAOFactoryImpl implements DAOFactory{
                 }
             }
         }
+
+        public static String getUser() {
+            return user;
+        }
+
+        public static String getPassword() {
+            return password;
+        }
+        
+        
     }
     
 }

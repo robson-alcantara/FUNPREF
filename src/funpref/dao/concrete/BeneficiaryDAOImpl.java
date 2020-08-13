@@ -149,7 +149,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         Beneficiary beneficiary = null;
         int column = 1;
         
-        String query = "SELECT * FROM funpref.beneficiary where id_beneficiary = '" + beneficiaryID + "'";
+        String query = "SELECT * FROM funpref.beneficiary where id_beneficiary = " + beneficiaryID;
         
         try {                
             Statement stmt = DAOFactoryImpl.getConnection().createStatement();
@@ -323,10 +323,10 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
     }    
     
     @Override
-    public String getNameByID(int beneficiaryID) {
+    public String getNameByEnrollment(int beneficiaryEnrollment) {
         String name = "";
         
-        String query = "SELECT name FROM funpref.beneficiary where id_beneficiary = '" + beneficiaryID + "'";
+        String query = "SELECT name FROM funpref.beneficiary where enrollment = " + beneficiaryEnrollment;
         
         try {                
             Statement stmt = DAOFactoryImpl.getConnection().createStatement();

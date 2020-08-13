@@ -104,8 +104,8 @@ public class BeneficiaryController {
         }
     }
 
-    public String getNameById(int id) {
-        return beneficiaryDAO.getNameByID(id);
+    public String getNameByEnrollment(int id) {
+        return beneficiaryDAO.getNameByEnrollment(id);
     }
 
     public String getCadastralStatusDescriptionById(int id) {

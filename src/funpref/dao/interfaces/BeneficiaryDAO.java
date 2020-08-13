@@ -23,7 +23,7 @@ public interface BeneficiaryDAO {
 
     public Beneficiary findByID(int beneficiaryID);
     
-    public String getNameByID(int beneficiaryID);
+    public String getNameByEnrollment(int beneficiaryID);
     
     public String getCadastralStatusDescriptionById(int id);
 

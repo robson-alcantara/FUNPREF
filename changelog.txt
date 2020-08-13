@@ -2,6 +2,19 @@
 ALTERAÇÕES
 ===========
 
+v. 0.2.1 beta
+=============
+
+- reescrita do sistema
+- mudança para a interface gráfica nativa do sistema
+- remoção do prompt
+- uso de log para armazenar mensagens
+- cálculo da senha criptografada feita pelo sistema e não mais pelo banco durante o login
+- correções de pequenos bugs
+- melhoria das tabelas de busca e de dependentes
+- remoção do botão imprimir na tela principal
+
+
 v. 0.1.6 beta
 =============
 

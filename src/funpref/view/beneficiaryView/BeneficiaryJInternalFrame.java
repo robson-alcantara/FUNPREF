@@ -1942,7 +1942,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         
         if( currentBeneficiary.getInstituteEnrollment() >= 0 ) {
             jTextField48.setText("" + currentBeneficiary.getInstituteEnrollment() );        
-            jTextField49.setText( beneficiaryController.getNameById(currentBeneficiary.getInstituteEnrollment() ) );
+            jTextField49.setText( beneficiaryController.getNameByEnrollment(currentBeneficiary.getInstituteEnrollment() ) );
         }       
         
         
