@@ -2,6 +2,15 @@
 ALTERAÇÕES
 ===========
 
+v. 0.2.2 beta
+=============
+
+- permite acesso apenas a logins ativos
+- alteração do código da pasta de papel de número para texto
+- correções no carregamento das janelas após a primeira inicialização
+- correções de pequenas falhas
+
+
 v. 0.2.1 beta
 =============
 

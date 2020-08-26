@@ -84,6 +84,7 @@ public class DependentJInternalFrame extends javax.swing.JInternalFrame {
         jComboBox18 = new javax.swing.JComboBox<>();
         jLabel81 = new javax.swing.JLabel();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -301,7 +302,7 @@ public class DependentJInternalFrame extends javax.swing.JInternalFrame {
     public static DependentJInternalFrame getDependentJInternalFrame(Dependent currentDependent, DependentController dependentController) {
         if (dependentJInternalFrame != null) {
             dependentJInternalFrame.setCurrentDependent(currentDependent);
-            dependentJInternalFrame.dispose();
+            //dependentJInternalFrame.dispose();
             dependentJInternalFrame.reset();
         }
         else {
@@ -310,7 +311,7 @@ public class DependentJInternalFrame extends javax.swing.JInternalFrame {
         return dependentJInternalFrame;
     }
 
-    private void reset() {
+    public void reset() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -421,6 +422,6 @@ public class DependentJInternalFrame extends javax.swing.JInternalFrame {
     
     private void close() {
         dependentController.getFunprefController().getBeneficiaryController().showBeneficiaryJInternalFrame();
-        this.dispose();        
+        this.setVisible(false);
     }
 }

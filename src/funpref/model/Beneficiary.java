@@ -87,7 +87,7 @@ public class Beneficiary implements Serializable {
     private String phone2;
     private String email;
     private int physicalDocumentDrawer;    
-    private int indexPhysicalDocument;
+    private String indexPhysicalDocument;
     private String votersTitle;
     private int electoralZone;
     private int electoralSection;
@@ -673,13 +673,13 @@ public class Beneficiary implements Serializable {
         this.physicalDocumentDrawer = physicalDocumentDrawer;
     }
 
-    public int getIndexPhysicalDocument() {
+    public String getIndexPhysicalDocument() {
         return indexPhysicalDocument;
     }
 
-    public void setIndexPhysicalDocument(int indexPhysicalDocument) {
+    public void setIndexPhysicalDocument(String indexPhysicalDocument) {
         this.indexPhysicalDocument = indexPhysicalDocument;
-    }
+    }    
 
     public String getVotersTitle() {
         return votersTitle;

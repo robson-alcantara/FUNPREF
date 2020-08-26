@@ -53,15 +53,25 @@ public class DependentController {
     }    
 
     public void fillAndShowDependentCRUDJInternalFrame(Dependent dependent, boolean crudWrite ) {
-        try {            
-            dependentJInternalFrame = DependentJInternalFrame.getDependentJInternalFrame( dependent, this);
+        try {  
+            
+            if( dependentJInternalFrame == null ) {
+                dependentJInternalFrame = DependentJInternalFrame.getDependentJInternalFrame( dependent, this);
+                funprefController.getFunprefJFrame().getJDesktopPane().add(dependentJInternalFrame);
+                dependentJInternalFrame.setLocation(funprefController.getFunprefJFrame().getJDesktopPane().getLocation().x + ( ( funprefController.getFunprefJFrame().getJDesktopPane().getWidth() - dependentJInternalFrame.getWidth() ) / 2 ),
+                        funprefController.getFunprefJFrame().getJDesktopPane().getLocation().y + 10);                
+            }
+            
+            else {
+                dependentJInternalFrame.setCurrentDependent(dependent);
+                dependentJInternalFrame.reset();                
+            }
+            
             dependentJInternalFrame.setEditableFields( crudWrite );
             dependentJInternalFrame.fillJComboBoxes();
             dependentJInternalFrame.fillFields(dependent);
             
-            funprefController.getFunprefJFrame().getJDesktopPane().add(dependentJInternalFrame);
-            dependentJInternalFrame.setLocation(funprefController.getFunprefJFrame().getJDesktopPane().getLocation().x + ( ( funprefController.getFunprefJFrame().getJDesktopPane().getWidth() - dependentJInternalFrame.getWidth() ) / 2 ),
-                    funprefController.getFunprefJFrame().getJDesktopPane().getLocation().y + 10);
+
             dependentJInternalFrame.toFront();
             dependentJInternalFrame.setSelected(true);
             dependentJInternalFrame.setClosable(true);

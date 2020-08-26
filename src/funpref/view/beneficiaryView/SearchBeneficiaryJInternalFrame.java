@@ -59,6 +59,7 @@ public class SearchBeneficiaryJInternalFrame extends javax.swing.JInternalFrame 
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setTitle("Pesquisa de Beneficiário");
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -262,7 +263,7 @@ public class SearchBeneficiaryJInternalFrame extends javax.swing.JInternalFrame 
 
                     }
 
-                    searchJInternalFrame.dispose();
+                    searchJInternalFrame.setVisible(false);
                 }
 
                 //            }
@@ -289,7 +290,7 @@ public class SearchBeneficiaryJInternalFrame extends javax.swing.JInternalFrame 
     public static SearchBeneficiaryJInternalFrame getSearchBeneficiaryJInternalFrame(SearchBeneficiaryController searchBeneficiaryController, boolean updatingSourceBeneficiary ) {
         if (searchJInternalFrame != null) {
             searchJInternalFrame.setUpdatingSourceBeneficiary(updatingSourceBeneficiary);
-            searchJInternalFrame.dispose();
+            //searchJInternalFrame.dispose();
             searchJInternalFrame.reset();
         }
         else {
@@ -317,7 +318,7 @@ public class SearchBeneficiaryJInternalFrame extends javax.swing.JInternalFrame 
        }
     }
 
-    private void reset() {
+    public void reset() {
         jTextField1.setText("");
         clearTable(jTable1);
     }

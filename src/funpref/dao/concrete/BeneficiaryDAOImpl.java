@@ -476,7 +476,6 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             
             preparedStatement.setInt(columnGlobal++, beneficiary.getIdUserCreate()); // user create
             preparedStatement.setInt(columnGlobal++, beneficiary.getIdUserUpdate()); // user update
-
             preparedStatement.setString(columnGlobal++, beneficiary.getNationality());
             preparedStatement.setInt(columnGlobal++, beneficiary.getIdCityPlaceOfBirth()); 
 
@@ -554,7 +553,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             columnGlobal++;
 
             preparedStatement.setInt(columnGlobal++, beneficiary.getPhysicalDocumentDrawer());
-            preparedStatement.setInt(columnGlobal++, beneficiary.getIndexPhysicalDocument());
+            preparedStatement.setString(columnGlobal++, beneficiary.getIndexPhysicalDocument());
             preparedStatement.setString(columnGlobal++, beneficiary.getObservations());
             preparedStatement.setString(columnGlobal++, beneficiary.getBankAgency());
             preparedStatement.setString(columnGlobal++, beneficiary.getAccount());            
@@ -672,7 +671,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             column++; // previous time
             beneficiary.setInstituteEnrollment(resultSet.getInt(column++));
             beneficiary.setPhysicalDocumentDrawer(resultSet.getInt(column++));
-            beneficiary.setIndexPhysicalDocument( resultSet.getInt(column++));
+            beneficiary.setIndexPhysicalDocument( resultSet.getString(column++));
             beneficiary.setObservations(resultSet.getString(column++));
             beneficiary.setBankAgency(resultSet.getString(column++));
             beneficiary.setAccount(resultSet.getString(column++));

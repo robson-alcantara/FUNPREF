@@ -53,13 +53,15 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
     public static BeneficiaryJInternalFrame getBeneficiaryJInternalFrame(Beneficiary currentBeneficiary, int currentUserID, BeneficiaryController beneficiaryController) {
         if (beneficiaryJInternalFrame != null) {
             beneficiaryJInternalFrame.setCurrentBeneficiary(currentBeneficiary);
-            beneficiaryJInternalFrame.dispose();
-            beneficiaryJInternalFrame.reset();
+            //beneficiaryJInternalFrame.dispose();
+            
         }
         else {
-            beneficiaryJInternalFrame = new BeneficiaryJInternalFrame( currentBeneficiary, currentUserID, beneficiaryController );
-            beneficiaryJInternalFrame.reset();
+            beneficiaryJInternalFrame = new BeneficiaryJInternalFrame( currentBeneficiary, currentUserID, beneficiaryController );            
         }
+        
+        beneficiaryJInternalFrame.reset();
+        
         return beneficiaryJInternalFrame;
     }
 
@@ -258,6 +260,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         updateDependentJButton = new javax.swing.JButton();
         deleteDependentJButton = new javax.swing.JButton();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -1346,7 +1349,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        if((((ComboBoxItem)jComboBox1.getSelectedItem()).toString()).equals("invalidez")) {  
+        if( ( jComboBox1.getSelectedIndex() >= 0 ) && (((ComboBoxItem)jComboBox1.getSelectedItem()).toString()).equals("invalidez")) {  
             jTextArea1.setEditable(true);
             jFormattedTextField7.setEditable(true);
             jComboBox17.setEnabled(true);
@@ -1370,8 +1373,8 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
             jComboBox17.setEnabled(false);
         }
         
-        if( ((((ComboBoxItem)jComboBox1.getSelectedItem()).toString()).equals("pensionista") ) ||
-                (((ComboBoxItem)jComboBox1.getSelectedItem()).toString()).equals("pensão temporária") ) {  
+        if( ( jComboBox1.getSelectedIndex() >= 0 ) && (((((ComboBoxItem)jComboBox1.getSelectedItem()).toString()).equals("pensionista") ) ||
+                (((ComboBoxItem)jComboBox1.getSelectedItem()).toString()).equals("pensão temporária") ) ) {  
             jButton13.setEnabled(true);
         }
         
@@ -2104,7 +2107,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
 //        jComboBox16.setSelectedIndex(-1);
     }
 
-    private void reset() {
+    public void reset() {
         jTextField2.setText("");
         jTextField3.setText("");
         
@@ -2126,10 +2129,11 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         
         jTextField7.setText("");
         jTextField8.setText("");
+        jTextField40.setText("");
         jTextField41.setText("");
         jTextField42.setText("");      
         
-        jComboBox1.setSelectedIndex(0);
+        jComboBox1.setSelectedIndex(-1);
         jComboBox2.setSelectedIndex(-1);
         
         jFormattedTextField1.setText("");
@@ -2243,7 +2247,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
 
     private void close() {
         beneficiaryController.setCurrentBeneficiary(null);
-        this.dispose();
+        this.setVisible(false);
     }
 
     private boolean verifyFields() {
@@ -2799,7 +2803,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         }
         
         beneficiary.setPhysicalDocumentDrawer( Integer.parseInt( jTextField19.getText() ) );
-        beneficiary.setIndexPhysicalDocument( Integer.parseInt( jTextField39.getText() ) );
+        beneficiary.setIndexPhysicalDocument(  jTextField39.getText() );
         
         
         //beneficiary.setInstituteEnrollmen(EXIT_ON_CLOSE);
@@ -2880,15 +2884,15 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         }
 
 
-        beneficiary.setPhysicalDocumentDrawer( Short.parseShort( jTextField19.getText() ) ); 
-        beneficiary.setIndexPhysicalDocument( Integer.parseInt(jTextField39.getText()) );
+        beneficiary.setPhysicalDocumentDrawer( Integer.parseInt( jTextField19.getText() ) );
+        beneficiary.setIndexPhysicalDocument(  jTextField39.getText() );
         
         if( ((ComboBoxItem)jComboBox1.getSelectedItem()).getId() == 2 ) { // se for pensionista
             beneficiary.setInstituteEnrollment( Integer.parseInt( jTextField48.getText() ) );
         }        
         
         beneficiary.setUpdateDate(new Date());
-        beneficiary.setIdUserUpdate(beneficiaryController.getFunprefController().getCurrentUserID());
+        beneficiary.setIdUserUpdate(beneficiaryController.getFunprefController().getUser().getId());
         
         beneficiary.setObservations( jTextArea2.getText());
         

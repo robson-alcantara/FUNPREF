@@ -22,6 +22,7 @@ public class FUNPREFController {
     private final ReportController reportController;
     private final JComboBoxModelController jComboBoxModelController;
     private final UserController userController;
+    //private final DBBackupController dBBackupController;
         
     private int currentUserID;
     private User user;    
@@ -33,6 +34,7 @@ public class FUNPREFController {
         jComboBoxModelController = new JComboBoxModelController(this);
         reportController = new ReportController(this);
         userController = new UserController(this);
+        //dBBackupController = new DBBackupController(this);
     }
 
     public void run() {
@@ -77,6 +79,10 @@ public class FUNPREFController {
         
         if( userController.validLogin() ) {
             user = userController.getUser();
+            
+//            Thread t = new Thread(dBBackupController);            
+//            t.start();            
+            
             funprefJFrame = new FUNPREFJFrame( this );            
             funprefJFrame.setVisible(true);                        
         }

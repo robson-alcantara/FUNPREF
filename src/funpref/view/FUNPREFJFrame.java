@@ -5,32 +5,6 @@
  */
 package funpref.view;
 
-//import com.itextpdf.io.font.FontConstants;
-//import com.itextpdf.io.image.ImageDataFactory;
-//import com.itextpdf.kernel.font.PdfFont;
-//import com.itextpdf.kernel.font.PdfFontFactory;
-//import com.itextpdf.kernel.pdf.PdfDocument;
-//import com.itextpdf.layout.element.List;
-//import com.itextpdf.layout.element.ListItem;
-//import com.itextpdf.layout.Document;
-//import funpref.controller.ContentSearchTable;
-//import funpref.controller.FUNPREFController;
-//import com.itextpdf.kernel.pdf.PdfWriter;
-//import com.itextpdf.layout.element.Image;
-//import com.itextpdf.layout.element.Paragraph;
-//import funpref.model.Dependent;
-//import funpref.model.Beneficiary;
-//import funpref.model.dao.BenefitTypeDAO;
-//import funpref.model.dao.CityDAO;
-//import funpref.model.dao.ContentSearchTableItensDAO;
-//import funpref.model.dao.DeficiencyDAO;
-//import funpref.model.dao.DegreeEducationDAO;
-//import funpref.model.dao.IssuingBodyDAO;
-//import funpref.model.dao.KinshipDAO;
-//import funpref.model.dao.MaritalStatusDAO;
-//import funpref.model.dao.ProvinceDAO;
-//import funpref.model.dao.StockingOrganDAO;
-//import funpref.model.dao.UserDAO;
 import funpref.controller.FUNPREFController;
 import funpref.controller.LogController;
 import funpref.model.Beneficiary;
@@ -112,7 +86,6 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         jLabel67 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
         jDesktopPane = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -125,6 +98,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
+        jMenuItem17 = new javax.swing.JMenuItem();
         jMenuItem16 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem12 = new javax.swing.JMenuItem();
@@ -158,13 +132,6 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton7.setText("Imprimir");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -172,17 +139,13 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton7)
-                .addContainerGap(1028, Short.MAX_VALUE))
+                .addContainerGap(1114, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton7))
+                .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -226,6 +189,19 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu3.setText("Opções");
+        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jMenu3MousePressed(evt);
+            }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu3MouseClicked(evt);
+            }
+        });
+        jMenu3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu3ActionPerformed(evt);
+            }
+        });
 
         jMenuItem7.setText("Alterar Tabela do Imposto de Renda");
         jMenuItem7.setEnabled(false);
@@ -253,6 +229,15 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem11);
+
+        jMenuItem17.setText("Desabilitar pensionista temporário");
+        jMenuItem17.setEnabled(false);
+        jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem17ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem17);
 
         jMenuItem16.setText("Iniciar Recenseamento Anual");
         jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
@@ -412,10 +397,6 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         funprefController.getBeneficiaryController().fillAndShowBeneficiaryJInternalFrame();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        //generatePDFOutput();
-    }//GEN-LAST:event_jButton7ActionPerformed
-
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         java.awt.EventQueue.invokeLater(() -> {
             try {
@@ -567,6 +548,30 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
+    private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
+
+    }//GEN-LAST:event_jMenuItem17ActionPerformed
+
+    private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
+
+    }//GEN-LAST:event_jMenu3ActionPerformed
+
+    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
+
+    }//GEN-LAST:event_jMenu3MouseClicked
+
+    private void jMenu3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MousePressed
+        if( ( funprefController.getBeneficiaryController().getCurrentBeneficiary() != null ) && 
+                ( funprefController.getBeneficiaryController().isCrudWrite() ) &&
+                ( funprefController.getBeneficiaryController().getCurrentBeneficiary().getIdBenefitType() == 7 ) ) { // pensão temporária
+            jMenuItem17.setEnabled(true);            
+        }                
+        
+        else {
+            jMenuItem17.setEnabled(false);            
+        }
+    }//GEN-LAST:event_jMenu3MousePressed
+
 //    /**
 //     * @param args the command line arguments
 //     */
@@ -605,7 +610,6 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton7;
     private javax.swing.JDesktopPane jDesktopPane;
     private javax.swing.JLabel jLabel67;
     private javax.swing.JMenu jMenu1;
@@ -622,6 +626,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
+    private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

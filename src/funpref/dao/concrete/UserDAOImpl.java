@@ -26,7 +26,7 @@ public class UserDAOImpl implements UserDAO{
         
         try {
             Statement statement = DAOFactoryImpl.getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM user WHERE id_user = " + userID );
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM user WHERE id_user = " + userID + " and active = 1" );
 
             if (resultSet.next()) {   
                 user.setId(userID);

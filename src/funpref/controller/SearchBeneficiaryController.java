@@ -32,11 +32,29 @@ public class SearchBeneficiaryController {
 
     public void show( boolean updatingSourceBeneficiary ) {
         try {
-            searchJInternalFrame = SearchBeneficiaryJInternalFrame.getSearchBeneficiaryJInternalFrame( this, updatingSourceBeneficiary);
-            funprefController.getFunprefJFrame().getJDesktopPane().add(searchJInternalFrame);
-            searchJInternalFrame.setLocation(funprefController.getFunprefJFrame().getJDesktopPane().getLocation().x + ( ( funprefController.getFunprefJFrame().getJDesktopPane().getWidth() - searchJInternalFrame.getWidth() ) / 2 ),
-                    funprefController.getFunprefJFrame().getJDesktopPane().getLocation().y + 10);
-            searchJInternalFrame.toFront();
+            
+            boolean isToAdd = false;
+            
+            if( searchJInternalFrame == null ) {
+                isToAdd = true;
+                
+                searchJInternalFrame = SearchBeneficiaryJInternalFrame.getSearchBeneficiaryJInternalFrame( this, updatingSourceBeneficiary);
+
+                //if(isToAdd) {
+                    funprefController.getFunprefJFrame().getJDesktopPane().add(searchJInternalFrame);
+                //}
+
+                searchJInternalFrame.setLocation(funprefController.getFunprefJFrame().getJDesktopPane().getLocation().x + ( ( funprefController.getFunprefJFrame().getJDesktopPane().getWidth() - searchJInternalFrame.getWidth() ) / 2 ),
+                        funprefController.getFunprefJFrame().getJDesktopPane().getLocation().y + 10);
+                
+                searchJInternalFrame.toFront();                
+            }
+            
+            else {
+                searchJInternalFrame.setUpdatingSourceBeneficiary(updatingSourceBeneficiary);
+                searchJInternalFrame.reset();            
+            }
+
             searchJInternalFrame.setSelected(true);
             searchJInternalFrame.setClosable(true);
             searchJInternalFrame.setVisible(true);

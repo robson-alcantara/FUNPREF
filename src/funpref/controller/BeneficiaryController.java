@@ -83,7 +83,19 @@ public class BeneficiaryController {
 
     public void fillAndShowBeneficiaryJInternalFrame() {
         try {
-            beneficiaryJInternalFrame = BeneficiaryJInternalFrame.getBeneficiaryJInternalFrame( currentBeneficiary, funprefController.getCurrentUserID(), this);
+            
+            if( beneficiaryJInternalFrame == null ) {
+                beneficiaryJInternalFrame = BeneficiaryJInternalFrame.getBeneficiaryJInternalFrame( currentBeneficiary, funprefController.getCurrentUserID(), this);
+                funprefController.getFunprefJFrame().getJDesktopPane().add(beneficiaryJInternalFrame);
+                beneficiaryJInternalFrame.setLocation(funprefController.getFunprefJFrame().getJDesktopPane().getLocation().x + ( ( funprefController.getFunprefJFrame().getJDesktopPane().getWidth() - beneficiaryJInternalFrame.getWidth() ) / 2 ),
+                        funprefController.getFunprefJFrame().getJDesktopPane().getLocation().y - 40 );                
+            }
+            
+            else {
+                beneficiaryJInternalFrame.setCurrentBeneficiary(currentBeneficiary);
+                beneficiaryJInternalFrame.reset();                
+            }
+            
             beneficiaryJInternalFrame.setEditableFields( crudWrite );
             //beneficiaryJInternalFrame.prepareFields();
             
@@ -91,9 +103,7 @@ public class BeneficiaryController {
                 beneficiaryJInternalFrame.fillFields();
             }
             
-            funprefController.getFunprefJFrame().getJDesktopPane().add(beneficiaryJInternalFrame);
-            beneficiaryJInternalFrame.setLocation(funprefController.getFunprefJFrame().getJDesktopPane().getLocation().x + ( ( funprefController.getFunprefJFrame().getJDesktopPane().getWidth() - beneficiaryJInternalFrame.getWidth() ) / 2 ),
-                    funprefController.getFunprefJFrame().getJDesktopPane().getLocation().y - 40 );
+
             beneficiaryJInternalFrame.toFront();
             beneficiaryJInternalFrame.setSelected(true);
             beneficiaryJInternalFrame.setClosable(true);
