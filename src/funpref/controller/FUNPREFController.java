@@ -24,7 +24,7 @@ public class FUNPREFController {
     private final UserController userController;
     //private final DBBackupController dBBackupController;
         
-    private int currentUserID;
+//    private int currentUserID;
     private User user;    
     
     public FUNPREFController() {
@@ -90,14 +90,6 @@ public class FUNPREFController {
 
     public FUNPREFJFrame getFunprefJFrame() {
         return funprefJFrame;
-    }    
-
-    public int getCurrentUserID() {
-        return currentUserID;
-    }
-
-    public void setCurrentUserID(int currentUserID) {
-        this.currentUserID = currentUserID;
     }    
 
     public BeneficiaryController getBeneficiaryController() {

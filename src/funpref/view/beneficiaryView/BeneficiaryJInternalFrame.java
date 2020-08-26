@@ -2656,7 +2656,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         
         if( beneficiary.getId() == -1 ) { // criação de um beneficiário
             beneficiary.setCreateDate(new Date() );
-            beneficiary.setIdUserCreate( beneficiaryController.getFunprefController().getCurrentUserID() );
+            beneficiary.setIdUserCreate( beneficiaryController.getFunprefController().getUser().getId());
         }
         
         beneficiary.setRegistration( Integer.parseInt(jTextField12.getText()));
@@ -2679,7 +2679,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
             if( optionResult == 0 ) {
                 beneficiary.setIdCadastralStatus( 2 );  // recadastramento
                 beneficiary.setRegisterDate(new Date()); // informa a data do recadastramento
-                beneficiary.setIdUserRegistration(beneficiaryController.getFunprefController().getCurrentUserID() );
+                beneficiary.setIdUserRegistration(beneficiaryController.getFunprefController().getUser().getId());
             }
 
             else {

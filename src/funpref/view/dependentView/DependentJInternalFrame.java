@@ -379,7 +379,7 @@ public class DependentJInternalFrame extends javax.swing.JInternalFrame {
         }
         
         else { // criação
-            dependent.setIdUserCreate( dependentController.getFunprefController().getCurrentUserID());
+            dependent.setIdUserCreate( dependentController.getFunprefController().getUser().getId());
             dependent.setCreateDate(new Date());
         }        
         
@@ -399,7 +399,7 @@ public class DependentJInternalFrame extends javax.swing.JInternalFrame {
         dependent.setCpf( jTextField14.getText() );
         dependent.setIdDeficiency( ((ComboBoxItem)jComboBox18.getSelectedItem()).getId() );
         
-        dependent.setIdUserUpdate( dependentController.getFunprefController().getCurrentUserID() );
+        dependent.setIdUserUpdate( dependentController.getFunprefController().getUser().getId());
         dependent.setUpdateDate(new Date());
         
         //currentBeneficiary.getDependents().add(dependent);

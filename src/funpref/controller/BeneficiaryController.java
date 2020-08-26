@@ -85,7 +85,7 @@ public class BeneficiaryController {
         try {
             
             if( beneficiaryJInternalFrame == null ) {
-                beneficiaryJInternalFrame = BeneficiaryJInternalFrame.getBeneficiaryJInternalFrame( currentBeneficiary, funprefController.getCurrentUserID(), this);
+                beneficiaryJInternalFrame = BeneficiaryJInternalFrame.getBeneficiaryJInternalFrame( currentBeneficiary, funprefController.getUser().getId(), this);
                 funprefController.getFunprefJFrame().getJDesktopPane().add(beneficiaryJInternalFrame);
                 beneficiaryJInternalFrame.setLocation(funprefController.getFunprefJFrame().getJDesktopPane().getLocation().x + ( ( funprefController.getFunprefJFrame().getJDesktopPane().getWidth() - beneficiaryJInternalFrame.getWidth() ) / 2 ),
                         funprefController.getFunprefJFrame().getJDesktopPane().getLocation().y - 40 );                
