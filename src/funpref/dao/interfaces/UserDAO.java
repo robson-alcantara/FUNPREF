@@ -6,6 +6,7 @@
 package funpref.dao.interfaces;
 
 import funpref.model.User;
+import java.util.List;
 
 /**
  *
@@ -15,4 +16,11 @@ public interface UserDAO {
     
     public User findByID(int userID);
     
+    public List<User> findAll();    
+
+    public boolean update(User currentUser);
+
+    public boolean insert(User currentUser);
+
+    public int getId();
 }

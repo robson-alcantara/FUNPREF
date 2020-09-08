@@ -31,6 +31,7 @@ public class JComboBoxModelController {
     private ArrayList<ComboBoxItem> comboBoxItemsCitiesAddress;
     private ArrayList<ComboBoxItem> comboBoxItemsCitiesPlaceOfBirth;
     private ArrayList<ComboBoxItem> comboBoxItemsKinship;
+    private ArrayList<ComboBoxItem> comboBoxItemsPermition;
 
     JComboBoxModelController(FUNPREFController funprefController) {
         this.funprefController = funprefController;
@@ -97,6 +98,12 @@ public class JComboBoxModelController {
                 }
                 
                 comboBoxItems = comboBoxItemsKinship;                
+            case "permition":
+                if( comboBoxItemsPermition == null ) {
+                    comboBoxItemsPermition = jComboBoxItensDAO.findAll(table);                    
+                }
+                
+                comboBoxItems = comboBoxItemsPermition;                                
                 break;                                        
             default:
                 break;
@@ -148,6 +155,9 @@ public class JComboBoxModelController {
                 break;                                                                               
             case "kinship":
                 comboBoxItems = comboBoxItemsKinship;
+                break;
+            case "permition":
+                comboBoxItems = comboBoxItemsPermition;                
                 break;                                                                      
             default:
                 break;

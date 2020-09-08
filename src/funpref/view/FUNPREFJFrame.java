@@ -221,8 +221,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem8);
 
-        jMenuItem11.setText("Cadastrar usuário");
-        jMenuItem11.setEnabled(false);
+        jMenuItem11.setText("Gerenciar usuários");
         jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem11ActionPerformed(evt);
@@ -467,6 +466,8 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        
+        funprefController.getUserController().showUserJInternalFrame();
         
 //        UserDAO user = new UserDAO();
 //        CreateUserJFrame createUserJFrame = new CreateUserJFrame();

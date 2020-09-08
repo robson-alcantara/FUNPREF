@@ -9,12 +9,15 @@ import funpref.dao.concrete.DAOFactoryImpl;
 import funpref.dao.interfaces.UserDAO;
 import funpref.model.User;
 import funpref.view.LoginScreen;
-import java.nio.charset.StandardCharsets;
+import funpref.view.userView.UserJInternalFrame;
+import java.beans.PropertyVetoException;
 import java.security.MessageDigest;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,8 +27,9 @@ import javax.swing.JOptionPane;
 public class UserController {
     
     private final FUNPREFController funprefController;
-    private UserDAO userDAO;
+    private final UserDAO userDAO;
     private User user;
+    private UserJInternalFrame userJInternalFrame;
     
     public UserController(FUNPREFController funprefController) {
         this.funprefController = funprefController;
@@ -38,10 +42,18 @@ public class UserController {
 
     public void setUser(User user) {
         this.user = user;
+    } 
+
+    public FUNPREFController getFunprefController() {
+        return funprefController;
     }    
     
     public User findByID( int userID ) {
         return userDAO.findByID(userID);        
+    }
+    
+    public ArrayList<User> findAll() {
+        return (ArrayList<User>) userDAO.findAll();
     }
     
     public boolean validateLogin(User user) {
@@ -192,4 +204,41 @@ public class UserController {
         
         return validLogin;
     }    
+
+    public void showUserJInternalFrame() {
+        try {            
+            if( userJInternalFrame == null ) {
+                userJInternalFrame = UserJInternalFrame.getUserJInternalFrame(this);
+                funprefController.getFunprefJFrame().getJDesktopPane().add(userJInternalFrame);
+                userJInternalFrame.setLocation(funprefController.getFunprefJFrame().getJDesktopPane().getLocation().x +
+                        ( ( funprefController.getFunprefJFrame().getJDesktopPane().getWidth() - userJInternalFrame.getWidth() ) / 2 ),
+                        funprefController.getFunprefJFrame().getJDesktopPane().getLocation().y + 10);                
+                userJInternalFrame.reset();
+            }
+                                        
+            userJInternalFrame.populate( findAll() );
+            userJInternalFrame.toFront();
+            userJInternalFrame.setSelected(true);
+            userJInternalFrame.setClosable(true);
+            userJInternalFrame.setVisible(true);        
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(DependentController.class.getName()).log(Level.SEVERE, null, ex);
+            LogController.reportException(DependentController.class.getName(), ex);
+        }
+    }
+
+    public boolean save(User currentUser) {
+        boolean validSave;
+        
+        if( currentUser.getId() > 0 ) { // atualiza o usuário
+            validSave = userDAO.update(currentUser);
+        }
+        
+        else {  // insere o usuário
+            validSave = userDAO.insert(currentUser);
+            currentUser.setId( userDAO.getId() );
+        }
+        
+        return validSave;
+    }
 }

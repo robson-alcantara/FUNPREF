@@ -2155,7 +2155,7 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         jFormattedTextField7.setText("");
         jComboBox17.setSelectedIndex(0);
         
-        clearTable(dependentsJTable);
+        Utils.clearTable(dependentsJTable);
         
         jTextField23.setText("");
         jTextField24.setText("");
@@ -2228,22 +2228,14 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         
         int counter;
         
-        clearTable(dependentsJTable);
+        Utils.clearTable(dependentsJTable);
         
         for( int i = 0; i < currentBeneficiary.getDependents().size(); i++) {
             counter = 0;            
             dependentsJTable.setValueAt(currentBeneficiary.getDependents().get(i).getName(), i, counter++);
             dependentsJTable.setValueAt( beneficiaryController.getFunprefController().getDependentController().getKinshipById(currentBeneficiary.getDependents().get(i).getIdKinship() ), i, counter++);
         }
-    }
-    
-    private void clearTable(JTable table) {
-       for (int i = 0; i < table.getRowCount(); i++) {
-          for(int j = 0; j < table.getColumnCount(); j++) {
-              table.setValueAt("", i, j);
-          }
-       }
-    }    
+    }  
 
     private void close() {
         beneficiaryController.setCurrentBeneficiary(null);

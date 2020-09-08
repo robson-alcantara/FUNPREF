@@ -6,6 +6,7 @@
 package funpref.view.beneficiaryView;
 
 import funpref.controller.SearchBeneficiaryController;
+import funpref.controller.Utils;
 import funpref.model.Beneficiary;
 import java.util.ArrayList;
 import javax.swing.JTable;
@@ -300,7 +301,7 @@ public class SearchBeneficiaryJInternalFrame extends javax.swing.JInternalFrame 
     }
 
     private void fillSearchJTable(ArrayList<Beneficiary> beneficiaries) {
-        clearTable(jTable1);
+        Utils.clearTable(jTable1);
         
         for( int i = 0; i < beneficiaries.size(); i++ ) {    
             if( i <= 46 ) { // número de espaços da jTable1
@@ -310,17 +311,9 @@ public class SearchBeneficiaryJInternalFrame extends javax.swing.JInternalFrame 
         }
     }
 
-    private void clearTable(JTable table) {
-       for (int i = 0; i < table.getRowCount(); i++) {
-          for(int j = 0; j < table.getColumnCount(); j++) {
-              table.setValueAt("", i, j);
-          }
-       }
-    }
-
     public void reset() {
         jTextField1.setText("");
-        clearTable(jTable1);
+        Utils.clearTable(jTable1);
     }
     
 }

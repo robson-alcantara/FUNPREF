@@ -110,6 +110,10 @@ public class FUNPREFController {
 
     public ReportController getReportController() {
         return reportController;
+    }  
+
+    public UserController getUserController() {
+        return userController;
     }    
 
     public User getUser() {

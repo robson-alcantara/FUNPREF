@@ -23,9 +23,15 @@ public class JComboBoxItensDAOImpl implements JComboBoxItensDAO {
     public ArrayList<ComboBoxItem> findAll(String table) {
         ArrayList<ComboBoxItem> comboBoxItens = new ArrayList<ComboBoxItem>();
         
+        String query = "SELECT * FROM " + table;
+        
+        if ( table.equals("permition") ) {
+            query += " where description <> \"administrador\"";
+        }
+        
         try {
             Statement statement = DAOFactoryImpl.getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + table );
+            ResultSet resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
                 
@@ -37,6 +43,7 @@ public class JComboBoxItensDAOImpl implements JComboBoxItensDAO {
                         table.equals("degree_of_education") ||
                         table.equals("kinship") ||
                         table.equals("marital_status") || 
+                        table.equals("permition") ||
                         table.equals("stocking_organ")) {
                     comboBoxItem.setDescription(resultSet.getString(3));                
                 }

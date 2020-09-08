@@ -251,14 +251,11 @@ public class DependentJInternalFrame extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        save();
-//        saveDependentCRUDJInternalFrame();
-        dependentController.getFunprefController().getBeneficiaryController().updateDependentsJTable();
-        close();
-
-//        updateDependentsJTable( currentBeneficiary );
-//        beneficiaryCRUDJInternalFrame.setVisible(true);
-//        dependentCRUDJInternalFrame.setVisible(false);
+        if( verifyFields() ) {
+            save();
+            dependentController.getFunprefController().getBeneficiaryController().updateDependentsJTable();
+            close();
+        }
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
@@ -369,6 +366,10 @@ public class DependentJInternalFrame extends javax.swing.JInternalFrame {
         jComboBox18.setEnabled(editable);
         jButton12.setVisible(editable);
     }
+    
+    private boolean verifyFields() {
+        return true;
+    }    
 
     private void save() {
         

@@ -6,6 +6,7 @@
 package funpref.controller;
 
 import java.time.Period;
+import javax.swing.JTable;
 
 /**
  *
@@ -47,5 +48,13 @@ public class Utils {
         }         
         
         return periodString;
+    }    
+    
+    public static void clearTable(JTable table) {
+       for (int i = 0; i < table.getRowCount(); i++) {
+          for(int j = 0; j < table.getColumnCount(); j++) {
+              table.setValueAt("", i, j);
+          }
+       }
     }    
 }

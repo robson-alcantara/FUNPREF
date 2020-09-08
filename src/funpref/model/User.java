@@ -12,11 +12,13 @@ package funpref.model;
 public class User {
     
     private int id;
+    private int idPermition;
     private String login;
-    private long cpf;
+    private String cpf;
     private String name;
     private String office;
     private String password;    
+    private boolean active;
     private int loginScreenResult; // TODO: remover
 
     public String getLogin() {
@@ -27,11 +29,11 @@ public class User {
         this.login = login;
     }
 
-    public long getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(long cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
@@ -59,6 +61,14 @@ public class User {
         this.id = id;
     }
 
+    public int getIdPermition() {
+        return idPermition;
+    }
+
+    public void setIdPermition(int idPermition) {
+        this.idPermition = idPermition;
+    }    
+
     public String getPassword() {
         return password;
     }
@@ -66,6 +76,14 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }    
 
     // TODO: remover
     public int getLoginScreenResult() {
