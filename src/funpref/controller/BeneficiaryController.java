@@ -31,7 +31,7 @@ public class BeneficiaryController {
 
     BeneficiaryController(FUNPREFController funprefController) {
         this.funprefController = funprefController;
-        beneficiaryDAO = new DAOFactoryImpl().getBeneficiaryDAO();
+        beneficiaryDAO = new DAOFactoryImpl().getBeneficiaryDAO(this);
         crudWrite = false;
     }
 

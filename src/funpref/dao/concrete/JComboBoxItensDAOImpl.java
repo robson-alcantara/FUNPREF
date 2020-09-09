@@ -5,6 +5,7 @@
  */
 package funpref.dao.concrete;
 
+import funpref.controller.JComboBoxModelController;
 import funpref.controller.LogController;
 import funpref.dao.interfaces.JComboBoxItensDAO;
 import funpref.model.combobox.ComboBoxItem;
@@ -19,6 +20,12 @@ import java.util.ArrayList;
  */
 public class JComboBoxItensDAOImpl implements JComboBoxItensDAO {
 
+    private final JComboBoxModelController jComboBoxModelController;
+
+    JComboBoxItensDAOImpl(JComboBoxModelController jComboBoxModelController) {
+        this.jComboBoxModelController = jComboBoxModelController;
+    }
+
     @Override
     public ArrayList<ComboBoxItem> findAll(String table) {
         ArrayList<ComboBoxItem> comboBoxItens = new ArrayList<ComboBoxItem>();
@@ -30,7 +37,7 @@ public class JComboBoxItensDAOImpl implements JComboBoxItensDAO {
         }
         
         try {
-            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            Statement statement = DAOFactoryImpl.getConnection(jComboBoxModelController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
@@ -67,7 +74,7 @@ public class JComboBoxItensDAOImpl implements JComboBoxItensDAO {
         ArrayList<ComboBoxItem> comboBoxItens = new ArrayList<ComboBoxItem>();
         
         try {
-            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            Statement statement = DAOFactoryImpl.getConnection(jComboBoxModelController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM city WHERE id_province = " + idProvince );
 
             while (resultSet.next()) {

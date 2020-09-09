@@ -1,6 +1,10 @@
 package funpref.dao.concrete;
 
+import funpref.controller.BeneficiaryController;
+import funpref.controller.DependentController;
+import funpref.controller.JComboBoxModelController;
 import funpref.controller.LogController;
+import funpref.controller.UserController;
 import funpref.dao.interfaces.BeneficiaryDAO;
 import funpref.dao.interfaces.DAOFactory;
 import funpref.dao.interfaces.DependentDAO;
@@ -11,28 +15,28 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public final class DAOFactoryImpl implements DAOFactory{
-    public static Connection getConnection() {
-        return DataBaseConnection.getConnection();
+    public static Connection getConnection( String host) {
+        return DataBaseConnection.getConnection(host);
     }
 
     @Override
-    public BeneficiaryDAO getBeneficiaryDAO() {
-        return new BeneficiaryDAOImpl();
+    public BeneficiaryDAO getBeneficiaryDAO(BeneficiaryController beneficiaryController) {
+        return new BeneficiaryDAOImpl(beneficiaryController);
     }
 
     @Override
-    public DependentDAO getDependentDAO() {
-        return new DependentDAOImpl();
+    public DependentDAO getDependentDAO(DependentController dependentController) {
+        return new DependentDAOImpl(dependentController);
     }
 
     @Override
-    public JComboBoxItensDAO getJComboBoxItensDAO() {
-        return new JComboBoxItensDAOImpl();
+    public JComboBoxItensDAO getJComboBoxItensDAO(JComboBoxModelController jComboBoxModelController) {
+        return new JComboBoxItensDAOImpl(jComboBoxModelController);
     }
 
     @Override
-    public UserDAO getUserDAO() {
-        return new UserDAOImpl();
+    public UserDAO getUserDAO( UserController userController ) {
+        return new UserDAOImpl(userController);
     }
     
     public static String getUser() {
@@ -50,8 +54,8 @@ public final class DAOFactoryImpl implements DAOFactory{
         private final static String user = "funpref";
         private final static String password = "fund0pr3v1";
 
-        private DataBaseConnection() throws Exception {
-            String url = "jdbc:mysql://localhost/funpref?useUnicode=true&characterEncoding=utf-8";
+        private DataBaseConnection(String host) throws Exception {
+            String url = "jdbc:mysql://" + host + "/funpref?useUnicode=true&characterEncoding=utf-8";
             
             try {
                 Class.forName("com.mysql.jdbc.Driver");
@@ -63,12 +67,12 @@ public final class DAOFactoryImpl implements DAOFactory{
             }
         }
 
-        public static Connection getConnection() {
+        public static Connection getConnection(String host) {
             if (DataBaseConnection == null) {
                 synchronized (DataBaseConnection.class) {
                     if (DataBaseConnection == null) {
                         try {
-                            DataBaseConnection = new DataBaseConnection();
+                            DataBaseConnection = new DataBaseConnection( host );
                         } catch (Exception e) {
                             e.printStackTrace(System.out);
                             LogController.reportException(DataBaseConnection.class.getName(), e);                            

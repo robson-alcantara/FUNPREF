@@ -29,7 +29,7 @@ public class DependentController {
     
     public DependentController(FUNPREFController funprefController) {
         this.funprefController = funprefController;
-        dependentDAO = new DAOFactoryImpl().getDependentDAO();
+        dependentDAO = new DAOFactoryImpl().getDependentDAO(this);
     }
     
     public FUNPREFController getFunprefController() {

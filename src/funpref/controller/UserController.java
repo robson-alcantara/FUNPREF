@@ -33,7 +33,7 @@ public class UserController {
     
     public UserController(FUNPREFController funprefController) {
         this.funprefController = funprefController;
-        userDAO = new DAOFactoryImpl().getUserDAO();
+        userDAO = new DAOFactoryImpl().getUserDAO(this);
     }
 
     public User getUser() {
@@ -69,7 +69,7 @@ public class UserController {
                 " where login = '" + user.getLogin() + "'";
         
         try {                
-            Statement stmt = DAOFactoryImpl.getConnection().createStatement();
+            Statement stmt = DAOFactoryImpl.getConnection(funprefController.getPropertiesController().getDbHost()).createStatement();
             ResultSet rs = stmt.executeQuery(sqlGetSalt);
 
             if( rs.next() ) {            
@@ -135,7 +135,7 @@ public class UserController {
                     "where login = '" + user.getLogin() + "'";
 
                 try {                
-                    Statement stmt = DAOFactoryImpl.getConnection().createStatement();
+                    Statement stmt = DAOFactoryImpl.getConnection(funprefController.getPropertiesController().getDbHost()).createStatement();
                     ResultSet rs = stmt.executeQuery(sqlIdLogin);
 
                     if( rs.next() ) {
@@ -179,15 +179,20 @@ public class UserController {
         
         return new String( hexString );
     }
+    
+    public boolean validLogin() {
+        return validLogin("");        
+    }
 
-    boolean validLogin() {
+    public boolean validLogin(String login) {
         LoginScreen loginScreen = new LoginScreen();                    
 
         boolean validLogin = false;            
 
         do {
-            user = loginScreen.login(funprefController.getFunprefJFrame());
-            if( !user.getLogin().isEmpty() ) {
+            user = loginScreen.login(funprefController.getFunprefJFrame(), login);
+            
+            if( !user.getLogin().isEmpty() && ( user.getLoginScreenResult() != 2 ) ) {
                 validLogin = validateLogin(user);
 
                 if( !validLogin ) {

@@ -7,6 +7,7 @@ package funpref.view;
 
 import funpref.controller.FUNPREFController;
 import funpref.controller.LogController;
+import funpref.controller.UserController;
 import funpref.model.Beneficiary;
 import java.awt.image.BufferedImage;
 import java.util.logging.Level;
@@ -467,7 +468,9 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
         
-        funprefController.getUserController().showUserJInternalFrame();
+        if( funprefController.getUserController().validLogin("admin") ) {
+            funprefController.getUserController().showUserJInternalFrame();
+        }
         
 //        UserDAO user = new UserDAO();
 //        CreateUserJFrame createUserJFrame = new CreateUserJFrame();

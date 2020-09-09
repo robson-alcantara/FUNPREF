@@ -22,6 +22,7 @@ public class FUNPREFController {
     private final ReportController reportController;
     private final JComboBoxModelController jComboBoxModelController;
     private final UserController userController;
+    private final PropertiesController propertiesController;
     //private final DBBackupController dBBackupController;
         
 //    private int currentUserID;
@@ -34,6 +35,7 @@ public class FUNPREFController {
         jComboBoxModelController = new JComboBoxModelController(this);
         reportController = new ReportController(this);
         userController = new UserController(this);
+        propertiesController = new PropertiesController(this);
         //dBBackupController = new DBBackupController(this);
     }
 
@@ -114,7 +116,11 @@ public class FUNPREFController {
 
     public UserController getUserController() {
         return userController;
-    }    
+    } 
+
+    public PropertiesController getPropertiesController() {
+        return propertiesController;
+    }
 
     public User getUser() {
         return user;

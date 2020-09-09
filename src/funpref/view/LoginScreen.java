@@ -23,6 +23,10 @@ import javax.swing.SwingConstants;
 public class LoginScreen {
     
     public User login(JFrame frame) {
+        return login(frame, "");
+    }    
+    
+    public User login(JFrame frame, String username ) {
         User loginInformation = new User();
 
         JPanel panel = new JPanel(new BorderLayout(5, 5));
@@ -33,19 +37,24 @@ public class LoginScreen {
         panel.add(label, BorderLayout.WEST);
 
         JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
-        JTextField username = new JTextField();
-        controls.add(username);
+        JTextField usernameJTextField = new JTextField();
+        
+        if(!username.isEmpty()) {
+            usernameJTextField.setText(username);
+            usernameJTextField.setEditable(false);
+        }
+        
+        controls.add(usernameJTextField);
         JPasswordField password = new JPasswordField();
         controls.add(password);
         panel.add(controls, BorderLayout.CENTER);        
     
         loginInformation.setLoginScreenResult( JOptionPane.showConfirmDialog(frame, panel, "FUNPREF", JOptionPane.OK_CANCEL_OPTION) );
         
-        loginInformation.setLogin( username.getText() );
+        loginInformation.setLogin( usernameJTextField.getText() );
         loginInformation.setPassword(new String(password.getPassword()));
 
 
-        return loginInformation;
-    }    
-    
+        return loginInformation;                
+    }
 }

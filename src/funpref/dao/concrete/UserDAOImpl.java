@@ -6,6 +6,7 @@
 package funpref.dao.concrete;
 
 import funpref.controller.LogController;
+import funpref.controller.UserController;
 import funpref.dao.interfaces.UserDAO;
 import funpref.model.User;
 import java.sql.PreparedStatement;
@@ -27,13 +28,18 @@ import java.util.logging.Logger;
 public class UserDAOImpl implements UserDAO{
 
     private int lastInsertDependentId;
+    private final UserController userController;
+
+    UserDAOImpl(UserController userController) {
+        this.userController = userController;
+    }
 
     @Override
     public User findByID(int userID) {
         User user = new User();
         
         try {
-            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            Statement statement = DAOFactoryImpl.getConnection(userController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM user WHERE id_user = " + userID + " and active = 1" );
 
             if (resultSet.next()) {   
@@ -55,7 +61,7 @@ public class UserDAOImpl implements UserDAO{
         ArrayList<User> result = new ArrayList<>(); 
         
         try {
-            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            Statement statement = DAOFactoryImpl.getConnection(userController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM funpref.user where login <> 'admin' order by name ");
 
             while (resultSet.next()) {
@@ -99,7 +105,7 @@ public class UserDAOImpl implements UserDAO{
         int column = 1;
         
         try {                
-            PreparedStatement preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(query);          
+            PreparedStatement preparedStatement = DAOFactoryImpl.getConnection(userController.getFunprefController().getPropertiesController().getDbHost()).prepareStatement(query);          
             preparedStatement.setInt(column++, user.getIdPermition());
             preparedStatement.setString(column++, user.getName());
             preparedStatement.setString(column++, user.getCpf());
@@ -156,7 +162,7 @@ public class UserDAOImpl implements UserDAO{
         int column = 1;
         
         try {                
-            PreparedStatement preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(query);          
+            PreparedStatement preparedStatement = DAOFactoryImpl.getConnection(userController.getFunprefController().getPropertiesController().getDbHost()).prepareStatement(query);          
             preparedStatement.setInt(column++, user.getIdPermition());
             preparedStatement.setString(column++, user.getName());
             preparedStatement.setString(column++, user.getCpf());
@@ -170,7 +176,7 @@ public class UserDAOImpl implements UserDAO{
             
             row = preparedStatement.executeUpdate();      
             
-            Statement stmt = DAOFactoryImpl.getConnection().createStatement();
+            Statement stmt = DAOFactoryImpl.getConnection(userController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             
             ResultSet rs = stmt.executeQuery(sqlLastInsertId);
 
@@ -216,7 +222,7 @@ public class UserDAOImpl implements UserDAO{
             "WHERE `id_user` = ?";        
 
         try {            
-            PreparedStatement preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(query);          
+            PreparedStatement preparedStatement = DAOFactoryImpl.getConnection(userController.getFunprefController().getPropertiesController().getDbHost()).prepareStatement(query);          
             preparedStatement.setString(column++, salt);
             preparedStatement.setString(column++, user.getPassword());
             preparedStatement.setString(column++, salt);

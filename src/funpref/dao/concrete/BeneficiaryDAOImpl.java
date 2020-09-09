@@ -5,6 +5,7 @@
  */
 package funpref.dao.concrete;
 
+import funpref.controller.BeneficiaryController;
 import funpref.controller.LogController;
 import funpref.dao.interfaces.BeneficiaryDAO;
 import funpref.model.Beneficiary;
@@ -33,8 +34,10 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
     private final SimpleDateFormat formatDate;
     private int lastInsertDependentId;
     private int columnGlobal;
+    private final BeneficiaryController beneficiaryController;
     
-    public BeneficiaryDAOImpl() {
+    public BeneficiaryDAOImpl( BeneficiaryController beneficiaryController ) {
+        this.beneficiaryController = beneficiaryController;
         formatDate = new SimpleDateFormat("dd/MM/yyyy");
     }
 
@@ -62,13 +65,13 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         boolean result = true;
         
         try {                
-            PreparedStatement preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(query);
+            PreparedStatement preparedStatement = DAOFactoryImpl.getConnection(beneficiaryController.getFunprefController().getPropertiesController().getDbHost()).prepareStatement(query);
             
             populatePreparedStatementFromResultSet(preparedStatement, beneficiary, true );            
             
             preparedStatement.executeUpdate();            
             
-            Statement stmt = DAOFactoryImpl.getConnection().createStatement();
+            Statement stmt = DAOFactoryImpl.getConnection(beneficiaryController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             
             ResultSet rs = stmt.executeQuery(sqlLastInsertId);
 
@@ -95,7 +98,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         boolean result = true;
          
         try {
-            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            Statement statement = DAOFactoryImpl.getConnection(beneficiaryController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             statement.executeUpdate("delete from beneficiary where id_beneficiary = " + beneficiary.getId() );
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
@@ -129,7 +132,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         boolean result = true;
         
         try {                
-            PreparedStatement preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(query);
+            PreparedStatement preparedStatement = DAOFactoryImpl.getConnection(beneficiaryController.getFunprefController().getPropertiesController().getDbHost()).prepareStatement(query);
             
             populatePreparedStatementFromResultSet( preparedStatement, beneficiary, false );            
 
@@ -152,7 +155,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         String query = "SELECT * FROM funpref.beneficiary where id_beneficiary = " + beneficiaryID;
         
         try {                
-            Statement stmt = DAOFactoryImpl.getConnection().createStatement();
+            Statement stmt = DAOFactoryImpl.getConnection(beneficiaryController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet resultSet = stmt.executeQuery(query);
 
             if( resultSet.next() ) {            
@@ -175,7 +178,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         ArrayList<Beneficiary> result = new ArrayList<>();        
         
         try {
-            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            Statement statement = DAOFactoryImpl.getConnection(beneficiaryController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM funpref.beneficiary order by name");
 
             while (resultSet.next()) {
@@ -204,7 +207,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         PreparedStatement preparedStatement;        
         
         try {
-            preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(
+            preparedStatement = DAOFactoryImpl.getConnection(beneficiaryController.getFunprefController().getPropertiesController().getDbHost()).prepareStatement(
                     "select * from funpref.beneficiary "
                     + " where (id_beneficiary = ? or ? = -2147483648)"
                     + " and ( name like ? )"
@@ -264,7 +267,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         query += " order by id_beneficiary";
         
         try {
-            preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(query);
+            preparedStatement = DAOFactoryImpl.getConnection(beneficiaryController.getFunprefController().getPropertiesController().getDbHost()).prepareStatement(query);
             if (filterBeneficiary.getId() == -1) {
                 preparedStatement.setInt(1, Integer.MIN_VALUE);
                 preparedStatement.setInt(2, Integer.MIN_VALUE);
@@ -308,7 +311,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         String sql = "SELECT id_province FROM funpref.city WHERE id_city = " + idCity;
         
         try {                
-            Statement stmt = DAOFactoryImpl.getConnection().createStatement();
+            Statement stmt = DAOFactoryImpl.getConnection(beneficiaryController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
             if( rs.next() ) {  
@@ -329,7 +332,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         String query = "SELECT name FROM funpref.beneficiary where enrollment = " + beneficiaryEnrollment;
         
         try {                
-            Statement stmt = DAOFactoryImpl.getConnection().createStatement();
+            Statement stmt = DAOFactoryImpl.getConnection(beneficiaryController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet resultSet = stmt.executeQuery(query);
 
             if( resultSet.next() ) {            
@@ -350,7 +353,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         String query = "SELECT status FROM funpref.cadastral_status where id_cadastral_status = '" + idCadastralStatus + "'";
         
         try {                
-            Statement stmt = DAOFactoryImpl.getConnection().createStatement();
+            Statement stmt = DAOFactoryImpl.getConnection(beneficiaryController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet resultSet = stmt.executeQuery(query);
 
             if( resultSet.next() ) {            
@@ -390,7 +393,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         sql += "order by name";
         
         try {                
-            Statement stmt = DAOFactoryImpl.getConnection().createStatement();
+            Statement stmt = DAOFactoryImpl.getConnection(beneficiaryController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
             while( rs.next() ) {  
@@ -421,7 +424,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         int row = -1;
        
         try {                
-            PreparedStatement preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(sql);
+            PreparedStatement preparedStatement = DAOFactoryImpl.getConnection(beneficiaryController.getFunprefController().getPropertiesController().getDbHost()).prepareStatement(sql);
             
             row = preparedStatement.executeUpdate();            
         } catch (SQLException ex) {
@@ -733,7 +736,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         String cityName = null;
         
         try {
-            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            Statement statement = DAOFactoryImpl.getConnection(beneficiaryController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM city WHERE id_city = " + idCity );
 
             if (resultSet.next()) {                
@@ -751,7 +754,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         String provinceInitials = null;
         
         try {
-            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            Statement statement = DAOFactoryImpl.getConnection(beneficiaryController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM province WHERE id_province = " + idProvince );
 
             if (resultSet.next()) {                
@@ -769,7 +772,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         String educationalDegree = null;
         
         try {
-            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            Statement statement = DAOFactoryImpl.getConnection(beneficiaryController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM degree_of_education WHERE id_degree_of_education = " + idDegreeOfEducation );
 
             if (resultSet.next()) {                
@@ -787,7 +790,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         String maritalStatus = null;
         
         try {
-            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            Statement statement = DAOFactoryImpl.getConnection(beneficiaryController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM marital_status WHERE id_marital_status = " + idMaritalStatus );
 
             if (resultSet.next()) {                
@@ -805,7 +808,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         String deficiency = null;
         
         try {
-            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            Statement statement = DAOFactoryImpl.getConnection(beneficiaryController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM deficiency WHERE id_deficiency = " + idDeficiency );
 
             if (resultSet.next()) {                
@@ -823,7 +826,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
         String rgIssuingBody = null;
         
         try {
-            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            Statement statement = DAOFactoryImpl.getConnection(beneficiaryController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM issuing_body WHERE id_issuing_body = " + idRgIssuingBody );
 
             if (resultSet.next()) {                

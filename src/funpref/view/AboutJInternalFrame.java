@@ -53,7 +53,7 @@ public class AboutJInternalFrame extends javax.swing.JInternalFrame {
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         jTextArea1.setRows(5);
-        jTextArea1.setText("Créditos:\nSistema FUNPREF v0.2.2 beta\nFundo de Previdência Municipal (FUNPREF)\nPrefeitura Municipal de Flores-PE\n2017 - 2020\n\n");
+        jTextArea1.setText("Créditos:\nSistema FUNPREF v1.3.1 beta\nFundo de Previdência Municipal (FUNPREF)\nPrefeitura Municipal de Flores-PE\n2017 - 2020\n\n");
         jTextArea1.setBorder(null);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/about_icon.png"))); // NOI18N

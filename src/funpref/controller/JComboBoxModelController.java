@@ -35,8 +35,12 @@ public class JComboBoxModelController {
 
     JComboBoxModelController(FUNPREFController funprefController) {
         this.funprefController = funprefController;
-        jComboBoxItensDAO = new DAOFactoryImpl().getJComboBoxItensDAO();
+        jComboBoxItensDAO = new DAOFactoryImpl().getJComboBoxItensDAO(this);
     }
+
+    public FUNPREFController getFunprefController() {
+        return funprefController;
+    }    
 
     public ComboBoxModel<Object> getModel(String table ) {
         

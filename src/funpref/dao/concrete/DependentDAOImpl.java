@@ -5,6 +5,7 @@
  */
 package funpref.dao.concrete;
 
+import funpref.controller.DependentController;
 import funpref.controller.LogController;
 import funpref.dao.interfaces.DependentDAO;
 import funpref.model.Beneficiary;
@@ -29,8 +30,10 @@ import java.util.logging.Logger;
 public class DependentDAOImpl implements DependentDAO {
 
     private int lastInsertDependentId;
+    private final DependentController dependentController;
 
-    public DependentDAOImpl() {
+    public DependentDAOImpl(DependentController dependentController) {
+        this.dependentController = dependentController;
         
     }    
 
@@ -70,7 +73,7 @@ public class DependentDAOImpl implements DependentDAO {
         int column = 1;
         
         try {                
-            PreparedStatement preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(query);          
+            PreparedStatement preparedStatement = DAOFactoryImpl.getConnection(dependentController.getFunprefController().getPropertiesController().getDbHost()).prepareStatement(query);          
             preparedStatement.setString(column++, dependent.getName());
             preparedStatement.setString(column++, dependent.getCpf());
             preparedStatement.setDate(column++, new java.sql.Date( dependent.getBirthDate().getTime() ) );
@@ -100,7 +103,7 @@ public class DependentDAOImpl implements DependentDAO {
             
             row = preparedStatement.executeUpdate();      
             
-            Statement stmt = DAOFactoryImpl.getConnection().createStatement();
+            Statement stmt = DAOFactoryImpl.getConnection(dependentController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             
             ResultSet rs = stmt.executeQuery(sqlLastInsertId);
 
@@ -151,7 +154,7 @@ public class DependentDAOImpl implements DependentDAO {
         int column = 1;
         
         try {                
-            PreparedStatement preparedStatement = DAOFactoryImpl.getConnection().prepareStatement(sqlUpdateDependent);          
+            PreparedStatement preparedStatement = DAOFactoryImpl.getConnection(dependentController.getFunprefController().getPropertiesController().getDbHost()).prepareStatement(sqlUpdateDependent);          
             preparedStatement.setString(column++, dependent.getName());
             preparedStatement.setString(column++, dependent.getCpf());
             preparedStatement.setDate(column++, new java.sql.Date( dependent.getBirthDate().getTime() ) );
@@ -196,7 +199,7 @@ public class DependentDAOImpl implements DependentDAO {
         int column;
         
         try {
-            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            Statement statement = DAOFactoryImpl.getConnection(dependentController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM funpref.dependent "
                     + "WHERE ref_id_beneficiary = " + beneficiaryID + " ORDER BY name");
 
@@ -259,7 +262,7 @@ public class DependentDAOImpl implements DependentDAO {
         String query = "SELECT description FROM funpref.kinship where id_kinship = '" + kinshipID + "'";
         
         try {                
-            Statement stmt = DAOFactoryImpl.getConnection().createStatement();
+            Statement stmt = DAOFactoryImpl.getConnection(dependentController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet resultSet = stmt.executeQuery(query);
 
             if( resultSet.next() ) {            
@@ -278,7 +281,7 @@ public class DependentDAOImpl implements DependentDAO {
         String kinship = null;
         
         try {
-            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            Statement statement = DAOFactoryImpl.getConnection(dependentController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM kinship WHERE id_kinship = " + idKinship );
 
             if (resultSet.next()) {                
@@ -296,7 +299,7 @@ public class DependentDAOImpl implements DependentDAO {
         String deficiency = null;
         
         try {
-            Statement statement = DAOFactoryImpl.getConnection().createStatement();
+            Statement statement = DAOFactoryImpl.getConnection(dependentController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM deficiency WHERE id_deficiency = " + idDeficiency );
 
             if (resultSet.next()) {                
@@ -322,7 +325,7 @@ public class DependentDAOImpl implements DependentDAO {
                 + "order by funpref.beneficiary.name, funpref.dependent.name";
         
         try {                
-            Statement stmt = DAOFactoryImpl.getConnection().createStatement();
+            Statement stmt = DAOFactoryImpl.getConnection(dependentController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
             while( rs.next() ) {  
