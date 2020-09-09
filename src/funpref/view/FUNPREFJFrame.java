@@ -540,24 +540,20 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem15ActionPerformed
 
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
-        int optionResult = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja iniciar um recenseamento?", "FUNPREF", JOptionPane.YES_NO_OPTION);
-        int returnValue;
+        if (funprefController.getUserController().validLogin("admin")) {
+            int optionResult = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja iniciar um recenseamento?", "FUNPREF", JOptionPane.YES_NO_OPTION);
+            int returnValue;
 
-        if( optionResult == 0 ) {
-            
-            //TODO: reativar código após reativar login
-            //if( funprefController.revalidateLogin() ) {
-                
+            if (optionResult == 0) {
+
                 returnValue = funprefController.getBeneficiaryController().restartCadastralStatus();
 
-                if( returnValue > 0 ) {
-                    JOptionPane.showMessageDialog(rootPane, "Recenseamento reiniciado", "Informação", JOptionPane.INFORMATION_MESSAGE);                
+                if (returnValue > 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Recenseamento reiniciado", "Informação", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Falha ao iniciar Recenseamento", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
-
-                else {                
-                    JOptionPane.showMessageDialog(rootPane, "Falha ao iniciar Recenseamento", "Erro", JOptionPane.ERROR_MESSAGE);                
-                }
-            //}
+            }
         }
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
