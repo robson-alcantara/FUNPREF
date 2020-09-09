@@ -282,8 +282,8 @@ private static class TableHeaderEventHandler implements IEventHandler {
                 table.addCell(aCell);            
 
                 aCell = new Cell();
-                aCell.add( new Paragraph( "FUNDO PREVIDENCIÁRIO DO MUNICÍPIO DE FLORES-PE" ).setFont(font).setFontSize(defaultFontSize) );
-                aCell.add( new Paragraph( "05.699.773/0001-21" ).setFont(font).setFontSize(defaultFontSize).setFontColor(Color.GRAY) );
+                aCell.add( new Paragraph( "FUNDO PREVIDENCIÁRIO DO MUNICÍPIO DE FLORES-PE" ).setFont(font).setFontSize(defaultFontSize-1) );
+                aCell.add( new Paragraph( "05.699.773/0001-21" ).setFont(font).setFontSize(defaultFontSize-1).setFontColor(Color.GRAY) );
                 aCell.setTextAlignment(TextAlignment.RIGHT);
                 aCell.setVerticalAlignment(VerticalAlignment.MIDDLE);
                 aCell.setBorder(Border.NO_BORDER);
