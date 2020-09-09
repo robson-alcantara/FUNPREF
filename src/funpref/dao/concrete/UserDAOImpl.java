@@ -42,10 +42,14 @@ public class UserDAOImpl implements UserDAO{
             Statement statement = DAOFactoryImpl.getConnection(userController.getFunprefController().getPropertiesController().getDbHost()).createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM user WHERE id_user = " + userID + " and active = 1" );
 
-            if (resultSet.next()) {   
+            if (resultSet.next()) {                
                 user.setId(userID);
+                user.setIdPermition(resultSet.getInt(2));
                 user.setName(resultSet.getString(3));
-                user.setOffice(resultSet.getString(5));                
+                user.setCpf(resultSet.getString(4));
+                user.setOffice(resultSet.getString(5));
+                user.setLogin(resultSet.getString(6));
+                user.setActive(resultSet.getBoolean(9));                
             }
         } catch (SQLException ex) {
             Logger.getLogger(BeneficiaryDAOImpl.class.getName()).log(Level.SEVERE, null, ex);

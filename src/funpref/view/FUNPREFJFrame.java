@@ -98,6 +98,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem18 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
         jMenuItem17 = new javax.swing.JMenuItem();
         jMenuItem16 = new javax.swing.JMenuItem();
@@ -221,6 +222,14 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem8);
+
+        jMenuItem18.setText("Gerenciar perfil");
+        jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem18ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem18);
 
         jMenuItem11.setText("Gerenciar usuários");
         jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
@@ -576,6 +585,12 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenu3MousePressed
 
+    private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+        if( funprefController.getUserController().validLogin(funprefController.getUserController().getUser().getLogin()) ) {
+            funprefController.getUserController().showUserJInternalFrame(funprefController.getUserController().getUser());
+        }
+    }//GEN-LAST:event_jMenuItem18ActionPerformed
+
 //    /**
 //     * @param args the command line arguments
 //     */
@@ -631,6 +646,7 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
+    private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

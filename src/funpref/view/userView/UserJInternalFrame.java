@@ -22,6 +22,7 @@ public class UserJInternalFrame extends javax.swing.JInternalFrame {
     private final UserController userController;
     private ArrayList<User> users;
     private User currentUser;
+    private boolean manageProfile;
 
     /**
      * Creates new form UserJInternalFrame
@@ -29,9 +30,16 @@ public class UserJInternalFrame extends javax.swing.JInternalFrame {
     public UserJInternalFrame(UserController userController) {
         this.userController = userController;
         currentUser = null;
+        manageProfile = true;
         initComponents();
-        fillJComboBoxes();
+        fillJComboBoxes();        
     }
+
+    public void setManageProfile(boolean manageProfile) {
+        this.manageProfile = manageProfile;
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -463,8 +471,16 @@ public class UserJInternalFrame extends javax.swing.JInternalFrame {
         jTextField5.setEditable(editable);        
         jPasswordField1.setEditable(editable);
         jPasswordField2.setEditable(editable);
-        jComboBox1.setEnabled(editable);
-        jComboBox2.setEnabled(editable);        
+        
+        if( !manageProfile ) {
+            jComboBox1.setEnabled(editable);
+            jComboBox2.setEnabled(editable);        
+        }
+        
+        else {
+            jComboBox1.setEnabled(false);
+            jComboBox2.setEnabled(false);             
+        }
     }
 
     private boolean verifyFields() {

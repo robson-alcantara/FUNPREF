@@ -130,18 +130,21 @@ public class UserController {
             if( cryptedPassword.equals(cryptPassword( user.getPassword(), salt )) ) {
                 validLoginAndPassword = true;
                 
-                String sqlIdLogin = "SELECT id_user, name, office\n" +
+                String sqlIdLogin = "SELECT *\n" +
                     "FROM funpref.`user`\n" +
                     "where login = '" + user.getLogin() + "'";
 
                 try {                
                     Statement stmt = DAOFactoryImpl.getConnection(funprefController.getPropertiesController().getDbHost()).createStatement();
-                    ResultSet rs = stmt.executeQuery(sqlIdLogin);
+                    ResultSet resultSet = stmt.executeQuery(sqlIdLogin);
 
-                    if( rs.next() ) {
-                        user.setId(rs.getInt(1));
-                        user.setName(rs.getString(2));
-                        user.setOffice(rs.getString(3));                    
+                    if( resultSet.next() ) {                        
+                        user.setId(resultSet.getInt(1));
+                        user.setIdPermition(resultSet.getInt(2));
+                        user.setName(resultSet.getString(3));
+                        user.setCpf(resultSet.getString(4));
+                        user.setOffice(resultSet.getString(5));                        
+                        user.setActive(resultSet.getBoolean(9));                        
                     }
 
                 } catch (SQLException ex) {
@@ -208,9 +211,13 @@ public class UserController {
         } while( (!validLogin) && (user.getLoginScreenResult() == 0) );
         
         return validLogin;
-    }    
+    }
 
     public void showUserJInternalFrame() {
+        showUserJInternalFrame(null);
+    }    
+
+    public void showUserJInternalFrame(User user) {
         try {            
             if( userJInternalFrame == null ) {
                 userJInternalFrame = UserJInternalFrame.getUserJInternalFrame(this);
@@ -220,8 +227,20 @@ public class UserController {
                         funprefController.getFunprefJFrame().getJDesktopPane().getLocation().y + 10);                
                 userJInternalFrame.reset();
             }
-                                        
-            userJInternalFrame.populate( findAll() );
+                                   
+            if( user == null ) {
+                userJInternalFrame.populate( findAll() );
+                userJInternalFrame.setManageProfile(false);
+            }
+            
+            else {
+                ArrayList<User> userArrayList = new ArrayList<User>();
+                userArrayList.add(user);
+                userJInternalFrame.populate( userArrayList );                
+                userJInternalFrame.setManageProfile(true);
+            }
+            
+            
             userJInternalFrame.toFront();
             userJInternalFrame.setSelected(true);
             userJInternalFrame.setClosable(true);
