@@ -188,15 +188,16 @@ public class UserController {
     }
 
     public boolean validLogin(String login) {
-        LoginScreen loginScreen = new LoginScreen();                    
+        LoginScreen loginScreen = new LoginScreen();   
+        User userLocal;
 
         boolean validLogin = false;            
 
         do {
-            user = loginScreen.login(funprefController.getFunprefJFrame(), login);
+            userLocal = loginScreen.login(funprefController.getFunprefJFrame(), login);
             
-            if( !user.getLogin().isEmpty() && ( user.getLoginScreenResult() != 2 ) ) {
-                validLogin = validateLogin(user);
+            if( !userLocal.getLogin().isEmpty() && ( userLocal.getLoginScreenResult() != 2 ) ) {
+                validLogin = validateLogin(userLocal);
 
                 if( !validLogin ) {
                     JOptionPane.showMessageDialog(null, "'login' ou 'senha' inválido(a)", "FUNPREF", JOptionPane.ERROR_MESSAGE);                    
@@ -204,11 +205,15 @@ public class UserController {
             }
 
             else {
-                if( user.getLoginScreenResult() == 0 ) {
+                if( userLocal.getLoginScreenResult() == 0 ) {
                     JOptionPane.showMessageDialog(null, "'login' vazio", "FUNPREF", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        } while( (!validLogin) && (user.getLoginScreenResult() == 0) );
+        } while( (!validLogin) && (userLocal.getLoginScreenResult() == 0) );
+        
+        if( validLogin && (!userLocal.getLogin().equals("admin")) ) {
+            user = userLocal;
+        }
         
         return validLogin;
     }
