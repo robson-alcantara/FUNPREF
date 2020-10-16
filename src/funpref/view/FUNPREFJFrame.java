@@ -10,10 +10,12 @@ import funpref.controller.LogController;
 import funpref.controller.UserController;
 import funpref.model.Beneficiary;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import javax.imageio.ImageIO;
 import javax.swing.JDesktopPane;
@@ -57,10 +59,11 @@ public class FUNPREFJFrame extends javax.swing.JFrame {
         //this.funprefController.setCurrentUserID(currentUserID);
     }
     
-    private void initImageIcon() {        
-        InputStream imageInputStream = this.getClass().getResourceAsStream("/resources/icon.png");
+    private void initImageIcon() {                
+        InputStream imageInputStream;
         BufferedImage bufferedImage;
         try {
+            imageInputStream = new FileInputStream("./resources/icon.png");
             bufferedImage = ImageIO.read(imageInputStream);
             this.setIconImage(bufferedImage);  
         } catch (IOException ex) {

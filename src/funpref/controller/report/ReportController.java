@@ -268,7 +268,7 @@ private static class TableHeaderEventHandler implements IEventHandler {
                 Image blazon = null;
                 Cell aCell;
                 try {
-                    blazon = new Image( ImageDataFactory.create("./src/resources/about_icon.png"));
+                    blazon = new Image( ImageDataFactory.create("./resources/blazon.png"));
                 } catch (MalformedURLException ex) {
                     Logger.getLogger(ReportController.class.getName()).log(Level.SEVERE, null, ex);
                     LogController.reportException(ReportController.class.getName(), ex);
