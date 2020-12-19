@@ -1401,6 +1401,10 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
         
         else {
             jButton13.setEnabled(false);
+            
+            if( !jFormattedTextField8.getText().isEmpty() ) {
+                JOptionPane.showMessageDialog(this, "Com a mudança do 'tipo de benefício', a 'data de encerramento da pensão' será descartada se as mudanças forem salvas.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }                
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
@@ -2805,7 +2809,8 @@ public class BeneficiaryJInternalFrame extends javax.swing.JInternalFrame {
                 beneficiary.setApplicationDate( formatDate.parse( jFormattedTextField6.getText() ) );
             }
             
-            if( !jFormattedTextField8.getText().isEmpty() ) {
+                      
+            if( (!jFormattedTextField8.getText().isEmpty()) && ((((ComboBoxItem)jComboBox1.getSelectedItem()).toString()).equals("pensão temporária")) ) {
                 beneficiary.setPensionEndDate(formatDate.parse( jFormattedTextField8.getText() ) );
             }
 
