@@ -48,6 +48,7 @@ public class Beneficiary implements Serializable {
     private Date admissionDate;
     private Date inactivationDate;
     private Date applicationDate;
+    private Date pensionEndDate;
     private Period contributionTime;
     private Period contributionTimeFUNPREF;
     private Period inactivityTime;    
@@ -360,6 +361,14 @@ public class Beneficiary implements Serializable {
     public void setApplicationDate(Date applicationDate) {
         this.applicationDate = applicationDate;
     }
+
+    public Date getPensionEndDate() {
+        return pensionEndDate;
+    }
+
+    public void setPensionEndDate(Date pensionEndDate) {
+        this.pensionEndDate = pensionEndDate;
+    }    
 
     public Period getContributionTime() {
         return contributionTime;

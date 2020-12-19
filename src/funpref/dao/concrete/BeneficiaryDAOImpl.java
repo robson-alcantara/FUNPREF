@@ -51,7 +51,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
                 + "deficiency_reason, report_deficiency_date, mother_cpf, mother_name, father_cpf, father_name, "
                 + "pis_pasep, voters_title, electoral_zone, electoral_section, ref_id_province_electoral_zone, "
                 + "rg, rg_emission_date, ref_id_issuing_body, ref_id_province_rg, admission_date, aplication_date, "
-                + "grant_of_benefit_date, ref_id_benefity_type, ref_id_calculation_form, ref_id_stocking_organ, "
+                + "grant_of_benefit_date, pension_end_date, ref_id_benefity_type, ref_id_calculation_form, ref_id_stocking_organ, "
                 + "office, previous_time, id_institutes_enrollment, physical_document_drawer, "
                 + "index_physical_document, observations, bank_agency, account, earnings, old_promotion, chalk_powder_percentual, "
                 + "chalk_powder_value, more_one_year_percentual, more_one_year_value, "
@@ -59,7 +59,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
                 + "payroll_loans_value, payroll_loans_gross_value, payroll_loans_net_value, active, registered_at, created_at, updated_at )\n" +
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
                 + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
-                + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";        
+                + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";        
         
         String sqlLastInsertId = "SELECT LAST_INSERT_ID()";
         boolean result = true;
@@ -120,7 +120,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
                 + "mother_name=?, father_cpf=?, father_name=?, pis_pasep=?, voters_title=?, electoral_zone=?, "
                 + "electoral_section=?, ref_id_province_electoral_zone=?, rg=?, rg_emission_date=?, "
                 + "ref_id_issuing_body=?, ref_id_province_rg=?, admission_date=?, aplication_date=?, "
-                + "grant_of_benefit_date=?, ref_id_benefity_type=?, ref_id_calculation_form=?, "
+                + "grant_of_benefit_date=?, pension_end_date=?, ref_id_benefity_type=?, ref_id_calculation_form=?, "
                 + "ref_id_stocking_organ=?, office=?, previous_time=?, id_institutes_enrollment=?, "
                 + "physical_document_drawer=?, index_physical_document=?, observations=?, bank_agency=?, account=?, "
                 + "earnings=?, old_promotion=?, chalk_powder_percentual=?, chalk_powder_value=?, "
@@ -539,6 +539,17 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             columnGlobal++;
 
             preparedStatement.setDate(columnGlobal++, new java.sql.Date( beneficiary.getInactivationDate().getTime() ) );
+            
+            if( beneficiary.getPensionEndDate() != null ) {
+                preparedStatement.setDate(columnGlobal, new java.sql.Date( beneficiary.getPensionEndDate().getTime() ) );
+            }
+
+            else {
+                preparedStatement.setNull(columnGlobal, Types.DATE);
+            }
+
+            columnGlobal++;
+            
             preparedStatement.setInt(columnGlobal++, beneficiary.getIdBenefitType());
             preparedStatement.setInt(columnGlobal++, beneficiary.getIdCalculationForm());
             preparedStatement.setInt(columnGlobal++, beneficiary.getIdStockingOrgan());
@@ -667,6 +678,7 @@ public class BeneficiaryDAOImpl implements BeneficiaryDAO {
             beneficiary.setAdmissionDate(resultSet.getDate(column++));
             beneficiary.setApplicationDate(resultSet.getDate(column++));
             beneficiary.setInactivationDate(resultSet.getDate(column++));
+            beneficiary.setPensionEndDate(resultSet.getDate(column++));
             beneficiary.setIdBenefitType(resultSet.getInt(column++));
             beneficiary.setIdCalculationForm(resultSet.getInt(column++));
             beneficiary.setIdStockingOrgan(resultSet.getInt(column++));
